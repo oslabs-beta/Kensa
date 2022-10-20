@@ -1,8 +1,11 @@
 import * as React from 'react';
+import Hello from './Hello'
 
 function App() {
     return (
-        <div>{'hello there'}</div>
+        <div>
+            <Hello name="Brian" />
+        </div>
     );
 }
 export default App;
