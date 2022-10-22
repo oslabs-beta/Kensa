@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+// psql -d postgres://cinamzyi:JX38bpVpO5jpxFDtUM3fc0qvBBuSkbqB@peanut.db.elephantsql.com/cinamzyi
 
 type Props = {
   name: string
