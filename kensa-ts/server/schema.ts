@@ -14,6 +14,13 @@ export const typeDefs = gql`
     historyLog: [Log!]
   }
 
+  type Mutation {
+    "Mutation to add a project, history log is default to empty array"
+    addProject(project_name: String!, api_key: String!, server_url: String!, user: String!): Project
+    "Mutation to delete a project given an ID"
+    deleteProject(id: ID!): Project
+  }
+
   type User {
     id: ID!
     "User's username, which is unique"
