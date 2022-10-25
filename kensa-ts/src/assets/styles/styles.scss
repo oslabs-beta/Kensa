@@ -1,9 +1,26 @@
 body {
     background-color: beige;
+    max-height: 96vh;
 }
 
 .secondary-container {
     border: 1px solid black;
+}
+
+#main-monitor {
+    display: flex;
+
+    &>div {
+        width: 50%;
+    }
+}
+
+#projects-container {
+    display: flex;
+}
+
+.query-log {
+    border: 1px solid brown;
 }
 
 .project-cards {

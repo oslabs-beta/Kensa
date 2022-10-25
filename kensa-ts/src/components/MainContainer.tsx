@@ -18,7 +18,7 @@ const MainContainer = () => {
                 <Route path="login" element={<Login />} />
                 <Route path="user" element={<Projects />} />
                 <Route path="user/new" element={<AddProject />} />
-                <Route path="monitor" element={<Monitor />} />
+                <Route path="monitor/:projectId" element={<Monitor />} />
             </Route>
         </Routes>
     );

@@ -1,9 +1,17 @@
 import * as React from "react";
 
-const ProjectCard = () => {
+type ProjectCardPropsType = {
+    projectName: string,
+    projectId: number,
+    apiKey: string
+}
+
+const ProjectCard = (props:ProjectCardPropsType) => {
     return (
         <div className="project-cards">
-            <h3>Project 1</h3>
+            <a href={`../monitor/${props.projectId}`}>
+                <h3>{props.projectName}</h3>
+            </a>
         </div>
     );
 };

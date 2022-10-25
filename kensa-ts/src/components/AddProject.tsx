@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 const AddProject = () => {
     let navigate = useNavigate();
-    const backToUserPage = () => {
+    const backToUserPage = ():void => {
         const path = '../user';
         navigate(path);
     }
 
-    const toMonitorPage = () => {
+    const toMonitorPage = ():void => {
         const path = '../monitor';
         navigate(path);
     }
