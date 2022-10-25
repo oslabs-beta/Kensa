@@ -7,12 +7,10 @@ module.exports = {
     devtool: 'inline-source-map',
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: 'bundle.js',
-        publicPath: "/",
+        filename: 'bundle.js'
     },
     devServer: {
         static: './dist',
-        historyApiFallback: true
     },
     module: {
         rules: [
