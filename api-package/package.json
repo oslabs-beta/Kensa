@@ -1,11 +1,14 @@
 {
   "name": "kensa-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connect graphql server to Kensa Monitoring Tool",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kensa",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.8.0"
+  }
 }
