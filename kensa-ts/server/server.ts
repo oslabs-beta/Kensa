@@ -3,14 +3,17 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPlugin } from "apollo-server-plugin-base";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import express from 'express'
-import cors from 'cors'
-import http from 'http'
-import bodyParser from 'body-parser'
+import { GraphQLRequestContext } from "apollo-server-types";
+import express from 'express';
+import cors from 'cors';
+import http from 'http';
+import bodyParser from 'body-parser';
+import path from 'path';
+
 import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import db from "./models/db";
-import { GraphQLRequestContext } from "apollo-server-types";
+
 
 async function startApolloServer() {
   const app = express()
@@ -69,16 +72,6 @@ async function startApolloServer() {
 
   await apolloServer.start();
 
-  // Express REST API route
-  app.get('/login', (req, res) => {
-    console.log('in login route')
-    res.status(200).json({ username: 'brian', isLoggedIn: true })
-  })
-
-  app.get('/hello', (req, res) => {
-    res.status(200).send('Hello from express')
-  })
-  
   // GraphQL logic
   // Testing with plugin, need to refactor later
   app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(apolloServer, {
@@ -95,6 +88,27 @@ async function startApolloServer() {
     },
   }))
   
+  // Express REST API routes
+  app.use('/', express.static(path.join(__dirname, '../dist')));
+
+  app.get('/', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
+  });
+
+  // the get '/*' request is required to get React router to work in production
+  app.get('/*', (req, res) => {
+      res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
+  });
+
+  // app.get('/login', (req, res) => {
+  //   console.log('in login route')
+  //   res.status(200).json({ username: 'brian', isLoggedIn: true })
+  // })
+
+  // app.get('/hello', (req, res) => {
+  //   res.status(200).send('Hello from express')
+  // })
+
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`))
 
 }
