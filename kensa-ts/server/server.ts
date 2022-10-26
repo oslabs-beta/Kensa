@@ -13,10 +13,11 @@ import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import db from "./models/db";
 import { userController } from './controllers/userController';
-
+import { appendFile } from "fs";
+import cookieParser from "cookie-parser";
 
 async function startApolloServer() {
-  const app = express()
+  const app = express();
   const PORT = process.env.PORT || 3000
 
   const apolloServer = new ApolloServer({
@@ -36,12 +37,15 @@ async function startApolloServer() {
       }
     },
   }))
+
+  app.use(express.json());
+  app.use(cookieParser());
   
   // Express REST API routes
   app.use('/', cors(), express.static(path.join(__dirname, '../dist')));
 
   app.post('/login', userController.loginAuth, (req, res) => {
-    res.status(200).json({ username: 'brian', isLoggedIn: true });
+    res.status(200).json(res.locals.result);
   });
 
   app.get('/', (req, res) => {
@@ -50,7 +54,7 @@ async function startApolloServer() {
 
   // the get '/*' request is required to get React router to work in production
   app.get('/*', (req, res) => {
-      res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
+    res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
   });
 
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`))

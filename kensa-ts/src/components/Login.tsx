@@ -44,6 +44,7 @@
 
 
 import React, { useState, ChangeEvent } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import { Link } from 'react-router-dom';
 
@@ -55,7 +56,7 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 //   const { verifyjwt } = props;
-
+	let navigate = useNavigate();
 
   function handleUserChange(e: any ) {
     setUsername(e.target.value);
@@ -64,6 +65,12 @@ const Login = () => {
   function handlePasswordChange(e: any ) {
     setPassword(e.target.value);
   }
+
+	function toProjectPage(username:string):void {
+		const path = `../user/${username}`;
+		navigate(path);
+	}
+
   // login function that send username and psw to server (/login)
   function login(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -83,11 +90,11 @@ const Login = () => {
       })
     })
       .then((data) => {
-        return data.json()
-    })
-      .then((myJson) => {
-        // What do we do with the data?
-        console.log('myJson', myJson)
+        return data.json();
+      })
+      .then((verified) => {
+        // console.log('myJson', myJson) // returns boolean
+        verified ? toProjectPage(username) : alert("Wrong login credentials.");
       })
       .catch((err) => console.log("Error:", err));
   }
