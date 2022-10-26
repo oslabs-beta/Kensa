@@ -2,11 +2,14 @@ const kensa = require('kensa-api')
 
 
 const response = {
-  query_string: 'second query',
+  query_string: 'newest query',
   project_id: 3,
-  execution_time: 200,
+  execution_time: 120,
   success: true
 }
 
+const apiKey = '123456789';
 
-kensa.insertMetrics(response);
+const projectId = kensa.getProjectId(apiKey);
+
+// kensa.insertMetrics(response);
