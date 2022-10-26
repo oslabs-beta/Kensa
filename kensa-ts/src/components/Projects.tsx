@@ -1,11 +1,12 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 
 import ProjectCard from "./ProjectCard";
 
 const Projects = () => {
     let navigate = useNavigate();
+    const {username} = useParams();
     const toAddProjectPage = ():void => {
         const path = 'new';
         navigate(path);
@@ -13,15 +14,15 @@ const Projects = () => {
 
     const userId:number = 1;
     const userQueryString = `
-        user(id: ${userId}) {
+        username(username: "${username}") {
             username
             projects {
                 id
                 project_name
                 api_key
-                
+                    
             }
-        }
+      }
     `;
 
     const GET_USER = gql`
@@ -35,12 +36,13 @@ const Projects = () => {
     if (loading) {
         return <></>;
     };
-    
-    const projects = data.user.projects;
+    console.log(data.username.projects)
+
+    const projects = data.username.projects;
     const projectCards: Array<JSX.Element> = [];
 
     for (let i = 0; i < projects.length; i++) {
-        console.log(projects[i])
+        // console.log(projects[i])
         const projectName = projects[i]["project_name"];
         const projectId = projects[i]["id"];
         const apiKey = projects[i]["api_key"];
@@ -50,7 +52,7 @@ const Projects = () => {
 
     return (
         <div className="secondary-container">
-            <h2>{`Welcome back, ${data.user.username}`}</h2>
+            <h2>{`Welcome back, ${data.username.username}`}</h2>
             {/* Display Projects */}
             <div id="projects-container">
                 {projectCards}

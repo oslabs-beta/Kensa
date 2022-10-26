@@ -4,6 +4,8 @@ export const typeDefs = gql`
   type Query {
     "Query to get one user "
     user(id: ID!): User
+    "Query to get one user by username"
+    username(username: String!): User
     "Query to get all users registered with the app"
     users: [User!]
     "Query to get all projects monitored by the app"

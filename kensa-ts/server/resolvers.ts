@@ -10,6 +10,11 @@ export const resolvers = {
       const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
       return result.rows[0];
     },
+    // Get a single user by username
+    username: async (_: any, { username }: any, { db }: any, info: any) => {
+      const result = await db.query('SELECT * FROM users WHERE username = $1', [username]);
+      return result.rows[0];
+    },
     // Get all projects
     projects: async (_: any, __: any, { db }: any, info: any) => {
       const result = await db.query('SELECT * FROM projects;');
