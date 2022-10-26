@@ -1,10 +1,16 @@
 import * as React from 'react';
-import Hello from './Hello'
+
+import Navbar from './Navbar';
+import MainContainer from './MainContainer';
 
 function App() {
     return (
         <div>
-            <Hello name="Brian" />
+            {/* Navbar */}
+            <Navbar />
+
+            {/* Main Routes Container */}
+            <MainContainer />
         </div>
     );
 }

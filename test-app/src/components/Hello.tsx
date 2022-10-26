@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-// psql -d postgres://cinamzyi:JX38bpVpO5jpxFDtUM3fc0qvBBuSkbqB@peanut.db.elephantsql.com/cinamzyi
 
 type Props = {
   name: string
@@ -16,7 +15,7 @@ const Hello = ({name}: Props) => {
   }
   return (
     <div>
-      <div>{hi ? 'Hello' : 'Hi'}. My name is {name}</div>
+      <div>{hi ? 'Hello' : 'Hi'} {name}. This is a test app</div>
       <button onClick={handleClick}>Change</button>
     </div>
   )
