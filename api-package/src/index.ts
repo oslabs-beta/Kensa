@@ -14,3 +14,10 @@ export const insertMetrics = async (response: any, projectId: number) : Promise<
   console.log(result.rows[0]);
   return result.rows[0];
 }
+
+// NPM package needs to find a way to use the API key to get their project ID
+//   -An idea: get client to input API key into their code so that their project information can be received
+//   -passing project ID into GraphQL context object so query results/metrics/projectID/resolvers can be inserted into database
+//   -two methods needed : 
+//     - kensa.getProjectId - getting project ID that takes in API key as argument 
+//     - kensa.insertMetrics - after the query finishes executing, call the method passing in response object and project_id from the GraphQL context object
