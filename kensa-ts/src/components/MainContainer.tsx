@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from 'react';
 import {Routes, Route, Outlet} from "react-router-dom";
 
 import LandingPage from "./LandingPage";
@@ -9,6 +9,16 @@ import AddProject from "./AddProject";
 import Monitor from "./Monitor";
 
 const MainContainer = () => {
+    // const [currentUserId, setCurrentUserId] = React.useState(null);
+
+    // useEffect(() => {
+    //     handleCurrentUserId(currentUserId);
+    // }, [currentUserId]);
+
+    // const handleCurrentUserId = (id:(number | null)):void => {
+    //     setCurrentUserId(id);
+    // };
+
     return (
         <Routes>
             {/* The outer route is used for auth routing later */}
@@ -17,7 +27,7 @@ const MainContainer = () => {
                 <Route path="signup" element={<Signup />} />
                 <Route path="login" element={<Login />} />
                 <Route path="user/:username" element={<Projects />} />
-                <Route path="user/new" element={<AddProject />} />
+                <Route path="user/:username/new" element={<AddProject />} />
                 <Route path="monitor/:projectId" element={<Monitor />} />
             </Route>
         </Routes>
