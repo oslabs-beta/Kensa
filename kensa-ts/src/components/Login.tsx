@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie'
+import { verify } from 'jsonwebtoken';
 
-// type LoginProps = {
-//     // verifyjwt: ()=> void; 
-//     handleCurrentUserId: (id:(number | null)) => void
-// } 
+type LoginProps = {
+    verifyjwt: ()=> void; 
+    // handleCurrentUserId: (id:(number | null)) => void
+} 
 
-const Login = () => {
+const Login = (props: LoginProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 //   const { verifyjwt } = props;
@@ -55,6 +56,9 @@ const Login = () => {
         console.log(verified);
         if(verified.success) {
           Cookies.set('token', verified.token);
+          Cookies.set('username', username)
+          console.log('cookies set in login',Cookies.get('token'))
+          props.verifyjwt();
           toProjectPage(username) 
         }else {
           alert("Wrong login credentials.");

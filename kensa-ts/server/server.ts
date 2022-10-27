@@ -53,6 +53,13 @@ async function startApolloServer() {
     res.status(200).json(res.locals.result);
   });
 
+  app.post('/testjwt', (req, res) => {
+    const { token } = req.body;
+    const username = jwt.verify(token, process.env.JWT_KEY);
+    console.log('from testjwt endpoint USERNAME: ', username)
+    res.status(200).json({ username: username });
+  });
+
   app.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
   });
