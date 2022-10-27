@@ -1,15 +1,15 @@
-import * as React from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import * as React from 'react';
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, gql } from "@apollo/client";
 
 import PlaygroundContainer from "./PlaygroundContainer";
 import MetricContainer from "./MetricContainer";
+import ProjectInfo from './ProjectInfo';
 
 const Monitor = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const params = useParams();
-    // const [project, setProject] = React.useState();
-    // console.log(params); // {projectId: '1'}
+    const [projectInfo, setProjectInfo] = React.useState(false);
 
     const projectId = params.projectId;
 
@@ -17,6 +17,7 @@ const Monitor = () => {
         project(id: ${projectId}) {
             project_name
             server_url
+            api_key
             user {
                 username
             }
@@ -37,27 +38,6 @@ const Monitor = () => {
 
     const { error, data, loading} = useQuery(GET_PROJECT_DATA);
 
-    // this mutation string deletes a project in the Kensa's database based on project id
-    const DELETE_PROJECT = gql`
-        mutation DELETE_PROJECT($deleteProjectId: ID!) {
-            deleteProject(id: $deleteProjectId) {
-                user {
-                    username
-                }
-            }
-        }
-    `;
-
-    // custom hook for creating new project using the ADD_PROJECT mustation string above
-    const [ deleteProject, {data: mutationData} ] = useMutation(DELETE_PROJECT, {
-        onCompleted: () => {
-            console.log(mutationData);
-            const user = mutationData.deleteProject.user.username;
-            const path = `../user/${user}`;
-            navigate(path);
-        }
-    });
-
     if (loading) {
         return <></>;
     };
@@ -66,9 +46,8 @@ const Monitor = () => {
         <div>
             <h2>Project Name: {data.project['project_name']}</h2>
             <a href={`../user/${data.project.user.username}`}><h4>Back to Projects</h4></a>
-            <button id="delete-project" onClick={():void => {
-                deleteProject({variables: { deleteProjectId: projectId }});
-            }}>Delete Project</button>
+            <button onClick={() => {setProjectInfo(!projectInfo)}}>Project Info</button>
+            {projectInfo ? <ProjectInfo projectId={projectId} apiKey={data.project['api_key']}/> : null}
             <div id="main-monitor">
                 <PlaygroundContainer />
                 <MetricContainer historyLog={data.project['history_log']}/>
