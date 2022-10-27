@@ -15,6 +15,7 @@ import db from "./models/db";
 import { userController } from './controllers/userController';
 import { appendFile } from "fs";
 import cookieParser from "cookie-parser";
+import jwt from 'jsonwebtoken';
 
 async function startApolloServer() {
   const app = express();
@@ -30,6 +31,8 @@ async function startApolloServer() {
   // GraphQL logic
   app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(apolloServer, {
     context: async ({req, res}: any) => {
+      // check for req.cookies.token
+      console.log(req.headers) 
       return {
         req,
         res,
@@ -40,6 +43,8 @@ async function startApolloServer() {
 
   app.use(express.json());
   app.use(cookieParser());
+  app.use(cors());
+  app.use(express.urlencoded({ extended: true }));
   
   // Express REST API routes
   app.use('/', cors(), express.static(path.join(__dirname, '../dist')));
@@ -56,6 +61,8 @@ async function startApolloServer() {
   app.get('/*', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
   });
+
+  // global error handler
 
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`))
 

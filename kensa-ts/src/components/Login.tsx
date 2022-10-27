@@ -47,6 +47,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 type LoginProps = {
     verifyjwt: ()=> void; 
@@ -93,8 +94,13 @@ const Login = () => {
         return data.json();
       })
       .then((verified) => {
-        // console.log('myJson', myJson) // returns boolean
-        verified ? toProjectPage(username) : alert("Wrong login credentials.");
+        console.log(verified);
+        if(verified.success) {
+          Cookies.set('token', verified.token);
+          toProjectPage(username) 
+        }else {
+          alert("Wrong login credentials.");
+        } 
       })
       .catch((err) => console.log("Error:", err));
   }
