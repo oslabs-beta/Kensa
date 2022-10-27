@@ -8,12 +8,14 @@ import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import testDb from './models/testDb'
 // import { GraphQLRequestContext } from "apollo-server-types";
+import { getProjectId, insertMetrics } from 'kensa-api';
+
 
 async function startApolloServer() {
   const app = express()
   const PORT = process.env.PORT || 3000
 
-  // Testing with plugin
+  // Move plugins to npm package later
   const pluginOne = {
     // Fires whenever a GraphQL request is received from a client. This plugin runs after whatever happens in ApolloServer's context
     async requestDidStart(requestContext: any) {
@@ -49,13 +51,21 @@ async function startApolloServer() {
         },
         async willSendResponse(context: any) {
           // console.log(context.response.body.singleResult) // response data
-          // console.log(context) // response data
-          // console.log(context.document)
           const receiveResponse = Date.now()
           const elapsed = receiveResponse - requestStart
           console.log(`operation=${op} duration=${elapsed}ms`)
-          // const result = await db.query('SELECT * FROM projects WHERE id = $1', [1])
-          // console.log(result.rows)
+
+          // Getting projectId from context object
+          const { id } = context.contextValue.projectId;
+          const query_string = context.request.query;
+          // construct a fake response for now
+          const fakeResponse = {
+            query_string: query_string,
+            execution_time: elapsed,
+            success: true
+          }
+          // This insert metrics to Kensa database
+          await insertMetrics(fakeResponse, id);
         }
       }
     }
@@ -74,11 +84,15 @@ async function startApolloServer() {
       // IntrospectionQuery keeps running. Use this to stop context from logging for IntrospectionQuery
       if (req.body.operationName === 'IntrospectionQuery') return;
       console.log('inside context ApolloServer')
-      // console.log(req.body);
+      // insert your apiKey here
+      const apiKey = 'a1b2c3d4e5f6g7h8i9j10';
+      // Calling npm package to get projectId
+      const projectId = await getProjectId(apiKey)
       return {
         req,
         res,
         testDb,
+        projectId
       }
     },
   }))

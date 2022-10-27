@@ -22,7 +22,6 @@ const Projects = () => {
         navigate(path);
     }
 
-    const userId:number = 1;
     const userQueryString = `
         username(username: "${username}") {
             username
@@ -46,7 +45,7 @@ const Projects = () => {
     if (loading) {
         return <></>;
     };
-    console.log(data.username.projects)
+    // console.log(data.username.projects)
 
     const projects = data.username.projects;
     const projectCards: Array<JSX.Element> = [];
