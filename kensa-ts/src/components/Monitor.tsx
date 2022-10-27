@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, gql } from "@apollo/client";
 
@@ -36,7 +36,10 @@ const Monitor = () => {
         }
     `;
 
-    const { error, data, loading} = useQuery(GET_PROJECT_DATA);
+    // let { error, data, loading } = useQuery(GET_PROJECT_DATA);
+    const {error, data, loading} = useQuery(GET_PROJECT_DATA, {
+        pollInterval: 500,
+    });
 
     if (loading) {
         return <></>;
