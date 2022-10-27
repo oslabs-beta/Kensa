@@ -45,6 +45,7 @@
     "concurrently": "^7.4.0",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
+    "js-cookie": "^3.0.1",
     "nodemon": "^2.0.20",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
