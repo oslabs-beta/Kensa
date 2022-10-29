@@ -14,7 +14,7 @@ const Projects = () => {
   console.log('username in projects ', username, userInCookie);
   if (!token || userInCookie !== username) {
     return (
-      <div>Please login. You don't have access to this page</div>
+      <div>Please login. You do not have access to this page</div>
     );
   }
     
@@ -49,7 +49,7 @@ const Projects = () => {
   // console.log(data.username.projects)
 
   const projects = data.username.projects;
-  const projectCards: Array<JSX.Element> = [];
+  const projectCards: Array<any> = [];
 
   for (let i = 0; i < projects.length; i++) {
     // console.log(projects[i])
