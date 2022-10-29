@@ -9,13 +9,14 @@ import AddProject from "./AddProject";
 import Monitor from "./Monitor";
 import Cookies from 'js-cookie';
 
+import Kensa from './Kensa';
 
 const MainContainer = () => {
-    // const [currentUserId, setCurrentUserId] = React.useState(null);
+  // const [currentUserId, setCurrentUserId] = React.useState(null);
 
-    // useEffect(() => {
-    //     handleCurrentUserId(currentUserId);
-    // }, [currentUserId]);
+  // useEffect(() => {
+  //     handleCurrentUserId(currentUserId);
+  // }, [currentUserId]);
 
     // const handleCurrentUserId = (id:(number | null)):void => {
     //     setCurrentUserId(id);
@@ -44,18 +45,19 @@ const MainContainer = () => {
     verifyjwt.bind(useState);
 
     return (
-        <Routes>
-            {/* The outer route is used for auth routing later */}
-            <Route path="/">
-                <Route path="/" element={<LandingPage />} />
-                <Route path="signup" element={<Signup />} />
-                <Route path="login" element={<Login verifyjwt={verifyjwt} />} />
-                <Route path="user/:username" element={<Projects />} />
-                <Route path="user/:username/new" element={<AddProject />} />
-                <Route path="monitor/:projectId" element={<Monitor />} />
-            </Route>
-        </Routes>
-    );
+    <Routes>
+      {/* The outer route is used for auth routing later */}
+      <Route path="/">
+        <Route path="/" element={<LandingPage />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="login" element={<Login verifyjwt={verifyjwt} />} />
+        <Route path="user/:username" element={<Projects />} />
+        <Route path="user/:username/new" element={<AddProject />} />
+        <Route path="monitor/:projectId" element={<Monitor />} />
+        <Route path='/dashboard' element={<Kensa />} />
+      </Route>
+    </Routes>
+  );
 
 };
 

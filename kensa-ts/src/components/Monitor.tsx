@@ -38,7 +38,7 @@ const Monitor = () => {
 
     // let { error, data, loading } = useQuery(GET_PROJECT_DATA);
     const {error, data, loading} = useQuery(GET_PROJECT_DATA, {
-        pollInterval: 500,
+        // pollInterval: 5000,
     });
 
     if (loading) {
