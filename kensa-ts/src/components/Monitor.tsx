@@ -7,13 +7,13 @@ import MetricContainer from "./MetricContainer";
 import ProjectInfo from './ProjectInfo';
 
 const Monitor = () => {
-    // const navigate = useNavigate();
-    const params = useParams();
-    const [projectInfo, setProjectInfo] = React.useState(false);
+  // const navigate = useNavigate();
+  const params = useParams();
+  const [projectInfo, setProjectInfo] = React.useState(false);
 
-    const projectId = params.projectId;
+  const projectId = params.projectId;
 
-    const projectQueryString = `
+  const projectQueryString = `
         project(id: ${projectId}) {
             project_name
             server_url
@@ -30,33 +30,33 @@ const Monitor = () => {
         }
     `;
 
-    const GET_PROJECT_DATA = gql`
+  const GET_PROJECT_DATA = gql`
         query {
             ${projectQueryString}
         }
     `;
 
-    // let { error, data, loading } = useQuery(GET_PROJECT_DATA);
-    const {error, data, loading} = useQuery(GET_PROJECT_DATA, {
-        // pollInterval: 5000,
-    });
+  // let { error, data, loading } = useQuery(GET_PROJECT_DATA);
+  const {error, data, loading} = useQuery(GET_PROJECT_DATA, {
+    // pollInterval: 5000,
+  });
 
-    if (loading) {
-        return <></>;
-    };
+  if (loading) {
+    return <></>;
+  }
 
-    return (
-        <div>
-            <h2>Project Name: {data.project['project_name']}</h2>
-            <a href={`../user/${data.project.user.username}`}><h4>Back to Projects</h4></a>
-            <button onClick={() => {setProjectInfo(!projectInfo)}}>Project Info</button>
-            {projectInfo ? <ProjectInfo projectId={projectId} apiKey={data.project['api_key']}/> : null}
-            <div id="main-monitor">
-                <PlaygroundContainer />
-                <MetricContainer historyLog={data.project['history_log']}/>
-            </div>
-        </div>
-    );
+  return (
+    <div>
+      <h2>Project Name: {data.project['project_name']}</h2>
+      <a href={`../user/${data.project.user.username}`}><h4>Back to Projects</h4></a>
+      <button onClick={() => {setProjectInfo(!projectInfo);}}>Project Info</button>
+      {projectInfo ? <ProjectInfo projectId={projectId} apiKey={data.project['api_key']}/> : null}
+      <div id="main-monitor">
+        {/* <PlaygroundContainer /> */}
+        <MetricContainer historyLog={data.project['history_log']}/>
+      </div>
+    </div>
+  );
 };
 
 export default Monitor;

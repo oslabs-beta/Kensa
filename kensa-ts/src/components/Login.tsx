@@ -59,10 +59,11 @@ const Login = (props: LoginProps) => {
           Cookies.set('username', username)
           console.log('cookies set in login',Cookies.get('token'))
           props.verifyjwt();
-          toProjectPage(username) 
+          toProjectPage(username);
         }else {
           alert("Wrong login credentials.");
         } 
+        
       })
       .catch((err) => console.log("Error:", err));
   }
