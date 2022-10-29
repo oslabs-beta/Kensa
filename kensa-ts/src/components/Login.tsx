@@ -51,8 +51,8 @@ const Login = () => {
     })
       .then((data) => data.json())
       .then((verified) => {
-        // verified ? toProjectPage(username) : alert("Wrong login credentials.");
-        verified ? navigate('/dashboard') : alert("Wrong login credentials.");
+        verified ? toProjectPage(username) : alert("Wrong login credentials.");
+        // verified ? navigate('/dashboard') : alert("Wrong login credentials.");
       })
       .catch((err) => console.log("Error:", err));
   }
