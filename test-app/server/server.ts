@@ -36,11 +36,11 @@ async function startApolloServer() {
                 const resolverEnd = Date.now();
                 console.log(`Field ${info.parentType.name}.${info.fieldName} took ${resolverEnd - resolverStart}ms`)
 
-                // if (error) {
-                //   console.log(`It failed with ${error}`)
-                // } else {
-                //   console.log(`It returned ${result}`)
-                // }
+                if (error) {
+                  console.log(`It failed with ${error}`)
+                } else {
+                  console.log(`It returned ${result}`)
+                }
               }
             }
           }
@@ -83,7 +83,8 @@ async function startApolloServer() {
     context: async ({req, res}: any) => {
       // IntrospectionQuery keeps running. Use this to stop context from logging for IntrospectionQuery
       if (req.body.operationName === 'IntrospectionQuery') return;
-      console.log('inside context ApolloServer')
+      console.log('inside context ApolloServer test-app')
+      console.log(req.body)
       // insert your apiKey here
       const apiKey = 'a1b2c3d4e5f6g7h8i9j10';
       // Calling npm package to get projectId

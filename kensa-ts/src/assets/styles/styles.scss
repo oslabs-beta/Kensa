@@ -28,3 +28,27 @@ body {
     height: 100px;
     border: 1px solid green;
 }
+
+#delete-project {
+    display: block;
+}
+
+#project-info {
+    &>div {
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0;
+    }
+
+    h4 {
+        margin: 10px 0;
+    }
+
+    span {
+        font-weight: normal;
+    }
+
+    button {
+        padding: 5px;
+    }
+}
