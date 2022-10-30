@@ -1,5 +1,6 @@
 import React from 'react';
-import { Stack, InputGroup, InputLeftElement, Input, Avatar, Icon } from '@chakra-ui/react';
+import { Stack, InputGroup, InputLeftElement, Input, Avatar, Icon, Heading, Text } from '@chakra-ui/react';
+import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 
@@ -16,7 +17,20 @@ const KensaNavbar = () => {
         />
         <Input type='text' placeholder='Search' />
       </InputGroup>
-      <Avatar name={username} size='md' justifyItems='flex-end' />
+
+      {/* Displpay username and logout button when click on Avatar */}
+      <Popover placement='bottom-end'>
+        <PopoverTrigger>
+          <Avatar name={username} size='md' justifyItems='flex-end' _hover={{ cursor: 'pointer' }} />
+        </PopoverTrigger>
+        <PopoverContent w='200px'>
+          <PopoverArrow />
+          <PopoverHeader><Heading size='xs'>{username}</Heading></PopoverHeader>
+          <PopoverBody>
+            <Text>Sign out</Text>
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
     </Stack>
   );
 };

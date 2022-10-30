@@ -16,7 +16,12 @@ const Projects = () => {
   console.log('username in projects ', username, userInCookie);
   if (!token || userInCookie !== username) {
     return (
-      <div>Please login. You do not have access to this page</div>
+      <Center w='100%' h='100%'>
+        <Alert status='error' h='100px' w='50%' borderRadius='10px'>
+          <AlertIcon />
+          Please login. You do not have access to this page
+        </Alert>
+      </Center>
     );
   }
 
@@ -45,7 +50,7 @@ const Projects = () => {
   
   if (loading) {
     return (
-      <Center w='100%'>
+      <Center w='100%' h='100%'>
         <Spinner size='xl' />
       </Center>
     );
@@ -53,7 +58,7 @@ const Projects = () => {
 
   if (error) {
     return (
-      <Center w='100%'>
+      <Center w='100%' h='100%'>
         <Alert status='error' h='100px' w='50%' borderRadius='10px'>
           <AlertIcon />
           There was an error processing your request

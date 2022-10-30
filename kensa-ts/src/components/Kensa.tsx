@@ -1,7 +1,6 @@
 import React from 'react';
 import { Flex, Divider } from '@chakra-ui/react';
 import { Outlet, Route, Routes } from 'react-router-dom';
-// import Dashboard from './Dashboard';
 import KensaNavbar from './KensaNavbar';
 import Sidebar from './Sidebar';
 

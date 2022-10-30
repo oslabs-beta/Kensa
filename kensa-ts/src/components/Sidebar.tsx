@@ -1,9 +1,15 @@
 import React from 'react';
-import { Box, Flex, Heading, Stack, Icon, Divider } from '@chakra-ui/react';
+import { Box, Flex, Heading, Stack, Icon, Divider, Image } from '@chakra-ui/react';
 import { BsFillBarChartFill, BsFillFolderFill, BsFillPlayBtnFill } from 'react-icons/bs';
 // import { MdSpaceDashboard } from 'react-icons/md';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
+
+const hoverCSS = {
+  bgColor: '#2d2d32',
+  cursor: 'pointer',
+  color: '#4fc3f7'
+};
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -16,7 +22,7 @@ const Sidebar = () => {
   return (
     <Box flex='1' bg='#121828'>
       <Flex h='180px' justify='center' align='center' color='#d6c5c7'>
-        Logo
+        <Image src='https://i.postimg.cc/mrWhhZG6/kensa.png' h='150px' w='200px'/>
       </Flex>
       <Divider color='#d6c5c7' />
       <Stack spacing={3} direction='column' color='white' marginTop={10} >
@@ -25,18 +31,15 @@ const Sidebar = () => {
           <Icon as={MdSpaceDashboard} boxSize='1.4rem'/>
           <Heading size='sm'>Dashboard</Heading>
         </Flex> */}
-        <Flex align='center' p='20px' gap={3} color='#d6c5c7' _hover={{ 
-          bgColor: '#2d2d32', cursor: 'pointer' }}>
+        <Flex align='center' p='20px' gap={3} color='#d6c5c7' _hover={hoverCSS}>
           <Icon as={BsFillFolderFill} boxSize='1.4rem' />
           <Link to=''><Heading size='sm'>Projects</Heading></Link>
         </Flex>
-        <Flex align='center' p='20px' gap={3} color='#d6c5c7' _hover={{ 
-          bgColor: '#2d2d32', cursor: 'pointer' }}>
+        <Flex align='center' p='20px' gap={3} color='#d6c5c7' _hover={hoverCSS}>
           <Icon as={BsFillBarChartFill} boxSize='1.4rem' />
           <Heading size='sm' onClick={toPreviousProject}>Metrics</Heading>
         </Flex>
-        <Flex align='center' p='20px' gap={3} color='#d6c5c7' _hover={{ 
-          bgColor: '#2d2d32', cursor: 'pointer' }}>
+        <Flex align='center' p='20px' gap={3} color='#d6c5c7' _hover={hoverCSS}>
           <Icon as={BsFillPlayBtnFill} boxSize='1.4rem' />
           <Heading size='sm'>Playground</Heading>
         </Flex>
