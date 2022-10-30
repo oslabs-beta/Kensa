@@ -32,7 +32,7 @@ async function startApolloServer() {
   app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(apolloServer, {
     context: async ({req, res}: any) => {
       // check for req.cookies.token
-      console.log(req.headers) 
+      // console.log('in graphQL context', req.headers) 
       return {
         req,
         res,
@@ -56,7 +56,7 @@ async function startApolloServer() {
   app.post('/testjwt', (req, res) => {
     const { token } = req.body;
     const username = jwt.verify(token, process.env.JWT_KEY);
-    console.log('from testjwt endpoint USERNAME: ', username)
+    console.log('from testjwt endpoint USERNAME: ', username);
     res.status(200).json({ username: username });
   });
 

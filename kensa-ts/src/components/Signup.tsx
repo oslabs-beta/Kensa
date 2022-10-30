@@ -1,14 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Stack, Heading } from "@chakra-ui/react";
-import { FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Button, Text } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 
 const Signup = () => {
 
   return (
     <form>
-      <Stack spacing={4} direction='column' align='center' maxWidth={400}>
+      <Stack spacing={10} direction='column' align='center' maxWidth={400}>
         <Heading>Register</Heading>
         <FormControl isRequired>
           <FormLabel>Username</FormLabel>
@@ -18,10 +19,9 @@ const Signup = () => {
           <FormLabel>Password</FormLabel>
           <Input type='password' />
         </FormControl>
-        <Stack spacing={4} direction='row' align='center'>
-          <Button type='submit' w={190} colorScheme='facebook'>Submit</Button>
-          <Button w={190} colorScheme='facebook'>Cancel</Button>
-        </Stack>
+        <Button type='submit' w={400} colorScheme='facebook'>JOIN</Button>
+        {/* <Button w={190} colorScheme='facebook'>Cancel</Button> */}
+        <Link to='/login'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Already have account? Sign in</Text></Link>
       </Stack>
     </form>
   );
