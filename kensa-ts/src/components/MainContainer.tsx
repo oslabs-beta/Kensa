@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {Routes, Route, Outlet} from "react-router-dom";
+import { Center } from '@chakra-ui/react';
  
 import LandingPage from "./LandingPage";
 import Signup from "./Signup";
 import Login from "./Login";
-import Projects from "./Projects";
-import AddProject from "./AddProject";
 import Monitor from "./Monitor";
-import Cookies from 'js-cookie';
-
 import Kensa from './Kensa';
-import { Center } from '@chakra-ui/react';
+import Projects from './Projects';
 
 const MainContainer = () => {
   // const [currentUserId, setCurrentUserId] = React.useState(null);
@@ -62,10 +59,10 @@ const MainContainer = () => {
           <Route path="/signup" element={<Signup />} />
           {/* <Route path="login" element={<Login verifyjwt={verifyjwt} />} /> */}
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/user/:username" element={<Projects />} /> */}
-          {/* <Route path="/user/:username/new" element={<AddProject />} /> */}
-          <Route path="/monitor/:projectId" element={<Monitor />} />
-          <Route path='/user/:username' element={<Kensa />} />
+          <Route path='/user/:username' element={<Kensa />}>
+            <Route path='' element={<Projects />} />
+            <Route path='monitor/:projectId' element={<Monitor />} />
+          </Route>
         </Route>
       </Routes>
     </Center>

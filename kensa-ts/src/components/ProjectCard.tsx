@@ -1,4 +1,6 @@
-import * as React from "react";
+import { Center, Flex, Heading, Text } from "@chakra-ui/react";
+import React from "react";
+import { Link } from "react-router-dom";
 
 type ProjectCardPropsType = {
     projectName: string,
@@ -6,14 +8,14 @@ type ProjectCardPropsType = {
     apiKey: string
 }
 
-const ProjectCard = (props:ProjectCardPropsType) => {
-    return (
-        <div className="project-cards">
-            <a href={`../monitor/${props.projectId}`}>
-                <h3>{props.projectName}</h3>
-            </a>
-        </div>
-    );
+const ProjectCard = (props: ProjectCardPropsType) => {
+  return (
+    <Center h='40px' w='500px' bgColor='white' borderRadius='10px' boxShadow={'lg'}>
+      <Link to={`monitor/${props.projectId}`}>
+        <Heading size='md'>{props.projectName}</Heading>
+      </Link>
+    </Center>
+  );
 };
 
 export default ProjectCard;
