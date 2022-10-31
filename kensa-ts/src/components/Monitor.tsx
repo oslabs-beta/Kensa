@@ -52,7 +52,7 @@ const Monitor = () => {
       <button onClick={() => {setProjectInfo(!projectInfo);}}>Project Info</button>
       {projectInfo ? <ProjectInfo projectId={projectId} apiKey={data.project['api_key']}/> : null}
       <div id="main-monitor">
-        {/* <PlaygroundContainer /> */}
+        <PlaygroundContainer />
         <MetricContainer historyLog={data.project['history_log']}/>
       </div>
     </div>
