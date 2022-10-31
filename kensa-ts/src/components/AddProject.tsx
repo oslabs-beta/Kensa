@@ -4,18 +4,14 @@ import { useQuery, useMutation, gql } from "@apollo/client";
 import { v4 as uuidv4 } from 'uuid';
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, FormControl, FormLabel, Input, Stack, border } from '@chakra-ui/react';
 import { ThemeContext } from "./App";
+import { darkTheme } from '../theme/darkTheme';
 
 type AddProjectType = {
     isOpen: boolean;
     onClose: () => void;
 };
 
-// Style for dark theme
-const darkTheme = {
-  backgroundColor: '#121828',
-  color: 'rgba(255, 255, 255, 0.8)',
-  border: '1px solid #9f9191',
-};
+
 
 const AddProject = ({ isOpen, onClose }: AddProjectType) => {
   const [projectName, setProjectName] = useState('');
@@ -97,14 +93,14 @@ const AddProject = ({ isOpen, onClose }: AddProjectType) => {
                 <Input type='text' onChange={(e: React.SyntheticEvent): void => {
                   const target = e.target as HTMLInputElement;
                   setProjectName(target.value);
-                }} style={theme === 'dark' && darkTheme}/>
+                }}/>
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Default URL</FormLabel>
                 <Input type='text' onChange={(e: React.SyntheticEvent): void => {
                   const target = e.target as HTMLInputElement;
                   setProjectUrl(target.value);
-                }} style={theme === 'dark' && darkTheme} />
+                }}/>
               </FormControl>
               <Stack direction='row' justify='end'>
                 <Button colorScheme='facebook' mr={3} onClick={onClose}>Close</Button>

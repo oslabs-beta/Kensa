@@ -9,13 +9,7 @@ import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from './App';
-
-// Style for dark theme
-const darkTheme = {
-  backgroundColor: '#121828',
-  color: 'rgba(255, 255, 255, 0.8)',
-  border: '1px solid #9f9191',
-};
+import { darkTheme } from '../theme/darkTheme';
 
 const Monitor = () => {
   const { projectId } = useParams();

@@ -5,6 +5,7 @@ import { BsSearch } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import { ThemeContext } from './App';
 import { BsSun, BsMoon } from 'react-icons/bs';
+import { darkTheme } from '../theme/darkTheme';
 
 const themeHover = {
   cursor: 'pointer',
@@ -37,7 +38,7 @@ const KensaNavbar = () => {
         <PopoverTrigger>
           <Avatar name={username} size='md' justifyItems='flex-end' _hover={{ cursor: 'pointer' }} />
         </PopoverTrigger>
-        <PopoverContent w='200px'>
+        <PopoverContent w='200px' style={theme === 'dark' && darkTheme}>
           <PopoverArrow />
           <PopoverHeader><Heading size='xs'>{username}</Heading></PopoverHeader>
           <PopoverBody>
