@@ -10,7 +10,7 @@ const Monitor = () => {
   // const navigate = useNavigate();
   const params = useParams();
   const [projectInfo, setProjectInfo] = React.useState(false);
-
+  console.log('params in monitor ',params)
   const projectId = params.projectId;
 
   const projectQueryString = `
@@ -52,7 +52,7 @@ const Monitor = () => {
       <button onClick={() => {setProjectInfo(!projectInfo);}}>Project Info</button>
       {projectInfo ? <ProjectInfo projectId={projectId} apiKey={data.project['api_key']}/> : null}
       <div id="main-monitor">
-        {/* <PlaygroundContainer /> */}
+        <PlaygroundContainer username={data.project.user.username} projectId={params.projectId}/>
         <MetricContainer historyLog={data.project['history_log']}/>
       </div>
     </div>

@@ -71,7 +71,7 @@ const Login = (props: LoginProps) => {
   return (
     <form onSubmit={handleLogin}>
       <Stack spacing={4} direction='column' align='center' maxWidth={400}>
-        <Heading>Sign In</Heading>
+        <Heading>Login</Heading>
         <FormControl isRequired>
           <FormLabel>Username</FormLabel>
           <Input type='text' onChange={handleUserChange} />
@@ -81,7 +81,7 @@ const Login = (props: LoginProps) => {
           <Input type='password' onChange={handlePasswordChange}/>
         </FormControl>
         <Stack spacing={4} direction='row' align='center'>
-          <Button type='submit' w={190} colorScheme='facebook'>Sign In</Button>
+          <Button type='submit' w={190} colorScheme='facebook'>Login</Button>
           <Button w={190} colorScheme='facebook'>Cancel</Button>
         </Stack>
         <Link to='/signup'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Don&#39;t have account? Register Now</Text></Link>

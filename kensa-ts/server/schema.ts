@@ -21,6 +21,8 @@ export const typeDefs = gql`
     addProject(project_name: String!, api_key: String!, server_url: String!, user: String!): Project
     "Mutation to delete a project given an ID"
     deleteProject(id: ID!): Project
+    "Mutation to create a user"
+    createUser(username: String!, password: String!): User
   }
 
   type User {

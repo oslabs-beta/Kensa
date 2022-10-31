@@ -13,14 +13,14 @@ type MetricContainerProps = {
 }
 
 const MetricContainer = (props:any) => {
-    // console.log('metric container', props);
+  // console.log('metric container', props);
 
-    return (
-        <div id="metric-container" className="secondary-container">
-            <h2>Project Metrics</h2>
-            <HistoryLog logs={props.historyLog}/>
-        </div>
-    );
+  return (
+    <div id="metric-container" className="secondary-container">
+      <h2>Project Metrics</h2>
+      <HistoryLog logs={props.historyLog}/>
+    </div>
+  );
 };
 
 export default MetricContainer;

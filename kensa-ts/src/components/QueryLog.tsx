@@ -9,20 +9,20 @@ type QueryLog = {
 }
 
 const QueryLog = (props:QueryLog) => {
-    // console.log(props);
-    const months:string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const createdAtMonth = new Date(parseInt(props["created_at"])).getMonth();
-    const createdAtDate = new Date(parseInt(props["created_at"])).getDate();
-    const createdAtYear = new Date(parseInt(props["created_at"])).getFullYear();
+  // console.log(props);
+  const months:string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const createdAtMonth = new Date(parseInt(props["created_at"])).getMonth();
+  const createdAtDate = new Date(parseInt(props["created_at"])).getDate();
+  const createdAtYear = new Date(parseInt(props["created_at"])).getFullYear();
 
-    return (
-        <div className="query-log">
-            <h4>Query: {props.query_string}</h4>
-            <p>Execution time: <span>{props["execution_time"]}</span></p>
-            <p>Success: <span>{props.success ? 'success' : 'error'}</span></p>
-            <p>Created at: <span>{months[createdAtMonth]}&nbsp;{createdAtDate},&nbsp;{createdAtYear}</span></p>
-        </div>
-    );
+  return (
+    <div className="query-log">
+      <h4>Query: {props.query_string}</h4>
+      <p>Execution time: <span>{props["execution_time"]}</span></p>
+      <p>Success: <span>{props.success ? 'success' : 'error'}</span></p>
+      <p>Created at: <span>{months[createdAtMonth]}&nbsp;{createdAtDate},&nbsp;{createdAtYear}</span></p>
+    </div>
+  );
 };
 
 export default QueryLog;

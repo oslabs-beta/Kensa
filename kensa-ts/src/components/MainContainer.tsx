@@ -18,38 +18,38 @@ const MainContainer = () => {
   //     handleCurrentUserId(currentUserId);
   // }, [currentUserId]);
 
-    // const handleCurrentUserId = (id:(number | null)):void => {
-    //     setCurrentUserId(id);
-    // };
-    const [verified, setVerified] = React.useState(false);
-    const [username, setUsername] = React.useState(null);
+  // const handleCurrentUserId = (id:(number | null)):void => {
+  //     setCurrentUserId(id);
+  // };
+  const [verified, setVerified] = React.useState(false);
+  const [username, setUsername] = React.useState(null);
 
-    const verifyjwt = async () => {
-        const jwt = await Cookies.get('token');
+  const verifyjwt = async () => {
+    const jwt = await Cookies.get('token');
     
-        console.log('IN verifyJWT', jwt);
+    console.log('IN verifyJWT', jwt);
     
-        await fetch('testjwt', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: jwt })
-        })
-          .then((result) => {
-            console.log(verified)
-            setVerified(true)
-            setUsername(result);
-            console.log(verified)
-          })
-          .catch((err) => console.log(err));
-    }
-    verifyjwt.bind(useState);
+    await fetch('testjwt', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: jwt })
+    })
+      .then((result) => {
+        console.log(verified)
+        setVerified(true);
+        setUsername(result);
+        console.log(verified);
+      })
+      .catch((err) => console.log(err));
+  }
+  verifyjwt.bind(useState);
 
-    return (
+  return (
     <Routes>
       {/* The outer route is used for auth routing later */}
       <Route path="/">
         <Route path="/" element={<LandingPage />} />
-        <Route path="signup" element={<Signup />} />
+        <Route path="signup" element={<Signup verifyjwt={verifyjwt}/>} />
         <Route path="login" element={<Login verifyjwt={verifyjwt} />} />
         <Route path="user/:username" element={<Projects />} />
         <Route path="user/:username/new" element={<AddProject />} />
