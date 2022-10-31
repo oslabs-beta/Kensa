@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
-import Navbar from './Navbar';
 import MainContainer from './MainContainer';
 import { Box } from '@chakra-ui/react';
+import Header from './Header';
 
 export const ThemeContext = createContext(null);
 
@@ -19,7 +19,7 @@ function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <Box bgColor='rgb(249, 250, 251)' id={theme}>
-        {/* <Navbar />  move to landing page */}
+        <Header />
         {/* Main Routes Container */}
         <MainContainer />
       </Box>

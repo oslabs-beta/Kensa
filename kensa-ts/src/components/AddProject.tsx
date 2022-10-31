@@ -9,9 +9,7 @@ import { darkTheme } from '../theme/darkTheme';
 type AddProjectType = {
     isOpen: boolean;
     onClose: () => void;
-};
-
-
+}
 
 const AddProject = ({ isOpen, onClose }: AddProjectType) => {
   const [projectName, setProjectName] = useState('');
