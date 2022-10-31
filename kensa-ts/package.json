@@ -14,15 +14,12 @@
   "dependencies": {
     "@apollo/client": "^3.7.0",
     "@apollo/server": "^4.0.2",
-<<<<<<< HEAD
-=======
     "@types/bcryptjs": "^2.4.2",
     "@chakra-ui/react": "^2.3.6",
     "@codemirror/basic-setup": "^0.20.0",
     "@codemirror/lang-javascript": "^6.1.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
->>>>>>> 08232d5bbf8cfe184d5eb69ef4ae171bfdc11ff2
     "@types/codemirror": "^5.60.5",
     "@types/express": "^4.17.14",
     "@types/js-cookie": "^3.0.2",
@@ -35,11 +32,7 @@
     "apollo-server": "^3.10.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
-<<<<<<< HEAD
-    "codemirror": "^6.0.1",
-=======
     "cookie-parser": "^1.4.6",
->>>>>>> 08232d5bbf8cfe184d5eb69ef4ae171bfdc11ff2
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
