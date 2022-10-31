@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, InputGroup, InputLeftElement, Input, Avatar, Icon, Heading, Text } from '@chakra-ui/react';
+import { Stack, InputGroup, InputLeftElement, Input, Avatar, Icon, Heading, Text, Button } from '@chakra-ui/react';
 import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';

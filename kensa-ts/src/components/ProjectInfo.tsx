@@ -33,7 +33,7 @@ const ProjectInfo = (props: ProjectInfoType) => {
 
   return (
     <Flex direction='column' h='150px' justifyContent='space-between'>
-      <Text><Text fontWeight={'bold'}>Project API:</Text> {props.apiKey}</Text>
+      <Text fontWeight={'bold'}>Project API:</Text> {props.apiKey}
       <Button colorScheme='facebook' onClick={(): void => {
         deleteProject({
           variables: {

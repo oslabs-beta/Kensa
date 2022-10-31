@@ -4,15 +4,12 @@ import { useQuery, gql } from "@apollo/client";
 import PlaygroundContainer from "./PlaygroundContainer";
 import MetricContainer from "./MetricContainer";
 import ProjectInfo from './ProjectInfo';
-import { Center, Spinner, Alert, AlertIcon, Stack, Heading, Text, Icon, Flex, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
+import { Center, Spinner, Alert, AlertIcon, Stack, Heading, Icon, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 
 const Monitor = () => {
-  // const [showMetrics, setShowMetrics] = useState(false);
-  {/* <OperationTable setShowMetrics={setShowMetrics} showMetrics={showMetrics} />
-      {showMetrics && <ChartMetrics />} */}
   const { projectId } = useParams();
 
   Cookies.set('projectId', projectId);  // set projectId cookie so last seen project is displayed when clicked on Metrics tab
@@ -65,7 +62,7 @@ const Monitor = () => {
   return (
     <Stack direction='column' p={'20px'}>
       <Stack spacing={4} direction='row' align='center'>
-        <Link to={`/user/${data.project.user.username}`}><Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem' marginTop='5px' /></Link>
+        <Link to={`/user/${data.project.user.username}`}><Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem'/></Link>
         <Heading size='md'>Project Name: {data.project['project_name']}</Heading>
         <Popover>
           <PopoverTrigger>
@@ -79,10 +76,8 @@ const Monitor = () => {
           </PopoverContent>
         </Popover>
       </Stack>
-      <div id="main-monitor">
-        {/* <PlaygroundContainer /> */}
-        <MetricContainer historyLog={data.project['history_log']}/>
-      </div>
+      {/* <PlaygroundContainer /> */}
+      <MetricContainer historyLog={data.project['history_log']}/>
     </Stack>
   );
 };
