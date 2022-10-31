@@ -66,18 +66,6 @@ const Monitor = () => {
   }
 
   return (
-<<<<<<< HEAD
-    <div>
-      <h2>Project Name: {data.project['project_name']}</h2>
-      <a href={`../user/${data.project.user.username}`}><h4>Back to Projects</h4></a>
-      <button onClick={() => {setProjectInfo(!projectInfo);}}>Project Info</button>
-      {projectInfo ? <ProjectInfo projectId={projectId} apiKey={data.project['api_key']}/> : null}
-      <div id="main-monitor">
-        <PlaygroundContainer username={data.project.user.username} projectId={params.projectId}/>
-        <MetricContainer historyLog={data.project['history_log']}/>
-      </div>
-    </div>
-=======
     <Stack direction='column' p={'20px'} id='monitor'>
       <Stack spacing={4} direction='row' align='center'>
         <Link to={`/user/${data.project.user.username}`}><Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem'/></Link>
@@ -97,7 +85,6 @@ const Monitor = () => {
       {/* <PlaygroundContainer /> */}
       <MetricContainer historyLogs={data.project['history_log']}/>
     </Stack>
->>>>>>> dev
   );
 };
 
