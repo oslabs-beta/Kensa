@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Stack, Heading } from "@chakra-ui/react";
-import { FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
+import { Stack, Heading, Center, Box } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Button, Text } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { ThemeContext } from "./App";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import Cookies from 'js-cookie';
 
 type SignUpProps = {
-  verifyjwt: ()=> void,
+  // verifyjwt: ()=> void,
 }
 
 const Signup = (props: SignUpProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { verifyjwt } = props;
+  // const { verifyjwt } = props;
   const navigate = useNavigate();
 
   const CREATE_USER = gql`
@@ -68,9 +70,9 @@ const Signup = (props: SignUpProps) => {
           console.log(verified);
           if(verified.success) {
             Cookies.set('token', verified.token);
-            Cookies.set('username', username)
-            console.log('cookies set in login',Cookies.get('token'))
-            verifyjwt();
+            Cookies.set('username', username);
+            console.log('cookies set in login',Cookies.get('token'));
+            // verifyjwt();
             toProjectPage(username);
           }else {
             alert("Wrong login credentials.");
@@ -79,37 +81,43 @@ const Signup = (props: SignUpProps) => {
     }
   });
 
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   return (
-    <form id="add-project-form" onSubmit={(e: React.SyntheticEvent):void => {
-      e.preventDefault();
-      const {user, pw} = getUserInfo();
-      if(password !== confirmPassword) {
-        alert('Passwords do not match');
-        return;
-      }
-      createUser({variables: {username: user, password: pw}});
-  }}>
-      <Stack spacing={4} direction='column' align='center' maxWidth={400}>
-        <Heading>Register</Heading>
-        <FormControl isRequired>
-          <FormLabel>Username</FormLabel>
-          <Input type='text' onChange={handleUserChange}/>
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel>Password</FormLabel>
-          <Input type='password' onChange={handlePasswordChange}/>
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel>Confirm Password</FormLabel>
-          <Input type='password' onChange={handleConfirmPasswordChange}/>
-        </FormControl>
-        <Stack spacing={4} direction='row' align='center'>
-          <Button type='submit' w={190} colorScheme='facebook'>Submit</Button>
-          <Button w={190} colorScheme='facebook'>Cancel</Button>
+    <Box id='signup'>
+      <form id="add-project-form" onSubmit={(e: React.SyntheticEvent):void => {
+        e.preventDefault();
+        const {user, pw} = getUserInfo();
+        if(password !== confirmPassword) {
+          alert('Passwords do not match');
+          return;
+        }
+        createUser({variables: {username: user, password: pw}});
+      }}>
+        <Stack spacing={10} direction='column' align='center' maxWidth={400}>
+          <Heading>Register</Heading>
+          <FormControl isRequired>
+            <FormLabel>Username</FormLabel>
+            <Input type='text' onChange={handleUserChange}/>
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Password</FormLabel>
+            <Input type='password' onChange={handlePasswordChange}/>
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Confirm Password</FormLabel>
+            <Input type='password' onChange={handleConfirmPasswordChange}/>
+          </FormControl>
+          <Button type='submit' w={400} colorScheme='facebook'>JOIN</Button>
+          {/* <Button w={190} colorScheme='facebook'>Cancel</Button> */}
+          <Link to='/login'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Already have account? Sign in</Text></Link>
         </Stack>
-      </Stack>
-    </form>
+      </form>
+      <Center>
+        <Button size='sm' mt='20px' onClick={toggleTheme} id='toggle-switch'>{theme === 'light' ? 'Dark mode' : 'Light mode'}</Button>
+      </Center>
+    </Box>
   );
 };
-
+    
 export default Signup;

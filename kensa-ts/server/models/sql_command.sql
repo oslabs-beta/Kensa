@@ -14,19 +14,30 @@ CREATE TABLE projects(
 
 CREATE TABLE history_log(
   id serial PRIMARY KEY,
+  operation_name varchar,
   query_string varchar NOT NULL,
-  project_id integer NOT NULL,
+  size integer,
   execution_time integer NOT NULL,
+  project_id integer NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   success boolean NOT NULL
 );
 
-INSERT INTO users(username, password) VALUES(brian, 'a123') RETURNING *;
+CREATE TABLE history_log_dev(
+  id serial PRIMARY KEY,
+  operation_name varchar,
+  query_string varchar NOT NULL,
+  size integer,
+  execution_time integer NOT NULL,
+  project_id integer NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  success boolean NOT NULL
+);
 
-INSERT INTO projects(project_name, api_key, server_url, user_id)
-VALUES('rick and morty', '123456789', 'http://localhost:3000/graphql', 1) RETURNING *;
+'Get Operation request count'
+SELECT COUNT(*) FROM history_log WHERE operation_name='GetAllClients';
 
-INSERT INTO history_log(query_string, project_id, execution_time, success)
-VALUES('first query', 2, 12, true) RETURNING *;
+'Sum Operation execution_time'
+SELECT SUM(execution_time) FROM history_log WHERE operation_name='AddClient';
 
 SELECT h.*, p.project_name, p.api_key, p.user_id FROM history_log AS h INNER JOIN projects AS p ON h.project_id = p.id WHERE p.id = 2;
