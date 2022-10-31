@@ -8,6 +8,9 @@ import Projects from "./Projects";
 import AddProject from "./AddProject";
 import Monitor from "./Monitor";
 import Cookies from 'js-cookie';
+import TeamPage from "./TeamPage";
+import DocsPage from "./DocsPage";
+import WhyKensaPage from "./WhyKensaPage";
 
 import Kensa from './Kensa';
 
@@ -18,33 +21,33 @@ const MainContainer = () => {
   //     handleCurrentUserId(currentUserId);
   // }, [currentUserId]);
 
-    // const handleCurrentUserId = (id:(number | null)):void => {
-    //     setCurrentUserId(id);
-    // };
-    const [verified, setVerified] = React.useState(false);
-    const [username, setUsername] = React.useState(null);
+  // const handleCurrentUserId = (id:(number | null)):void => {
+  //     setCurrentUserId(id);
+  // };
+  const [verified, setVerified] = React.useState(false);
+  const [username, setUsername] = React.useState(null);
 
-    const verifyjwt = async () => {
-        const jwt = await Cookies.get('token');
+  const verifyjwt = async () => {
+    const jwt = await Cookies.get('token');
     
-        console.log('IN verifyJWT', jwt);
+    console.log('IN verifyJWT', jwt);
     
-        await fetch('testjwt', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: jwt })
-        })
-          .then((result) => {
-            console.log(verified)
-            setVerified(true)
-            setUsername(result);
-            console.log(verified)
-          })
-          .catch((err) => console.log(err));
-    }
-    verifyjwt.bind(useState);
+    await fetch('testjwt', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: jwt })
+    })
+      .then((result) => {
+        console.log(verified);
+        setVerified(true);
+        setUsername(result);
+        console.log(verified);
+      })
+      .catch((err) => console.log(err));
+  };
+  verifyjwt.bind(useState);
 
-    return (
+  return (
     <Routes>
       {/* The outer route is used for auth routing later */}
       <Route path="/">
@@ -55,6 +58,9 @@ const MainContainer = () => {
         <Route path="user/:username/new" element={<AddProject />} />
         <Route path="monitor/:projectId" element={<Monitor />} />
         <Route path='/dashboard' element={<Kensa />} />
+        <Route path='/team' element={<TeamPage />} />
+        <Route path='/docs' element={<DocsPage />} />
+        <Route path='/whykensa' element={<WhyKensaPage />} />
       </Route>
     </Routes>
   );

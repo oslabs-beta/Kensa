@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { Link } from 'react-router-dom';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 import { verify } from 'jsonwebtoken';
 import { Stack, Heading, Text } from '@chakra-ui/react';
 import { FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
@@ -56,8 +56,8 @@ const Login = (props: LoginProps) => {
         console.log(verified);
         if(verified.success) {
           Cookies.set('token', verified.token);
-          Cookies.set('username', username)
-          console.log('cookies set in login',Cookies.get('token'))
+          Cookies.set('username', username);
+          console.log('cookies set in login',Cookies.get('token'));
           props.verifyjwt();
           toProjectPage(username);
         }else {
