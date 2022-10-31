@@ -1,13 +1,10 @@
 // import { Table, TableCaption, TableContainer, Tbody, Th, Thead, Tr, Td } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
+import { Query } from '../types/types';
 
-type Data = {
-  id: number;
-  operation_name: string;
-  req_count: number;
-  avg_res_size: number;
-  avg_res_time: number;
-  error_count: number;
+type OperationTableProps = {
+  historyLogs: Array<Query>;
+  setOperation: (op: string) => void;
 }
 
 type SortKeys = "id" | "operation_name" | "req_count" | "avg_res_size" | "avg_res_time" | "error_count"
@@ -15,7 +12,7 @@ type SortKeys = "id" | "operation_name" | "req_count" | "avg_res_size" | "avg_re
 type SortOrder = 'ascn' | 'desc' 
 
 
-const OperationTable = ({ data, setOperation }: any) => {
+const OperationTable = ({ historyLogs, setOperation }: OperationTableProps) => {
   const [sortKey, setSortKey] = useState<SortKeys>('operation_name');
   const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
 
@@ -23,22 +20,54 @@ const OperationTable = ({ data, setOperation }: any) => {
     { key: 'id', label: 'ID' },
     { key: 'operation_name', label: 'Operation Name' },
     { key: 'req_count', label: 'Request Count' },
-    { key: 'avg_res_size', label: 'Avg Response Size' },
+    // { key: 'avg_res_size', label: 'Avg Response Size' },
     { key: 'avg_res_time', label: 'Avg Response Time' },
-    { key: 'error_count', label: 'Error Count' },
+    // { key: 'error_count', label: 'Error Count' },
   ];
+  
+  const totalResTime = historyLogs.reduce((obj: any, op: any) => {
+    const operationName = op.operation_name;
+    if (!obj[operationName]) obj[operationName] = 0;
+    obj[operationName] += op.execution_time;
+
+    return obj;
+  }, {});
+
+  const operationReqCount = historyLogs.reduce((obj: any, op: any) => {
+    const operationName = op.operation_name;
+    if (!obj[operationName]) obj[operationName] = 0;
+    obj[operationName] += 1;
+
+    return obj;
+  }, {});
+
+
+  const operationLog = Object.keys(operationReqCount).map((operationName: string, index: number) => {
+    const reqCount = operationReqCount[operationName];
+    const averageResTime = totalResTime[operationName] / reqCount;
+
+    return {
+      id: index + 1,
+      operation_name: operationName,
+      req_count: reqCount,
+      avg_res_time: Math.round(averageResTime)
+    };
+  });
 
   const sortData = useCallback(() => {
-    if (!sortKey) return data;
-
-    const sortedData = data.sort((a: Data, b: Data) => {
-      return a[sortKey] > b[sortKey] ? 1 : -1;
+    if (!sortKey) return operationLog;
+    
+    const sortedData = operationLog.sort((a: any, b: any) => {
+      if (sortKey === 'operation_name') {
+        return a[sortKey] > b[sortKey] ? 1 : -1;
+      }
+      return Number(a[sortKey]) > Number(b[sortKey]) ? 1 : -1;
     });
-
+    
     if (sortOrder === 'desc') return sortedData.reverse();
      
     return sortedData;
-  }, [data, sortKey, sortOrder]);
+  }, [operationLog, sortKey, sortOrder]);
 
   const changeSort = (key: SortKeys) => {
     setSortOrder(sortOrder === 'ascn' ? 'desc' : 'ascn');
@@ -73,9 +102,9 @@ const OperationTable = ({ data, setOperation }: any) => {
               <td>{op.id}</td>
               <td>{op.operation_name}</td>
               <td>{op.req_count}</td>
-              <td>{op.avg_res_size}</td>
+              {/* <td>{op.avg_res_size}</td> */}
               <td>{op.avg_res_time}</td>
-              <td>{op.error_count}</td>
+              {/* <td>{op.error_count}</td> */}
             </tr>
           );
         })}

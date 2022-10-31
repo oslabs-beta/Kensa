@@ -1,4 +1,4 @@
-import { gql } from "apollo-server"
+import { gql } from "apollo-server";
 
 export const typeDefs = gql`
   type Query {
@@ -48,6 +48,8 @@ export const typeDefs = gql`
 
   type Log {
     id: ID!
+    "Operation name of query"
+    operation_name: String
     "Query submitted to the backend server"
     query_string: String!
     "Project where this query is submitted"
@@ -59,5 +61,5 @@ export const typeDefs = gql`
     "Status of this query"
     success: Boolean!
   }
-`
+`;
 

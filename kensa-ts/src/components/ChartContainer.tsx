@@ -4,8 +4,12 @@ import Chart from './Chart';
 import Query from './Query';
 import QueryTree from './QueryTree';
 
+type ChartContainerProps = {
+  operation: string;
+}
+
 // Render all info related to operation
-const ChartContainer = ({ operation }: any) => {
+const ChartContainer = ({ operation }: ChartContainerProps) => {
   return (
     <Box w='100%' bgColor='lightcyan'>
       {operation}

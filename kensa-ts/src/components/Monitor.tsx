@@ -24,6 +24,8 @@ const Monitor = () => {
           username
         }
         history_log {
+          id
+          operation_name
           query_string
           execution_time
           created_at
@@ -77,7 +79,7 @@ const Monitor = () => {
         </Popover>
       </Stack>
       {/* <PlaygroundContainer /> */}
-      <MetricContainer historyLog={data.project['history_log']}/>
+      <MetricContainer historyLogs={data.project['history_log']}/>
     </Stack>
   );
 };
