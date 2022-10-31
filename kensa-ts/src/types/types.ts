@@ -7,11 +7,11 @@ export type QueryType = {
   success: boolean;
 }
 
-// export type Data = {
-//   id: number;
-//   operation_name: string;
-//   req_count: number;
-//   avg_res_size: number;
-//   avg_res_time: number;
-//   error_count: number;
-// }
+export type OperationLogTable = {
+  id: number;
+  operation_name: string;
+  req_count: number;
+  avg_res_time: number;
+  // avg_res_size: number;
+  // error_count: number;
+}
