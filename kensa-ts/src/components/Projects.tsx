@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import Cookies from 'js-cookie';
 import ProjectCard from "./ProjectCard";
+import { Grid, GridItem } from "@chakra-ui/react";
 import { Spinner, Alert, AlertIcon, Button, Heading, Box, Flex, Spacer, Center } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import AddProject from "./AddProject";
@@ -86,7 +87,7 @@ const Projects = () => {
   return (
     <Box w='100%' h='100%'>
       <Flex m={5} align='center' justify='flex-end'>
-        <Heading>Welcome back, {data.username.username}</Heading>
+        <Heading id='welcome'>Welcome back, {data.username.username}</Heading>
         <Spacer />
         {/* Add Project Button */}
         <Button onClick={onOpen} colorScheme='facebook'>New Project</Button>

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 // import { verify } from 'jsonwebtoken'; // see comment in MainContainer.tsx
-import { Stack, Heading, Text, Box } from '@chakra-ui/react';
+import { Stack, Heading, Text, Box, Center } from '@chakra-ui/react';
 import { FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
+import { ThemeContext } from './App';
 
 type LoginProps = {
     // verifyjwt: () => void;  // see comment in MainContainer.tsx
@@ -15,6 +16,8 @@ type LoginProps = {
 const Login = (props: LoginProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const navigate = useNavigate();
 
@@ -67,7 +70,7 @@ const Login = (props: LoginProps) => {
   }
 
   return (
-    <Box>
+    <Box id='login'>
       <form onSubmit={handleLogin}>
         <Stack spacing={10} direction='column' align='center' maxWidth={400}>
           <Heading>Sign In</Heading>
@@ -83,6 +86,9 @@ const Login = (props: LoginProps) => {
           <Link to='/signup'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Don&#39;t have account? Get started</Text></Link>
         </Stack>
       </form>
+      <Center>
+        <Button size='sm' mt='20px' onClick={toggleTheme} id='toggle-switch'>{theme === 'light' ? 'Dark mode' : 'Light mode'}</Button>
+      </Center>
     </Box>
   );
 };

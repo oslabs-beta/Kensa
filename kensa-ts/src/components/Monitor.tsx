@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import PlaygroundContainer from "./PlaygroundContainer";
@@ -8,9 +8,19 @@ import { Center, Spinner, Alert, AlertIcon, Stack, Heading, Icon, Button, Popove
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
+import { ThemeContext } from './App';
+
+// Style for dark theme
+const darkTheme = {
+  backgroundColor: '#121828',
+  color: 'rgba(255, 255, 255, 0.8)',
+  border: '1px solid #9f9191',
+};
 
 const Monitor = () => {
   const { projectId } = useParams();
+
+  const { theme } = useContext(ThemeContext);
 
   Cookies.set('projectId', projectId);  // set projectId cookie so last seen project is displayed when clicked on Metrics tab
 
@@ -62,7 +72,7 @@ const Monitor = () => {
   }
 
   return (
-    <Stack direction='column' p={'20px'}>
+    <Stack direction='column' p={'20px'} id='monitor'>
       <Stack spacing={4} direction='row' align='center'>
         <Link to={`/user/${data.project.user.username}`}><Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem'/></Link>
         <Heading size='md'>Project Name: {data.project['project_name']}</Heading>
@@ -70,7 +80,7 @@ const Monitor = () => {
           <PopoverTrigger>
             <Button size='xs' colorScheme='facebook'>Info</Button>
           </PopoverTrigger>
-          <PopoverContent>
+          <PopoverContent style={theme === 'dark' && darkTheme}>
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader><Heading size='xs'>Project Info</Heading></PopoverHeader>

@@ -1,29 +1,34 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Stack, Heading } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { Stack, Heading, Center, Box } from "@chakra-ui/react";
 import { FormControl, FormLabel, Input, Button, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-
+import { ThemeContext } from "./App";
 
 const Signup = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <form>
-      <Stack spacing={10} direction='column' align='center' maxWidth={400}>
-        <Heading>Register</Heading>
-        <FormControl isRequired>
-          <FormLabel>Username</FormLabel>
-          <Input type='text' />
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel>Password</FormLabel>
-          <Input type='password' />
-        </FormControl>
-        <Button type='submit' w={400} colorScheme='facebook'>JOIN</Button>
-        {/* <Button w={190} colorScheme='facebook'>Cancel</Button> */}
-        <Link to='/login'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Already have account? Sign in</Text></Link>
-      </Stack>
-    </form>
+    <Box id='signup'>
+      <form >
+        <Stack spacing={10} direction='column' align='center' maxWidth={400}>
+          <Heading>Register</Heading>
+          <FormControl isRequired>
+            <FormLabel>Username</FormLabel>
+            <Input type='text' />
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Password</FormLabel>
+            <Input type='password' />
+          </FormControl>
+          <Button type='submit' w={400} colorScheme='facebook'>JOIN</Button>
+          {/* <Button w={190} colorScheme='facebook'>Cancel</Button> */}
+          <Link to='/login'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Already have account? Sign in</Text></Link>
+        </Stack>
+      </form>
+      <Center>
+        <Button size='sm' mt='20px' onClick={toggleTheme} id='toggle-switch'>{theme === 'light' ? 'Dark mode' : 'Light mode'}</Button>
+      </Center>
+    </Box>
   );
 };
 

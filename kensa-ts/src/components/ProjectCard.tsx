@@ -10,7 +10,7 @@ type ProjectCardPropsType = {
 
 const ProjectCard = (props: ProjectCardPropsType) => {
   return (
-    <Center h='40px' w='500px' bgColor='white' borderRadius='10px' boxShadow={'lg'}>
+    <Center h='40px' w='500px' id='project-card' borderRadius='10px' boxShadow={'lg'}>
       <Link to={`monitor/${props.projectId}`}>
         <Heading size='md'>{props.projectName}</Heading>
       </Link>

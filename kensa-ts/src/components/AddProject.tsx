@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { v4 as uuidv4 } from 'uuid';
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, FormControl, FormLabel, Input, Stack, border } from '@chakra-ui/react';
+import { ThemeContext } from "./App";
 
 type AddProjectType = {
     isOpen: boolean;
     onClose: () => void;
 };
 
+// Style for dark theme
+const darkTheme = {
+  backgroundColor: '#121828',
+  color: 'rgba(255, 255, 255, 0.8)',
+  border: '1px solid #9f9191',
+};
+
 const AddProject = ({ isOpen, onClose }: AddProjectType) => {
   const [projectName, setProjectName] = useState('');
   const [projectUrl, setProjectUrl] = useState('');
+
+  const { theme } = useContext(ThemeContext);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -76,25 +86,25 @@ const AddProject = ({ isOpen, onClose }: AddProjectType) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent id='add-project-modal' style={theme === 'dark' && darkTheme}>
         <ModalHeader>Add New Project</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          <form onSubmit={handleCreateProjectForm}>
-            <Stack spacing={10} direction='column'>
+        <ModalBody  >
+          <form onSubmit={handleCreateProjectForm}  >
+            <Stack spacing={10} direction='column' >
               <FormControl isRequired>
                 <FormLabel>Project Name</FormLabel>
                 <Input type='text' onChange={(e: React.SyntheticEvent): void => {
                   const target = e.target as HTMLInputElement;
                   setProjectName(target.value);
-                }} />
+                }} style={theme === 'dark' && darkTheme}/>
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Default URL</FormLabel>
                 <Input type='text' onChange={(e: React.SyntheticEvent): void => {
                   const target = e.target as HTMLInputElement;
                   setProjectUrl(target.value);
-                }} />
+                }} style={theme === 'dark' && darkTheme} />
               </FormControl>
               <Stack direction='row' justify='end'>
                 <Button colorScheme='facebook' mr={3} onClick={onClose}>Close</Button>

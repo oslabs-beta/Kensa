@@ -11,7 +11,7 @@ type ChartContainerProps = {
 // Render all info related to operation
 const ChartContainer = ({ operation }: ChartContainerProps) => {
   return (
-    <Box w='100%' bgColor='lightcyan'>
+    <Box w='100%' id='chart-container'>
       {operation}
       <Tabs>
         <TabList>

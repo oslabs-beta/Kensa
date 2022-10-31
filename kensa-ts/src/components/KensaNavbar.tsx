@@ -1,22 +1,36 @@
-import React from 'react';
-import { Stack, InputGroup, InputLeftElement, Input, Avatar, Icon, Heading, Text, Button } from '@chakra-ui/react';
+import React, { useContext } from 'react';
+import { Stack, InputGroup, InputLeftElement, Input, Avatar, Icon, Heading, Text, Box, Center, color } from '@chakra-ui/react';
 import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
+import { ThemeContext } from './App';
+import { BsSun, BsMoon } from 'react-icons/bs';
+
+const themeHover = {
+  cursor: 'pointer',
+  bgColor: '#b3cccc',
+  borderRadius: '10px',
+};
 
 const KensaNavbar = () => {
   const { username } = useParams();
 
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   return (
-    <Stack direction='row' spacing={3} bgColor='white' h='8%' w='100%' align='center' p='20px'>
+    <Stack direction='row' spacing={3} bgColor='white' h='8%' w='100%' align='center' p='20px' id='kensa-navbar'>
       <InputGroup>
         <InputLeftElement 
           pointerEvents='none'
           // eslint-disable-next-line react/no-children-prop
-          children={<Icon as={BsSearch} />}
+          children={<Icon as={BsSearch} id='search-icon'/>}
         />
         <Input type='text' placeholder='Search' />
       </InputGroup>
+
+      <Center onClick={toggleTheme} w='40px' h='40px' _hover={themeHover}>
+        {theme === 'light' ? <BsSun /> : <BsMoon color='white'/>}
+      </Center>
 
       {/* Displpay username and logout button when click on Avatar */}
       <Popover placement='bottom-end'>

@@ -9,9 +9,8 @@ const Kensa = () => {
   return (
     <Flex h='100vh' w='100vw'>
       <Sidebar />
-      <Flex flex='5' bgColor='#f9fafc' direction='column'>
+      <Flex flex='5' direction='column'>
         <KensaNavbar />
-        <Divider />
         <Outlet />
       </Flex>
     </Flex>

@@ -55,32 +55,109 @@ body {
 
 // Table 
 table, td {
-    border: 1px solid black;
-    text-align: center;
-    width: 600px;
-    thead {
-        background-color: #4e67af;
-        color: white;
-        font-weight: bold;
-    }
-    tr:nth-child(even) {
-        background-color: #d3d3d3;
-    }
-    tr {
-        cursor: pointer;
-        font-weight: 600;
-    }
-    tbody > tr:hover {
-        background-color: rgb(190, 180, 180);
-    }
+	border: 1px solid black;
+	text-align: center;
+	width: 600px;
+	thead {
+		background-color: #4e67af;
+		color: white;
+		font-weight: bold;
+	}
+	tr:nth-child(even) {
+		background-color: #d3d3d3;
+	}
+	tr {
+		cursor: pointer;
+		font-weight: 600;
+	}
+	tbody > tr:hover {
+		background-color: rgb(190, 180, 180);
+	}
 }
 
 .sort-btn {
-    cursor: pointer;
-    margin-left: 5px;
-    transition: transform 0.05s ease-out;
+	cursor: pointer;
+	margin-left: 5px;
+	transition: transform 0.05s ease-out;
 }
 
 .sort-reverse {
-    transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+// LightMode
+#light {
+	background-color: white;
+
+	#logo {
+		border-bottom: 1px solid #ebe4e5;
+	}
+
+	#side-bar {
+		background-color: #f4f6f8;
+		color: black;
+		border-right: 1px solid #ebe4e5;
+		.sidebar-text:hover {
+			cursor: pointer;
+			background-color: #e6e6ff;
+		}
+	}
+}
+
+// Dark Mode
+#dark {
+	background-color: #121828;
+
+	#landing-page, #login, #signup {
+		color: white;
+	}
+
+	#toggle-switch {
+		color: black;
+	}
+
+	#logo {
+		border-bottom: 1px solid #3a3232;
+	}
+
+	#side-bar {
+		color: rgba(255, 255, 255, 0.8);
+		border-right: 1px solid #3a3232;
+		.sidebar-text:hover {
+			cursor: pointer;
+			background-color: #2d2d32;
+		}
+	}
+	
+	#kensa-navbar {
+		background-color: #121828;
+		border-bottom: 1px solid #3a3232;
+		
+		#search-icon {
+			color: #9f9191;
+		}
+		input {
+			border: 1px solid #9f9191;
+			color: white;
+		}
+	}
+
+	#monitor, #welcome {
+		color: rgba(255, 255, 255, 0.8);
+	}
+
+	#project-card {
+		color: rgba(255, 255, 255, 0.8);
+		border: 1px solid #9f9191;
+	}
+
+	table{
+		td {
+			border: 1px solid #5a5353;
+		}
+		tr {
+			background-color: #121828;
+			color: rgba(255, 255, 255, 0.8);
+		}
+	}
 }
