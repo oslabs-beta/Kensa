@@ -1,6 +1,7 @@
-import * as React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useMutation, gql } from "@apollo/client";
+import { Button, Flex, Text } from "@chakra-ui/react";
 
 type ProjectInfoType = {
     projectId: string,
@@ -8,39 +9,42 @@ type ProjectInfoType = {
 }
 
 const ProjectInfo = (props: ProjectInfoType) => {
-    let navigate = useNavigate();
-    // this mutation string deletes a project in the Kensa's database based on project id
-    const DELETE_PROJECT = gql`
-        mutation DELETE_PROJECT($deleteProjectId: ID!) {
-            deleteProject(id: $deleteProjectId) {
-                user {
-                    username
-                }
-            }
-        }
-    `;
+  const navigate = useNavigate();
 
-    // custom hook for creating new project using the ADD_PROJECT mustation string above
-    const [ deleteProject, {data: mutationData} ] = useMutation(DELETE_PROJECT, {
-        onCompleted: () => {
-            // console.log(mutationData);
-            const user = mutationData.deleteProject.user.username;
-            const path = `../user/${user}`;
-            navigate(path);
-        }
-    });
+  // this mutation string deletes a project in the Kensa's database based on project id
+  const DELETE_PROJECT = gql`
+		mutation DeleteProject ($deleteProjectId: ID!) {
+			deleteProject(id: $deleteProjectId) {
+				user {
+						username
+				}
+			}
+		}
+	`;
 
-    return (
-        <div id="project-info">
-            <h3>Project Info</h3>
-            <div>
-                <h4>Project API: <span>{props.apiKey}</span></h4>
-                <button id="delete-project" onClick={():void => {
-                deleteProject({variables: { deleteProjectId: props.projectId }});
-                }}>Delete Project</button>
-            </div>
-        </div>
-    );
+  // custom hook for creating new project using the ADD_PROJECT mustation string above
+  const [deleteProject, { data: mutationData }] = useMutation(DELETE_PROJECT, {
+    onCompleted: () => {
+      const user = mutationData.deleteProject.user.username;
+      const path = `/user/${user}`;
+      navigate(path);
+    }
+  });
+
+  return (
+    <Flex direction='column' h='150px' justifyContent='space-between'>
+      <Text fontWeight={'bold'}>Project API:</Text> {props.apiKey}
+      <Button colorScheme='facebook' onClick={(): void => {
+        deleteProject({
+          variables: {
+            deleteProjectId: props.projectId
+          }
+        });
+      }}>
+				Delete Project
+      </Button>
+    </Flex>
+  );
 };
 
 export default ProjectInfo;
