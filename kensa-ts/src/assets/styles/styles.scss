@@ -54,26 +54,26 @@ body {
 }
 
 // Table 
-// table, td {
-//     border: 1px solid black;
-//     text-align: center;
-//     width: 200px;
-//     thead {
-//         background-color: #4e67af;
-//         color: white;
-//         font-weight: bold;
-//     }
-//     tr:nth-child(even) {
-//         background-color: #d3d3d3;
-//     }
-//     tr {
-//         cursor: pointer;
-//         font-weight: 600;
-//     }
-//     tbody > tr:hover {
-//         background-color: rgb(190, 180, 180);
-//     }
-// }
+table, td {
+    border: 1px solid black;
+    text-align: center;
+    width: 600px;
+    thead {
+        background-color: #4e67af;
+        color: white;
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #d3d3d3;
+    }
+    tr {
+        cursor: pointer;
+        font-weight: 600;
+    }
+    tbody > tr:hover {
+        background-color: rgb(190, 180, 180);
+    }
+}
 
 .sort-btn {
     cursor: pointer;

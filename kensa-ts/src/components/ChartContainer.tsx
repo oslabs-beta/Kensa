@@ -1,8 +1,11 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import React from 'react';
+import Chart from './Chart';
+import Query from './Query';
+import QueryTree from './QueryTree';
 
 // Render all info related to operation
-const ChartMetrics = ({ operation }: any) => {
+const ChartContainer = ({ operation }: any) => {
   return (
     <Box w='100%' bgColor='lightcyan'>
       {operation}
@@ -15,13 +18,13 @@ const ChartMetrics = ({ operation }: any) => {
 
         <TabPanels>
           <TabPanel>
-            Chart
+            <Chart />
           </TabPanel>
           <TabPanel>
-            Query
+            <Query />
           </TabPanel>
           <TabPanel>
-            Visualize
+            <QueryTree />
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -29,4 +32,4 @@ const ChartMetrics = ({ operation }: any) => {
   );
 };
 
-export default ChartMetrics;
+export default ChartContainer;

@@ -1,4 +1,4 @@
-import { Table, TableCaption, TableContainer, Tbody, Th, Thead, Tr, Td } from '@chakra-ui/react';
+// import { Table, TableCaption, TableContainer, Tbody, Th, Thead, Tr, Td } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
 
 type Data = {
@@ -25,7 +25,7 @@ const OperationTable = ({ data, setOperation }: any) => {
     { key: 'req_count', label: 'Request Count' },
     { key: 'avg_res_size', label: 'Avg Response Size' },
     { key: 'avg_res_time', label: 'Avg Response Time' },
-    { key: 'error_count', label: 'Error' },
+    { key: 'error_count', label: 'Error Count' },
   ];
 
   const sortData = useCallback(() => {
@@ -50,41 +50,76 @@ const OperationTable = ({ data, setOperation }: any) => {
   };
 
   return (
-    <TableContainer border='1px' borderColor='lightgray' borderRadius='5px'>
-      <Table variant='striped' size='sm'>
-        <TableCaption fontWeight='bold'>GraphQL Operation</TableCaption>
-        <Thead>
-          <Tr>
-            {headers.map(row => {
-              return (
-                <Th key={row.key} bgColor='#4e67af' color='white' h='40px'>
-                  {row.label}
-                  <button onClick={() => changeSort(row.key)} className={`${
-                    sortKey === row.key && sortOrder === 'desc' ? 'sort-btn sort-reverse' : 'sort-btn'
-                  }`}>▲</button>
-                </Th>
-              );
-            })}
-          </Tr>
-        </Thead>
-
-        <Tbody>
-          {sortData().map((op: any) => {
+    <table>
+      <thead>
+        <tr>
+          {headers.map(row => {
             return (
-              <Tr key={op.id} onClick={() => handleShowMetrics(op)}>
-                <Td>{op.id}</Td>
-                <Td>{op.operation_name}</Td>
-                <Td>{op.req_count}</Td>
-                <Td>{op.avg_res_size}</Td>
-                <Td>{op.avg_res_time}</Td>
-                <Td>{op.error_count}</Td>
-              </Tr>
+              <td key={row.key}>
+                {row.label}
+                <button onClick={() => changeSort(row.key)} className={`${
+                  sortKey === row.key && sortOrder === 'desc' ? 'sort-btn sort-reverse' : 'sort-btn'
+                }`}>▲</button>
+              </td>
             );
           })}
-        </Tbody>
-      </Table>
-    </TableContainer>
+        </tr>
+      </thead>
+
+      <tbody>
+        {sortData().map((op: any) => {
+          return (
+            <tr key={op.id} onClick={() => handleShowMetrics(op)}>
+              <td>{op.id}</td>
+              <td>{op.operation_name}</td>
+              <td>{op.req_count}</td>
+              <td>{op.avg_res_size}</td>
+              <td>{op.avg_res_time}</td>
+              <td>{op.error_count}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
   );
+
+  // Chakra UI (table is too big for 13' screen)
+  // return (
+  //   <TableContainer border='1px' borderColor='lightgray' borderRadius='5px'>
+  //     <Table variant='striped' size='sm'>
+  //       <TableCaption fontWeight='bold'>GraphQL Operation</TableCaption>
+  //       <Thead>
+  //         <Tr>
+  //           {headers.map(row => {
+  //             return (
+  //               <Th key={row.key} bgColor='#4e67af' color='white' h='40px'>
+  //                 {row.label}
+  //                 <button onClick={() => changeSort(row.key)} className={`${
+  //                   sortKey === row.key && sortOrder === 'desc' ? 'sort-btn sort-reverse' : 'sort-btn'
+  //                 }`}>▲</button>
+  //               </Th>
+  //             );
+  //           })}
+  //         </Tr>
+  //       </Thead>
+
+  //       <Tbody>
+  //         {sortData().map((op: any) => {
+  //           return (
+  //             <Tr key={op.id} onClick={() => handleShowMetrics(op)}>
+  //               <Td>{op.id}</Td>
+  //               <Td>{op.operation_name}</Td>
+  //               <Td>{op.req_count}</Td>
+  //               <Td>{op.avg_res_size}</Td>
+  //               <Td>{op.avg_res_time}</Td>
+  //               <Td>{op.error_count}</Td>
+  //             </Tr>
+  //           );
+  //         })}
+  //       </Tbody>
+  //     </Table>
+  //   </TableContainer>
+  // );
 };
 
 export default OperationTable;
