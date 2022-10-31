@@ -1,9 +1,11 @@
 // import { Table, TableCaption, TableContainer, Tbody, Th, Thead, Tr, Td } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
-import { Query } from '../types/types';
+import { QueryType } from '../types/types';
+import { randomBgColor } from '../util/utilFunctions';
+
 
 type OperationTableProps = {
-  historyLogs: Array<Query>;
+  historyLogs: Array<QueryType>;
   setOperation: (op: string) => void;
 }
 
@@ -12,8 +14,8 @@ type SortKeys = "id" | "operation_name" | "req_count" | "avg_res_size" | "avg_re
 type SortOrder = 'ascn' | 'desc' 
 
 
-const OperationTable = ({ historyLogs, setOperation }: OperationTableProps) => {
-  const [sortKey, setSortKey] = useState<SortKeys>('operation_name');
+const OperationTable = ({ historyLogs, setOperation, metricsData, setMetricsData }: any) => {
+  const [sortKey, setSortKey] = useState<SortKeys>('id');
   const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
 
   const headers: { key: SortKeys, label: String }[] = [
@@ -76,6 +78,15 @@ const OperationTable = ({ historyLogs, setOperation }: OperationTableProps) => {
 
   const handleShowMetrics = (op: any) => {
     setOperation(op.operation_name);
+    setMetricsData({
+      ...metricsData,
+      labels: historyLogs.filter((operation: QueryType) => operation.operation_name === op.operation_name).map((data: any) => data.created_at),
+      datasets: [{
+        label: 'Execution Time',
+        data: historyLogs.filter((operation: QueryType) => operation.operation_name === op.operation_name).map((data: any) => data.execution_time),
+        backgroundColor: historyLogs.filter((operation: QueryType) => operation.operation_name === op.operation_name).map((data: any) => randomBgColor())
+      }]
+    });
   };
 
   return (

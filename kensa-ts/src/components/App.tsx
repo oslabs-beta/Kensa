@@ -19,7 +19,7 @@ function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <Box bgColor='rgb(249, 250, 251)' id={theme}>
-        <Header />
+        {/* <Header /> */}
         {/* Main Routes Container */}
         <MainContainer />
       </Box>

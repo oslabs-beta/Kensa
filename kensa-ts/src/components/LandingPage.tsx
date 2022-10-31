@@ -2,13 +2,14 @@ import { Heading } from "@chakra-ui/react";
 import * as React from "react";
 import { Text, Image, Box } from "@chakra-ui/react";
 import { Link as RouterLink} from "react-router-dom";
+import Header from "./Header";
 
 
 const LandingPage = ()=> {
   return (
     <>
       <Box bgImage={require('../assets/bg3.png')} filter="blur(0px)" opacity={.8} h='calc(100vh)' objectFit="cover" w='100%'>
-      
+        <Header />
         <Text color= "#FDEEDC" fontSize='75px' fontFamily ="Arial Black" lineHeight="20px" letterSpacing={"80px"} fontWeight="900" zIndex="100" pt="300px" pl="75px">
            KENSA
         </Text>

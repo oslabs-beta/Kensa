@@ -3,13 +3,20 @@ import React from 'react';
 import Chart from './Chart';
 import Query from './Query';
 import QueryTree from './QueryTree';
+import { QueryType } from '../types/types';
 
 type ChartContainerProps = {
   operation: string;
+  historyLogs: Array<QueryType>
 }
 
 // Render all info related to operation
-const ChartContainer = ({ operation }: ChartContainerProps) => {
+const ChartContainer = ({ operation, historyLogs, metricsData }: any) => {
+  // console.log('chart container', historyLogs);
+
+  // Total request count of this operation
+  // const operationReqCount = operationMetrics.length;
+
   return (
     <Box w='100%' id='chart-container'>
       {operation}
@@ -22,7 +29,7 @@ const ChartContainer = ({ operation }: ChartContainerProps) => {
 
         <TabPanels>
           <TabPanel>
-            <Chart />
+            <Chart historyLogs={historyLogs} operation={operation} metricsData={metricsData} />
           </TabPanel>
           <TabPanel>
             <Query />

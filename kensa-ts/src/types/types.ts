@@ -1,4 +1,4 @@
-export type Query = {
+export type QueryType = {
   id: string;
   operation_name: string;
   query_string: string;
