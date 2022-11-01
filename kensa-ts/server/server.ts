@@ -19,7 +19,7 @@ import jwt from 'jsonwebtoken';
 
 async function startApolloServer() {
   const app = express();
-  const PORT = process.env.PORT || 3000
+  const PORT = process.env.PORT || 3000;
 
   const apolloServer = new ApolloServer({
     typeDefs,
@@ -37,9 +37,9 @@ async function startApolloServer() {
         req,
         res,
         db,
-      }
+      };
     },
-  }))
+  }));
 
   app.use(express.json());
   app.use(cookieParser());
@@ -71,7 +71,7 @@ async function startApolloServer() {
 
   // global error handler
 
-  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`))
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
 }
 
