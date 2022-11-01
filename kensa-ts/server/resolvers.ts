@@ -39,7 +39,12 @@ export const resolvers = {
     deleteProject: async (_: any, { id }: any, { db }: any) => {
       const result = await db.query('DELETE FROM projects WHERE id = $1 RETURNING *;', [id]);
       return result.rows[0];
-    }
+    },
+    createUser: async (_: any, { username, password }: any, { db }: any) => {
+      const result = await db.query('INSERT INTO users(username, password) VALUES($1, $2) RETURNING *;', [username, password]);
+      return result.rows[0];
+    },
+
   },
   User: {
     projects: async ({ id: user_id }: any, __: any, { db }: any, info: any) => {

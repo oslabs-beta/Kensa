@@ -3,16 +3,24 @@ import { useQuery, gql } from "@apollo/client";
 import CodeMirror from '@uiw/react-codemirror';
 import Cookies from 'js-cookie';
 import { useNavigate, useParams } from "react-router-dom";
+import internal from "stream";
 
-const PlaygroundContainer = () => {
+type PlaygroundContainerProps = {
+    username: string,
+    projectId: string,
+}
+
+const PlaygroundContainer = (props: PlaygroundContainerProps) => {
   // const [query, setQuery] = useState();
   let query: any;
-  const {username} = useParams();
+  const {username} = props;
+  const {projectId} = useParams()
+  console.log('params in playground', projectId)
   // logic check - check for token, make sure they have the token with decode
   const token = Cookies.get('token');
   const userInCookie = Cookies.get('username');
   console.log('username in playground ', username, userInCookie);
-  if (!token || userInCookie !== username) {
+  if (!token || userInCookie !== username || projectId !== props.projectId) {
     return (
       <div>Please login. You do not have access to this page</div>
     );
