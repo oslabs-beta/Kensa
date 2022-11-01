@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import { QueryType, OperationLogTable } from '../types/types';
 import { randomBgColor } from '../util/utilFunctions';
 import { ChartContext } from './MetricContainer';
+import { format } from 'date-fns';
 
 // type OperationTableProps = {
 //   historyLogs: Array<QueryType>;
@@ -87,18 +88,32 @@ const OperationTable = () => {
   const handleShowMetrics = (query: QueryType): void => {
     setOperation(query.operation_name);
     
+    // Metrics Data for chart
+    // x-axis is time
+    // y-axis is execution_time
     // Filter to get only the current operation in state
-    const operationMetrics: string[] = historyLogs.filter((log: QueryType) => log.operation_name === query.operation_name);
-    
+    const operationMetrics: QueryType[] = historyLogs.filter((log: QueryType) => log.operation_name === query.operation_name);
+
+    // Construct data to display in chart
+    const dataSet = operationMetrics.map((query: QueryType) => {
+      const queryDate = new Date(parseInt(query['created_at']));
+      const formatDate = format(queryDate, 'MMM dd yyyy HH:mm:ss');
+      return {
+        x: formatDate,
+        y: query.execution_time
+      };
+    });
+
     // update state for metricsData to display chart accordingly
     setMetricsData({
-      ...metricsData,
-      labels: operationMetrics.map((data: any) => data.created_at),
       datasets: [{
         label: 'Execution Time',
-        data: operationMetrics.map((data: any) => data.execution_time),
-        backgroundColor: operationMetrics.map((data: any) => randomBgColor())
-      }]
+        data: dataSet,
+        backgroundColor: operationMetrics.map((data: any) => randomBgColor()),
+        borderWidth: 1,
+        barThickness: 30,
+      }],
+      
     });
   };
 
