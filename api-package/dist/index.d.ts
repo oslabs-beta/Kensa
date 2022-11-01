@@ -5,7 +5,7 @@ export declare const testPlugin: {
         executionDidStart(executionRequestContext: any): Promise<{
             willResolveField({ source, args, contextValue, info }: any): (error: any, result: any) => void;
         }>;
-        didResolveOperation(context: any): Promise<void>;
+        didEncounterErrors(): Promise<void>;
         willSendResponse(context: any): Promise<void>;
     }>;
 };

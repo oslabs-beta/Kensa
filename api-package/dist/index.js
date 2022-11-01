@@ -25,9 +25,9 @@ const insertMetrics = (response, projectId) => __awaiter(void 0, void 0, void 0,
 });
 exports.insertMetrics = insertMetrics;
 exports.testPlugin = {
+    // Fires whenever a GraphQL request is received from a client. This plugin runs after whatever happens in ApolloServer's context
     requestDidStart(requestContext) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Fires whenever a GraphQL request is received from a client. This plugin runs after whatever happens in ApolloServer's context
             // IntrospectionQuery keeps running in GraphQL server. Use this condition to stop context from logging for IntrospectionQuery
             if (requestContext.request.operationName === 'IntrospectionQuery')
                 return;
@@ -36,6 +36,7 @@ exports.testPlugin = {
             // console.log(`Request variable! Variable: ${requestContext.request.variables}`)
             const requestStart = Date.now();
             let op;
+            let success = true;
             return {
                 executionDidStart(executionRequestContext) {
                     return __awaiter(this, void 0, void 0, function* () {
@@ -56,30 +57,30 @@ exports.testPlugin = {
                         };
                     });
                 },
-                didResolveOperation(context) {
+                didEncounterErrors() {
                     return __awaiter(this, void 0, void 0, function* () {
-                        // context ==> { logger, cache, schema, request, response, contextValue, metrics, overallCachePolicy, queryHash, source, document }
-                        op = context.operationName;
+                        success = false;
                     });
                 },
                 willSendResponse(context) {
                     return __awaiter(this, void 0, void 0, function* () {
-                        // console.log(context.response.body.singleResult) // response data
                         const receiveResponse = Date.now();
                         const elapsed = receiveResponse - requestStart;
                         console.log(`operation=${op} duration=${elapsed}ms`);
+                        op = context.request.operationName;
+                        console.log('size', context);
                         // Getting projectId from context object
                         const { id } = context.contextValue.projectId;
                         const query_string = context.request.query;
-                        // construct a fake response for now
-                        const fakeResponse = {
+                        // construct an object with metrics
+                        const metricBody = {
                             query_string: query_string,
                             execution_time: elapsed,
-                            success: true,
+                            success: success,
                             operation_name: op
                         };
                         // This insert metrics to Kensa database
-                        yield (0, exports.insertMetrics)(fakeResponse, id);
+                        yield (0, exports.insertMetrics)(metricBody, id);
                     });
                 }
             };

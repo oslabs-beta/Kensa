@@ -15,7 +15,7 @@ async function startApolloServer() {
   const app = express()
   const PORT = process.env.PORT || 3000
 
-  // Move plugins to npm package later
+  // Keep this plugin here for now for testing purposes
   // const pluginOne = {
   //   // Fires whenever a GraphQL request is received from a client. This plugin runs after whatever happens in ApolloServer's context
   //   async requestDidStart(requestContext: any) {
@@ -46,20 +46,15 @@ async function startApolloServer() {
   //           }
   //         }
   //       },
-  //       async didResolveOperation(context: any) {
-  //         // context ==> { logger, cache, schema, request, response, contextValue, metrics, overallCachePolicy, queryHash, source, document }
-  //         op = context.operationName
-  //       },
   //       async didEncounterErrors() {
-  //         const receiveResponse = Date.now();
-  //         const elapsed = receiveResponse - requestStart;
-  //         console.log('error took:', elapsed, 'ms');
+  //         success = false;
   //       },
   //       async willSendResponse(context: any) {
-  //         // console.log(context.response.body.singleResult) // response data
   //         const receiveResponse = Date.now()
   //         const elapsed = receiveResponse - requestStart;
-  //         console.log(`operation=${op} duration=${elapsed}ms`)
+  //         console.log(`operation=${op} duration=${elapsed}ms`);
+  //         op = context.request.operationName;
+  //         console.log('size', context)
 
   //         // Getting projectId from context object
   //         const { id } = context.contextValue.projectId;
@@ -82,7 +77,6 @@ async function startApolloServer() {
     typeDefs,
     resolvers,
     plugins: [testPlugin]
-    // plugins: [pluginOne]
   })
 
   await apolloServer.start();
