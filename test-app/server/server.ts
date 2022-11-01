@@ -62,7 +62,8 @@ async function startApolloServer() {
           const fakeResponse = {
             query_string: query_string,
             execution_time: elapsed,
-            success: true
+            success: true,
+            operation_name: op
           }
           // This insert metrics to Kensa database
           await insertMetrics(fakeResponse, id);
@@ -86,7 +87,7 @@ async function startApolloServer() {
       console.log('inside context ApolloServer test-app')
       console.log(req.body)
       // insert your apiKey here
-      const apiKey = 'a1b2c3d4e5f6g7h8i9j10';
+      const apiKey = 'bcdf2ec0-47ae-400b-8aeb-a4a78daf2f05';
       // Calling npm package to get projectId
       const projectId = await getProjectId(apiKey)
       return {
