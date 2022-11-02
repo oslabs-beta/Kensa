@@ -28,7 +28,7 @@ const OperationTable = () => {
     { key: 'req_count', label: 'Request Count' },
     // { key: 'avg_res_size', label: 'Avg Response Size' },
     { key: 'avg_res_time', label: 'Avg Response Time' },
-    // { key: 'error_count', label: 'Error Count' },
+    { key: 'error_count', label: 'Error Count' },
   ];
   
   // Total execution time of each operation
@@ -49,6 +49,19 @@ const OperationTable = () => {
     return obj;
   }, {});
 
+  // Total error count of each operation
+  const operationErrorCount = historyLogs.reduce((obj: any, query: QueryType) => {
+    const operationName = query.operation_name;
+    if (!obj[operationName]) obj[operationName] = 0;
+    if (query.success === false) {
+      obj[operationName]++;
+    }
+
+    return obj;
+  }, {});
+
+  // console.log(operationErrorCount);
+
   // An array of all operation with total request counts and average response time
   const operationLog: OperationLogTable[] = Object.keys(operationReqCount).map((operationName: string, index: number) => {
     const reqCount = operationReqCount[operationName];
@@ -58,7 +71,8 @@ const OperationTable = () => {
       id: index + 1,
       operation_name: operationName,
       req_count: reqCount,
-      avg_res_time: Math.round(averageResTime)
+      avg_res_time: Math.round(averageResTime),
+      error_count: operationErrorCount[operationName]
     };
   });
 
@@ -107,7 +121,7 @@ const OperationTable = () => {
     // update state for metricsData to display chart accordingly
     setMetricsData({
       datasets: [{
-        label: 'Execution Time',
+        label: 'Response Time',
         data: dataSet,
         backgroundColor: operationMetrics.map((data: any) => randomBgColor()),
         borderWidth: 1,
@@ -143,7 +157,7 @@ const OperationTable = () => {
               <td>{query.req_count}</td>
               {/* <td>{query.avg_res_size}</td> */}
               <td>{query.avg_res_time}</td>
-              {/* <td>{query.error_count}</td> */}
+              <td>{query.error_count}</td>
             </tr>
           );
         })}

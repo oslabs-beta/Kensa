@@ -52,6 +52,7 @@ const Monitor = () => {
     // pollInterval: 10000,  // polling every 10 seconds
   });
 
+  
   if (loading) {
     return (
       <Center w='100%' h='100%'>
@@ -59,7 +60,7 @@ const Monitor = () => {
       </Center>
     );
   }
-
+  
   if (error) {
     return (
       <Center w='100%' h='100%'>

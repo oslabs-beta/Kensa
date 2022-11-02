@@ -33,7 +33,7 @@ const Chart = () => {
   
   return (
     <>
-      <Heading size='md'>{operation}</Heading>
+      <Heading size='md' marginBottom='20px'>{operation}</Heading>
       <Bar data={metricsData} options={chartConfig}/>
     </>
   );
