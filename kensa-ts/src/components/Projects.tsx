@@ -35,8 +35,8 @@ const Projects = () => {
   };
 
   const GET_USER_PROJECT = gql`
-    query GetUserProject {
-      username(username: "${username}") {
+    query GetUserProject($userName: String!) {
+      username(username: $userName) {
         username
         projects {
           id
@@ -47,7 +47,11 @@ const Projects = () => {
     }
   `;
 
-  const { error, data, loading } = useQuery(GET_USER_PROJECT);
+  const { error, data, loading } = useQuery(GET_USER_PROJECT, {
+    variables: {
+      userName: username
+    }
+  });
   
   if (loading) {
     return (
@@ -77,7 +81,7 @@ const Projects = () => {
     const apiKey = projects[i]["api_key"];
 
     projectCards.push(
-      <ProjectCard projectName={projectName} apiKey={apiKey} projectId={projectId} />
+      <ProjectCard key={i} projectName={projectName} apiKey={apiKey} projectId={projectId} />
       // <GridItem key={i}>
       //   <ProjectCard projectName={projectName} apiKey={apiKey} projectId={projectId} />
       // </GridItem>

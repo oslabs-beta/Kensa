@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Outlet } from "react-router-dom";
+import React from 'react';
+import { Routes, Route } from "react-router-dom";
 import { Center } from '@chakra-ui/react';
 import LandingPage from './LandingPage';
 import Signup from "./Signup";
@@ -9,9 +9,9 @@ import Cookies from 'js-cookie';
 import TeamPage from "./TeamPage";
 import DocsPage from "./DocsPage";
 import WhyKensaPage from "./WhyKensaPage";
-
 import Kensa from './Kensa';
 import Projects from './Projects';
+import Hero from './Hero';
 
 const MainContainer = () => {
   // const [currentUserId, setCurrentUserId] = React.useState(null);
@@ -59,16 +59,22 @@ const MainContainer = () => {
       <Routes>
         {/* The outer route is used for auth routing later */}
         <Route path='/'>
-          <Route path='/' element={<LandingPage />} />
+
+          <Route path='/' element={<LandingPage />}>
+            <Route path='/' element={<Hero />} />
+            <Route path='/team' element={<TeamPage />} />
+            <Route path='/docs' element={<DocsPage />} />
+            <Route path='/whykensa' element={<WhyKensaPage />} />
+          </Route>
+
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+
           <Route path='/user/:username' element={<Kensa />}>
             <Route path='' element={<Projects />} />
             <Route path='monitor/:projectId' element={<Monitor />} />
           </Route>
-          <Route path='/team' element={<TeamPage />} />
-          <Route path='/docs' element={<DocsPage />} />
-          <Route path='/whykensa' element={<WhyKensaPage />} />
+
         </Route>
       </Routes>
     </Center>

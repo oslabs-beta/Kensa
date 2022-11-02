@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import PlaygroundContainer from "./PlaygroundContainer";
 import MetricContainer from "./MetricContainer";
 import ProjectInfo from './ProjectInfo';
-import { Center, Spinner, Alert, AlertIcon, Stack, Heading, Icon, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
+import { Box, Center, Spinner, Alert, AlertIcon, Stack, Heading, Icon, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
+import { TbRefresh } from 'react-icons/tb';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from './App';
@@ -17,6 +18,11 @@ const Monitor = () => {
   const { theme } = useContext(ThemeContext);
 
   Cookies.set('projectId', projectId);  // set projectId cookie so last seen project is displayed when clicked on Metrics tab
+
+  // Refetch data when user click back to the project/Metrics Tab on the sidebar
+  useEffect(() => {
+    refetch({ projectId: projectId });
+  }, []);
 
   const GET_PROJECT_DATA = gql`
     query GetProjectData($projectId: ID!) {
@@ -39,11 +45,11 @@ const Monitor = () => {
     }
 `;
 
-  const { loading, error, data } = useQuery(GET_PROJECT_DATA, {
+  const { loading, error, data, refetch } = useQuery(GET_PROJECT_DATA, {
     variables: {
       projectId: projectId
-    }
-    // pollInterval: 5000,
+    },
+    // pollInterval: 10000,  // polling every 10 seconds
   });
 
   if (loading) {
@@ -81,6 +87,7 @@ const Monitor = () => {
             <PopoverBody><ProjectInfo projectId={projectId} apiKey={data.project['api_key']} /></PopoverBody>
           </PopoverContent>
         </Popover>
+        <Box onClick={() => refetch({ projectId: projectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'><TbRefresh /></Box>
       </Stack>
       {/* <PlaygroundContainer /> */}
       <MetricContainer historyLogs={data.project['history_log']}/>

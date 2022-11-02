@@ -1,19 +1,13 @@
 import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from '@apollo/server/express4'
-import { ApolloServerPlugin } from "apollo-server-plugin-base";
-import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import { GraphQLRequestContext } from "apollo-server-types";
+import { expressMiddleware } from '@apollo/server/express4';
 import express from 'express';
 import cors from 'cors';
-import http from 'http';
 import bodyParser from 'body-parser';
 import path from 'path';
-
 import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import db from "./models/db";
 import { userController } from './controllers/userController';
-import { appendFile } from "fs";
 import cookieParser from "cookie-parser";
 import jwt from 'jsonwebtoken';
 
@@ -24,15 +18,13 @@ async function startApolloServer() {
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
-  })
+  });
 
   await apolloServer.start();
 
   // GraphQL logic
   app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(apolloServer, {
     context: async ({req, res}: any) => {
-      // check for req.cookies.token
-      // console.log('in graphQL context', req.headers) 
       return {
         req,
         res,
