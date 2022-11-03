@@ -10,11 +10,11 @@ type ProjectCardPropsType = {
 
 const ProjectCard = (props: ProjectCardPropsType) => {
   return (
-    <Center h='40px' w='500px' id='project-card' borderRadius='10px' boxShadow={'lg'}>
-      <Link to={`monitor/${props.projectId}`}>
+    <Link to={`monitor/${props.projectId}`}>
+      <Center h='200px' w='200px' id='project-card' borderRadius='10px' boxShadow={'md'}>
         <Heading size='md'>{props.projectName}</Heading>
-      </Link>
-    </Center>
+      </Center>
+    </Link>
   );
 };
 

@@ -10,7 +10,7 @@ const Query = () => {
   const queryString = historyLogs.find((log: QueryType) => log.operation_name === operation).query_string;
 
   return (
-    <Textarea readOnly value={queryString} size='sm' h='300px' fontWeight={'bold'}/>
+    <Textarea readOnly value={queryString} size='sm' h='300px' />
   );
 };
 

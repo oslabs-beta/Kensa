@@ -74,7 +74,7 @@ const Monitor = () => {
 
   return (
     <Stack direction='column' p={'20px'} id='monitor'>
-      <Stack spacing={4} direction='row' align='center'>
+      <Stack spacing={4} direction='row' align='center' marginBottom='25px'>
         <Link to={`/user/${data.project.user.username}`}><Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem'/></Link>
         <Heading size='md'>Project Name: {data.project['project_name']}</Heading>
         <Popover>

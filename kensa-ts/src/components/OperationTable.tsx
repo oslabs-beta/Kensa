@@ -27,7 +27,7 @@ const OperationTable = () => {
     { key: 'operation_name', label: 'Operation Name' },
     { key: 'req_count', label: 'Request Count' },
     // { key: 'avg_res_size', label: 'Avg Response Size' },
-    { key: 'avg_res_time', label: 'Avg Response Time' },
+    { key: 'avg_res_time', label: 'Avg Response Time (ms)' },
     { key: 'error_count', label: 'Error Count' },
   ];
   
@@ -99,7 +99,7 @@ const OperationTable = () => {
   };
 
   // Event handler to show metrics(chart, query, visualization) when operation is clicked
-  const handleShowMetrics = (query: QueryType): void => {
+  const handleShowMetrics = (query: OperationLogTable): void => {
     setOperation(query.operation_name);
     
     // Metrics Data for chart
@@ -135,12 +135,12 @@ const OperationTable = () => {
     <table>
       <thead>
         <tr>
-          {headers.map(row => {
+          {headers.map(header => {
             return (
-              <td key={row.key}>
-                {row.label}
-                <button onClick={() => changeSort(row.key)} className={`${
-                  sortKey === row.key && sortOrder === 'desc' ? 'sort-btn sort-reverse' : 'sort-btn'
+              <td key={header.key}>
+                {header.label}
+                <button onClick={() => changeSort(header.key)} className={`${
+                  sortKey === header.key && sortOrder === 'desc' ? 'sort-btn sort-reverse' : 'sort-btn'
                 }`}>▲</button>
               </td>
             );
@@ -149,7 +149,7 @@ const OperationTable = () => {
       </thead>
 
       <tbody>
-        {sortData().map((query: any) => {
+        {sortData().map((query: OperationLogTable) => {
           return (
             <tr key={query.id} onClick={() => handleShowMetrics(query)}>
               <td>{query.id}</td>
