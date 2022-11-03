@@ -1,19 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
-import { Alert, AlertIcon, Box, Center, Heading, Spinner } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Center, Spinner } from "@chakra-ui/react";
 import React from "react";
-import QueryLog from "./QueryLog";
 import Cookies from "js-cookie";
 import { QueryTypeDev } from "../types/types";
-import { query } from "express";
 
 const HistoryLogDev = (props: any) => {
-  // console.log(props);
-  // const fullLogs = props.logs;
-
-  // const logs: Array<JSX.Element> = [];
-  // for (let i = 0; i < fullLogs.length; i++) {
-  //   logs.push(<QueryLog created_at={fullLogs[i]["created_at"]} execution_time={fullLogs[i]["execution_time"]} query_string={fullLogs[i]["query_string"]} success={fullLogs[i]["success"]} key={i} />);
-  // }
   const projectId = Cookies.get('projectId');
 
   const GET_PROJECT = gql`
@@ -35,7 +26,7 @@ const HistoryLogDev = (props: any) => {
     variables: {
       projectId: projectId
     }
-  })
+  });
 
   if (loading) {
     return (
@@ -56,30 +47,24 @@ const HistoryLogDev = (props: any) => {
     );
   }
 
-  console.log(data);
-
-  // const GET_HISTORY_LOG_DEV = gql`
-  //   query GetHistoryLogDev {}  
-  // `;
-
   const headers = [
     { label: 'Query #' },
     { label: 'Operation Name' },
     { label: 'Time (ms)' },
     { label: 'Time Sent'},
     { label: 'Error' }
-  ]
+  ];
 
   return (
     <Box p={5}>
-      <Heading size='md' marginBottom='10px'>History Logs</Heading>
+      {/* <Heading size='md' marginBottom='10px'>History Logs</Heading> */}
       <table>
         <thead>
           <tr>
             {headers.map((header, i) => {
               return (
                 <td key={i}>{header.label}</td>
-              )
+              );
             })}
           </tr>
         </thead>
