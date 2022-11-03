@@ -12,6 +12,7 @@ import WhyKensaPage from "./WhyKensaPage";
 import Kensa from './Kensa';
 import Projects from './Projects';
 import Hero from './Hero';
+import PlaygroundContainer from './PlaygroundContainer';
 
 const MainContainer = () => {
   // const [currentUserId, setCurrentUserId] = React.useState(null);
@@ -73,6 +74,7 @@ const MainContainer = () => {
           <Route path='/user/:username' element={<Kensa />}>
             <Route path='' element={<Projects />} />
             <Route path='monitor/:projectId' element={<Monitor />} />
+            <Route path='playground' element={<PlaygroundContainer />} />
           </Route>
 
         </Route>
