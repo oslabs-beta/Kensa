@@ -14,7 +14,6 @@ const Projects = () => {
   // logic check - check for token, make sure they have the token with decode
   const token = Cookies.get('token');
   const userInCookie = Cookies.get('username');
-  console.log('username in projects ', username, userInCookie);
   if (!token || userInCookie !== username) {
     return (
       <Center w='100%' h='100%'>

@@ -27,31 +27,33 @@ const MainContainer = () => {
   // *****************************************
   // brpham's comment: seems like this method doesn't even hit the backend
   // because the fetch didn't make request to localhost:3000/testjwt
-  // const [verified, setVerified] = React.useState(false);
-  // const [username, setUsername] = React.useState(null);
+  const [verified, setVerified] = React.useState(false);
+  const [username, setUsername] = React.useState(null);
 
-  // const verifyjwt = async () => {
-  //   const jwt = Cookies.get('token');
+  const verifyjwt = async () => {
+    const jwt = Cookies.get('token');
     
-  //   console.log('IN verifyJWT', jwt);
+    console.log('IN verifyJWT', jwt);
     
-    
-  //   await fetch('testjwt', {
-  //     method: 'POST',
-  //     headers: { 
-  //       'Content-Type': 'application/json' 
-  //     },
-  //     body: JSON.stringify({ token: jwt })
-  //   })
-  //     .then((result) => {
-  //       // console.log(verified);
-  //       setVerified(true);
-  //       setUsername(result);
-  //       // console.log(verified);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-  // verifyjwt.bind(useState);
+    const link = 'http://localhost:3000/testjwt';
+    await fetch(link, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:3000/*',
+      },
+      body: JSON.stringify({ token: jwt })
+    })
+      .then((result) => {
+        console.log('verified: ',verified);
+        setVerified(true);
+        setUsername(result);
+        console.log('verified should be true', verified);
+        console.log(result);
+      })
+      .catch((err) => console.log(err));
+  };
+  verifyjwt.bind(useState);
   // *****************************************
 
   return (
@@ -61,7 +63,7 @@ const MainContainer = () => {
         <Route path='/'>
           <Route path='/' element={<LandingPage />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login verifyjwt={verifyjwt} />} />
           <Route path='/user/:username' element={<Kensa />}>
             <Route path='' element={<Projects />} />
             <Route path='monitor/:projectId' element={<Monitor />} />

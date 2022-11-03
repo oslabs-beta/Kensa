@@ -9,7 +9,7 @@ import { FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import { ThemeContext } from './App';
 
 type LoginProps = {
-    // verifyjwt: () => void;  // see comment in MainContainer.tsx
+    verifyjwt: () => void;  // see comment in MainContainer.tsx
     // handleCurrentUserId: (id:(number | null)) => void
 } 
 
@@ -53,12 +53,12 @@ const Login = (props: LoginProps) => {
     })
       .then((res) => res.json())
       .then((verified) => {
-        console.log(verified);
+        // console.log(verified);
         if(verified.success) {
           Cookies.set('token', verified.token);
           Cookies.set('username', username);
-          console.log('cookies set in login', Cookies.get('token'));
-          // props.verifyjwt(); // see comment in MainContainer.tsx
+          // console.log('cookies set in login', Cookies.get('token'));
+          props.verifyjwt(); // see comment in MainContainer.tsx
           // toProjectPage(username); // should redirect user to Kensa.tsx
           navigate(`/user/${username}`);
         } else {
