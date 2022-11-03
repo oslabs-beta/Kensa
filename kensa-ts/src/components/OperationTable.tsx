@@ -1,48 +1,69 @@
-// import { Table, TableCaption, TableContainer, Tbody, Th, Thead, Tr, Td } from '@chakra-ui/react';
-import React, { useCallback, useState } from 'react';
-import { Query } from '../types/types';
+import React, { useCallback, useContext, useState } from 'react';
+import { QueryType, OperationLogTable } from '../types/types';
+import { randomBgColor } from '../util/utilFunctions';
+import { ChartContext } from './MetricContainer';
+import { format } from 'date-fns';
 
-type OperationTableProps = {
-  historyLogs: Array<Query>;
-  setOperation: (op: string) => void;
-}
+// type OperationTableProps = {
+//   historyLogs: Array<QueryType>;
+//   setOperation: (op: string) => void;
+// }
 
 type SortKeys = "id" | "operation_name" | "req_count" | "avg_res_size" | "avg_res_time" | "error_count"
 
 type SortOrder = 'ascn' | 'desc' 
 
 
-const OperationTable = ({ historyLogs, setOperation }: OperationTableProps) => {
-  const [sortKey, setSortKey] = useState<SortKeys>('operation_name');
+const OperationTable = () => {
+  // Grab context values passed from MetricContainer
+  const { historyLogs, setOperation, metricsData, setMetricsData } = useContext(ChartContext);
+
+  const [sortKey, setSortKey] = useState<SortKeys>('id');
   const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
 
+  // Headers for operation table
   const headers: { key: SortKeys, label: String }[] = [
     { key: 'id', label: 'ID' },
     { key: 'operation_name', label: 'Operation Name' },
     { key: 'req_count', label: 'Request Count' },
     // { key: 'avg_res_size', label: 'Avg Response Size' },
-    { key: 'avg_res_time', label: 'Avg Response Time' },
-    // { key: 'error_count', label: 'Error Count' },
+    { key: 'avg_res_time', label: 'Avg Response Time (ms)' },
+    { key: 'error_count', label: 'Error Count' },
   ];
   
-  const totalResTime = historyLogs.reduce((obj: any, op: any) => {
-    const operationName = op.operation_name;
+  // Total execution time of each operation
+  const totalResTime = historyLogs.reduce((obj: any, query: QueryType) => {
+    const operationName = query.operation_name;
     if (!obj[operationName]) obj[operationName] = 0;
-    obj[operationName] += op.execution_time;
+    obj[operationName] += query.execution_time;
 
     return obj;
   }, {});
 
-  const operationReqCount = historyLogs.reduce((obj: any, op: any) => {
-    const operationName = op.operation_name;
+  // Total request counts of each operation
+  const operationReqCount = historyLogs.reduce((obj: any, query: QueryType) => {
+    const operationName = query.operation_name;
     if (!obj[operationName]) obj[operationName] = 0;
     obj[operationName] += 1;
 
     return obj;
   }, {});
 
+  // Total error count of each operation
+  const operationErrorCount = historyLogs.reduce((obj: any, query: QueryType) => {
+    const operationName = query.operation_name;
+    if (!obj[operationName]) obj[operationName] = 0;
+    if (query.success === false) {
+      obj[operationName]++;
+    }
 
-  const operationLog = Object.keys(operationReqCount).map((operationName: string, index: number) => {
+    return obj;
+  }, {});
+
+  // console.log(operationErrorCount);
+
+  // An array of all operation with total request counts and average response time
+  const operationLog: OperationLogTable[] = Object.keys(operationReqCount).map((operationName: string, index: number) => {
     const reqCount = operationReqCount[operationName];
     const averageResTime = totalResTime[operationName] / reqCount;
 
@@ -50,11 +71,13 @@ const OperationTable = ({ historyLogs, setOperation }: OperationTableProps) => {
       id: index + 1,
       operation_name: operationName,
       req_count: reqCount,
-      avg_res_time: Math.round(averageResTime)
+      avg_res_time: Math.round(averageResTime),
+      error_count: operationErrorCount[operationName]
     };
   });
 
-  const sortData = useCallback(() => {
+  // Return sorted data base on sortKey
+  const sortData: () => OperationLogTable[] = useCallback(() => {
     if (!sortKey) return operationLog;
     
     const sortedData = operationLog.sort((a: any, b: any) => {
@@ -69,25 +92,55 @@ const OperationTable = ({ historyLogs, setOperation }: OperationTableProps) => {
     return sortedData;
   }, [operationLog, sortKey, sortOrder]);
 
-  const changeSort = (key: SortKeys) => {
+  // Sort data in ascending/descending order
+  const changeSort = (key: SortKeys): void => {
     setSortOrder(sortOrder === 'ascn' ? 'desc' : 'ascn');
     setSortKey(key);
   };
 
-  const handleShowMetrics = (op: any) => {
-    setOperation(op.operation_name);
+  // Event handler to show metrics(chart, query, visualization) when operation is clicked
+  const handleShowMetrics = (query: OperationLogTable): void => {
+    setOperation(query.operation_name);
+    
+    // Metrics Data for chart
+    // x-axis is time
+    // y-axis is execution_time
+    // Filter to get only the current operation in state
+    const operationMetrics: QueryType[] = historyLogs.filter((log: QueryType) => log.operation_name === query.operation_name);
+
+    // Construct data to display in chart
+    const dataSet = operationMetrics.map((query: QueryType) => {
+      const queryDate = new Date(parseInt(query['created_at']));
+      const formatDate = format(queryDate, 'MMM dd yyyy HH:mm:ss');
+      return {
+        x: formatDate,
+        y: query.execution_time
+      };
+    });
+
+    // update state for metricsData to display chart accordingly
+    setMetricsData({
+      datasets: [{
+        label: 'Response Time',
+        data: dataSet,
+        backgroundColor: operationMetrics.map((data: any) => randomBgColor()),
+        borderWidth: 1,
+        barThickness: 30,
+      }],
+      
+    });
   };
 
   return (
     <table>
       <thead>
         <tr>
-          {headers.map(row => {
+          {headers.map(header => {
             return (
-              <td key={row.key}>
-                {row.label}
-                <button onClick={() => changeSort(row.key)} className={`${
-                  sortKey === row.key && sortOrder === 'desc' ? 'sort-btn sort-reverse' : 'sort-btn'
+              <td key={header.key}>
+                {header.label}
+                <button onClick={() => changeSort(header.key)} className={`${
+                  sortKey === header.key && sortOrder === 'desc' ? 'sort-btn sort-reverse' : 'sort-btn'
                 }`}>▲</button>
               </td>
             );
@@ -96,59 +149,21 @@ const OperationTable = ({ historyLogs, setOperation }: OperationTableProps) => {
       </thead>
 
       <tbody>
-        {sortData().map((op: any) => {
+        {sortData().map((query: OperationLogTable) => {
           return (
-            <tr key={op.id} onClick={() => handleShowMetrics(op)}>
-              <td>{op.id}</td>
-              <td>{op.operation_name}</td>
-              <td>{op.req_count}</td>
-              {/* <td>{op.avg_res_size}</td> */}
-              <td>{op.avg_res_time}</td>
-              {/* <td>{op.error_count}</td> */}
+            <tr key={query.id} onClick={() => handleShowMetrics(query)}>
+              <td>{query.id}</td>
+              <td>{query.operation_name}</td>
+              <td>{query.req_count}</td>
+              {/* <td>{query.avg_res_size}</td> */}
+              <td>{query.avg_res_time}</td>
+              <td>{query.error_count}</td>
             </tr>
           );
         })}
       </tbody>
     </table>
   );
-
-  // Chakra UI (table is too big for 13' screen)
-  // return (
-  //   <TableContainer border='1px' borderColor='lightgray' borderRadius='5px'>
-  //     <Table variant='striped' size='sm'>
-  //       <TableCaption fontWeight='bold'>GraphQL Operation</TableCaption>
-  //       <Thead>
-  //         <Tr>
-  //           {headers.map(row => {
-  //             return (
-  //               <Th key={row.key} bgColor='#4e67af' color='white' h='40px'>
-  //                 {row.label}
-  //                 <button onClick={() => changeSort(row.key)} className={`${
-  //                   sortKey === row.key && sortOrder === 'desc' ? 'sort-btn sort-reverse' : 'sort-btn'
-  //                 }`}>▲</button>
-  //               </Th>
-  //             );
-  //           })}
-  //         </Tr>
-  //       </Thead>
-
-  //       <Tbody>
-  //         {sortData().map((op: any) => {
-  //           return (
-  //             <Tr key={op.id} onClick={() => handleShowMetrics(op)}>
-  //               <Td>{op.id}</Td>
-  //               <Td>{op.operation_name}</Td>
-  //               <Td>{op.req_count}</Td>
-  //               <Td>{op.avg_res_size}</Td>
-  //               <Td>{op.avg_res_time}</Td>
-  //               <Td>{op.error_count}</Td>
-  //             </Tr>
-  //           );
-  //         })}
-  //       </Tbody>
-  //     </Table>
-  //   </TableContainer>
-  // );
 };
 
 export default OperationTable;

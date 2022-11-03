@@ -76,7 +76,7 @@ async function startApolloServer() {
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
-    plugins: [testPlugin]
+    // plugins: [testPlugin]
   })
 
   await apolloServer.start();
@@ -91,12 +91,12 @@ async function startApolloServer() {
       // insert your apiKey here
       const apiKey = 'bcdf2ec0-47ae-400b-8aeb-a4a78daf2f05';
       // Calling npm package to get projectId
-      const projectId = await getProjectId(apiKey);
+      // const projectId = await getProjectId(apiKey);
       return {
         req,
         res,
         testDb,
-        projectId
+        // projectId
       }
     },
   }));

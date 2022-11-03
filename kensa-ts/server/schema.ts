@@ -12,8 +12,10 @@ export const typeDefs = gql`
     projects: [Project!]
     "Query to get specific project monitored by the app"
     project(id: ID!): Project
-    "Query to get all history log"
+    "Query to get all history log for Production"
     historyLog: [Log!]
+    "Query to get all history log for development in Playground"
+    historyLogDev: [Log!]
   }
 
   type Mutation {
@@ -46,6 +48,8 @@ export const typeDefs = gql`
     user: User!
     "All history log associated with this project"
     history_log: [Log]
+    "All history log associated with this project (development)"
+    history_log_dev: [Log]
   }
 
   type Log {

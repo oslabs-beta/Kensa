@@ -35,8 +35,8 @@ const Projects = () => {
   };
 
   const GET_USER_PROJECT = gql`
-    query GetUserProject {
-      username(username: "${username}") {
+    query GetUserProject($userName: String!) {
+      username(username: $userName) {
         username
         projects {
           id
@@ -47,7 +47,11 @@ const Projects = () => {
     }
   `;
 
-  const { error, data, loading } = useQuery(GET_USER_PROJECT);
+  const { error, data, loading } = useQuery(GET_USER_PROJECT, {
+    variables: {
+      userName: username
+    }
+  });
   
   if (loading) {
     return (
@@ -77,17 +81,17 @@ const Projects = () => {
     const apiKey = projects[i]["api_key"];
 
     projectCards.push(
-      <ProjectCard projectName={projectName} apiKey={apiKey} projectId={projectId} />
-      // <GridItem key={i}>
-      //   <ProjectCard projectName={projectName} apiKey={apiKey} projectId={projectId} />
-      // </GridItem>
+      // <ProjectCard key={i} projectName={projectName} apiKey={apiKey} projectId={projectId} />
+      <GridItem key={i} className='projects-grid-item'>
+        <ProjectCard projectName={projectName} apiKey={apiKey} projectId={projectId} />
+      </GridItem>
     );
   }
 
   return (
-    <Box w='100%' h='100%'>
-      <Flex m={5} align='center' justify='flex-end'>
-        <Heading id='welcome'>Welcome back, {data.username.username}</Heading>
+    <Box w='100%' h='100%' p={5}>
+      <Flex align='center' justify='flex-end' marginBottom='30px'>
+        <Heading id='welcome' >Welcome back, {data.username.username}</Heading>
         <Spacer />
         {/* Add Project Button */}
         <Button onClick={onOpen} colorScheme='facebook'>New Project</Button>
@@ -95,12 +99,12 @@ const Projects = () => {
       <AddProject isOpen={isOpen} onClose={onClose} />
       
       {/* Display Projects */}
-      <Flex gap={5} m={5} direction='column'>
+      {/* <Flex gap={5} m={5} direction='column'>
         {projectCards}
-      </Flex>
-      {/* <Grid templateColumns='repeat(4, 1fr)' gap={5} m={5}>
+      </Flex> */}
+      <Grid id='projects-grid-container'>
         {projectCards}
-      </Grid>      */}
+      </Grid>     
     </Box>
   );
 };

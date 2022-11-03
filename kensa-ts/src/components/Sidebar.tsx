@@ -1,18 +1,13 @@
 import React from 'react';
-import { Box, Flex, Heading, Stack, Icon, Divider, Image } from '@chakra-ui/react';
+import { Box, Flex, Heading, Stack, Icon, Image } from '@chakra-ui/react';
 import { BsFillBarChartFill, BsFillFolderFill, BsFillPlayBtnFill } from 'react-icons/bs';
 // import { MdSpaceDashboard } from 'react-icons/md';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 
 const Sidebar = () => {
-  const navigate = useNavigate();
-
-  const toPreviousProject = (): void => {
-    const projectId = Cookies.get('projectId');
-    navigate(`monitor/${projectId}`);
-  };
+  const projectId = Cookies.get('projectId');
 
   return (
     <Box flex='1' id='side-bar'>
@@ -25,18 +20,24 @@ const Sidebar = () => {
           <Icon as={MdSpaceDashboard} boxSize='1.4rem'/>
           <Heading size='sm'>Dashboard</Heading>
         </Flex> */}
-        <Flex align='center' p='20px' gap={3} className='sidebar-text'>
-          <Icon as={BsFillFolderFill} />
-          <Link to=''><Heading size='sm'>Projects</Heading></Link>
-        </Flex>
-        <Flex align='center' p='20px' gap={3} className='sidebar-text'>
-          <Icon as={BsFillBarChartFill} boxSize='1.4rem' />
-          <Heading size='sm' onClick={toPreviousProject}>Metrics</Heading>
-        </Flex>
-        <Flex align='center' p='20px' gap={3} className='sidebar-text'>
-          <Icon as={BsFillPlayBtnFill} boxSize='1.4rem' />
-          <Heading size='sm'>Playground</Heading>
-        </Flex>
+        <Link to=''>
+          <Flex align='center' p='20px' gap={3} className='sidebar-text'>
+            <Icon as={BsFillFolderFill} />
+            <Heading size='sm'>Projects</Heading>
+          </Flex>
+        </Link>
+        <Link to={`monitor/${projectId}`}>
+          <Flex align='center' p='20px' gap={3} className='sidebar-text'>
+            <Icon as={BsFillBarChartFill} boxSize='1.4rem' />
+            <Heading size='sm'>Metrics</Heading>
+          </Flex>
+        </Link>
+        <Link to='playground'>
+          <Flex align='center' p='20px' gap={3} className='sidebar-text'>
+            <Icon as={BsFillPlayBtnFill} boxSize='1.4rem' />
+            <Heading size='sm'>Playground</Heading>
+          </Flex>
+        </Link>
       </Stack>
     </Box>
   );

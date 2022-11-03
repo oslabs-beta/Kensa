@@ -4,15 +4,16 @@ import Chart from './Chart';
 import Query from './Query';
 import QueryTree from './QueryTree';
 
-type ChartContainerProps = {
-  operation: string;
-}
+// type ChartContainerProps = {
+//   operation: string;
+//   historyLogs: Array<QueryType>
+// }
 
 // Render all info related to operation
-const ChartContainer = ({ operation }: ChartContainerProps) => {
+const ChartContainer = () => {
+
   return (
     <Box w='100%' id='chart-container'>
-      {operation}
       <Tabs>
         <TabList>
           <Tab>Chart</Tab>

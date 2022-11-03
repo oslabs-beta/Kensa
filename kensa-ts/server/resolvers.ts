@@ -29,6 +29,10 @@ export const resolvers = {
     historyLog: async (_: any, __: any, { db }: any, info: any) => {
       const result = await db.query('SELECT * FROM history_log;');
       return result.rows;
+    },
+    historyLogDev: async (_: any, __: any, { db }: any) => {
+      const result = await db.query('SELECT * FROM history_log_dev;');
+      return result.rows;
     }
   },
   Mutation: {
@@ -59,6 +63,10 @@ export const resolvers = {
     },
     history_log: async ({ id: project_id }: any, __: any, { db }: any, info: any) => {
       const result = await db.query('SELECT * FROM history_log WHERE project_id = $1', [project_id]);
+      return result.rows;
+    },
+    history_log_dev: async ({ id: project_id }: any, __: any, { db }: any) => {
+      const result = await db.query('SELECT * FROM history_log_dev WHERE project_id = $1', [project_id]);
       return result.rows;
     }
   },

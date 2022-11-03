@@ -1,4 +1,4 @@
-export type Query = {
+export type QueryType = {
   id: string;
   operation_name: string;
   query_string: string;
@@ -7,11 +7,19 @@ export type Query = {
   success: boolean;
 }
 
-// export type Data = {
-//   id: number;
-//   operation_name: string;
-//   req_count: number;
-//   avg_res_size: number;
-//   avg_res_time: number;
-//   error_count: number;
-// }
+export type QueryTypeDev = {
+  id: string;
+  operation_name: string;
+  execution_time: number;
+  created_at: number;
+  success: boolean;
+}
+
+export type OperationLogTable = {
+  id: number;
+  operation_name: string;
+  req_count: number;
+  avg_res_time: number;
+  // avg_res_size: number;
+  error_count: number;
+}

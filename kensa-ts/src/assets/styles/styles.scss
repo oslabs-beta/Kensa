@@ -53,6 +53,38 @@ body {
     }
 }
 
+// Projects Grid
+#projects-grid-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 40px;
+
+	#project-card {
+		text-align: center;
+	}
+
+	#project-card:hover {
+		background-color: rgba(236, 226, 226, 0.2);
+	}
+}
+
+// Playground
+#playground {
+	height: 92%;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 2rem;
+	.playground-items {
+		border: 1px solid #ebe4e5;
+		border-radius: 5px;
+		height: 300px;
+	}
+
+	#code-editor {
+		border: none;
+	}
+}
+
 // Table 
 table, td {
 	border: 1px solid black;
@@ -101,6 +133,10 @@ table, td {
 			cursor: pointer;
 			background-color: #e6e6ff;
 		}
+	}
+
+	#project-card {
+		border: 1px solid #c6bdbd;
 	}
 }
 
@@ -160,4 +196,19 @@ table, td {
 			color: rgba(255, 255, 255, 0.8);
 		}
 	}
+
+	#playground-container {
+		color: rgba(255, 255, 255, 0.8);
+	}
+}
+
+// Hero Section on Landing Page
+#renderedLogo {
+	opacity: 1;
+	transition: all 1.5s ease-in-out;
+}
+
+#unrenderedLogo {
+	opacity: 0;
+	transition: all 1s ease-in-out;
 }

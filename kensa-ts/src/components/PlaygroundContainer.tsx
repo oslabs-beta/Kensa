@@ -1,69 +1,36 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useQuery, gql } from "@apollo/client";
-import CodeMirror from '@uiw/react-codemirror';
-import Cookies from 'js-cookie';
-import { useNavigate, useParams } from "react-router-dom";
-import internal from "stream";
+import React, { useState } from "react";
+import { Grid, GridItem, Stack, Heading, Text } from '@chakra-ui/react';
+import HistoryLogDev from "./HistoryLogDev";
+import CodeEditor from "./CodeEditor";
+import PlaygroudQueryResponse from "./PlaygroudQueryResponse";
+import PlaygroundTreeVis from './PlaygroundTreeVis';
 
-type PlaygroundContainerProps = {
-    username: string,
-    projectId: string,
-}
 
-const PlaygroundContainer = (props: PlaygroundContainerProps) => {
-  // const [query, setQuery] = useState();
-  let query: any;
-  const {username} = props;
-  const {projectId} = useParams()
-  console.log('params in playground', projectId)
-  // logic check - check for token, make sure they have the token with decode
-  const token = Cookies.get('token');
-  const userInCookie = Cookies.get('username');
-  console.log('username in playground ', username, userInCookie);
-  if (!token || userInCookie !== username || projectId !== props.projectId) {
-    return (
-      <div>Please login. You do not have access to this page</div>
-    );
-  }
-  const SUBMIT_QUERY = `query Project {
-        project(id: "4") {
-          name
-          description
-          status
-        }
-      }`;
-    
-  const handleQueryChange = useCallback((value: any, viewUpdate: any) => {
-    // console.log('values: ', value);
-    query = value;
-  }, []);
-
-  const handleSubmitQuery = () => {
-    console.log(query);
-    fetch('http://localhost:3050/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        query: query
-      })
-    }).then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
-  };
+const PlaygroundContainer = () => {
+  const [resData, setResData] = useState<string>('');
 
   return (
-    <div id="graphql-playground" className="secondary-container">
-      <h2>GraphQL Playground</h2>
-      <CodeMirror
-        value={query}
-        height="200px"
-        //   extensions={[javascript({ typescript: true })]}
-        onChange={handleQueryChange}
-      />
-      <button onClick={handleSubmitQuery}>Submit</button>
-    </div>
+    <Stack direction='column' p='20px' id='playground-container'>
+      <Heading size='md' marginBottom={1}>Playground</Heading>
+      <Grid id='playground'>
+        <GridItem >
+          <Text>Playground</Text>
+          <CodeEditor className='playground-items' setResData={setResData} />
+        </GridItem>
+        <GridItem>
+          <Text>Tree Structure</Text>
+          <PlaygroundTreeVis />
+        </GridItem>
+        <GridItem>
+          <Text>Response</Text>
+          <PlaygroudQueryResponse className='playground-items' resData={resData} />
+        </GridItem>
+        <GridItem>
+          <Text>History Log</Text>
+          <HistoryLogDev className='playground-items' />
+        </GridItem>
+      </Grid>
+    </Stack>
   );
 };
 
