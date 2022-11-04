@@ -8,8 +8,7 @@ import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import testDb from './models/testDb';
 // import { GraphQLRequestContext } from "apollo-server-types";
-import { getProjectId, insertMetrics, testPlugin } from 'kensa-api';
-
+import { testPlugin, getContext } from 'kensa-api';
 
 async function startApolloServer() {
   const app = express()
@@ -54,7 +53,6 @@ async function startApolloServer() {
   //         const elapsed = receiveResponse - requestStart;
   //         console.log(`operation=${op} duration=${elapsed}ms`);
   //         op = context.request.operationName;
-  //         console.log('size', context)
 
   //         // Getting projectId from context object
   //         const { id } = context.contextValue.projectId;
@@ -76,29 +74,16 @@ async function startApolloServer() {
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
-    // plugins: [testPlugin]
+    plugins: [testPlugin]
   })
 
   await apolloServer.start();
+
+  const api = 'bcdf2ec0-47ae-400b-8aeb-a4a78daf2f05';
   
   app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(apolloServer, {
-    // move the context async function to npm package, let user pass in api key and testDb
-    context: async ({req, res}: any) => {
-      // IntrospectionQuery keeps running. Use this to stop context from logging for IntrospectionQuery
-      if (req.body.operationName === 'IntrospectionQuery') return;
-      console.log('inside context ApolloServer test-app')
-      console.log(req.body);
-      // insert your apiKey here
-      const apiKey = 'bcdf2ec0-47ae-400b-8aeb-a4a78daf2f05';
-      // Calling npm package to get projectId
-      // const projectId = await getProjectId(apiKey);
-      return {
-        req,
-        res,
-        testDb,
-        // projectId
-      }
-    },
+    // when referencing the database in resolvers, use 'db' when deconstructing context object
+    context: async ({req, res}: any) => (await getContext({req, res}, api, testDb))
   }));
   
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`))
