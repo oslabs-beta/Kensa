@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, Link } from "react-router-dom";
-import { Stack, Heading, Text, Box, Center } from '@chakra-ui/react';
+import { Stack, Heading, Text, Box, Center, Flex } from '@chakra-ui/react';
 import { FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import { ThemeContext } from './App';
-
 import { useDispatch } from 'react-redux';
 import { login } from '../features/auth/authSlice';
 
@@ -11,20 +10,20 @@ import { login } from '../features/auth/authSlice';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();  
-    
+  
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   // Getting user state in localStorage. If there is a user, log them in and navigate to /user/:username
   const user = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     if (user) {
       dispatch(login(user));
-      navigate(`/user/${user.username}`);     // navigate to user's Projects page
+      navigate(`/user/${user.username}`); // navigate to user's Projects page
     }
   }, [user]);
   
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  
-  const { theme, toggleTheme } = useContext(ThemeContext);
   
   function handleUserChange(e: React.SyntheticEvent): void {
     const target = e.target as HTMLInputElement;
@@ -53,7 +52,8 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((user) => {
-        dispatch(login(user));  // dispatch login action to Redux store
+        // dispatch login action to Redux store
+        dispatch(login(user));  
         // save global state user in localStorage to persist user on refresh
         localStorage.setItem('user', JSON.stringify(user));
         // Navigate to Projects after successfully login
@@ -66,6 +66,7 @@ const Login = () => {
     <Box id='login'>
       <form onSubmit={handleLogin}>
         <Stack spacing={10} direction='column' align='center' maxWidth={400}>
+          <Link to='/'><Text color='blue.500' className='link'>Back to Homepage</Text></Link>
           <Heading>Sign In</Heading>
           <FormControl isRequired>
             <FormLabel>Username</FormLabel>
@@ -76,7 +77,7 @@ const Login = () => {
             <Input type='password' onChange={handlePasswordChange}/>
           </FormControl>
           <Button type='submit' w={400} colorScheme='facebook'>Sign In</Button>
-          <Link to='/signup'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Don&#39;t have account? Get started</Text></Link>
+          <Link to='/signup'><Text color='blue.500' className='link'>Don&#39;t have account? Get started</Text></Link>
         </Stack>
       </form>
       <Center>

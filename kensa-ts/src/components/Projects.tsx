@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
-import Cookies from 'js-cookie';
 import ProjectCard from "./ProjectCard";
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Spinner, Alert, AlertIcon, Button, Heading, Box, Flex, Spacer, Center } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import AddProject from "./AddProject";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from "../features/auth/authSlice";
+import { useDispatch } from 'react-redux';
+import { login, updateCurrentProjectId } from "../features/auth/authSlice";
+import { ThemeContext } from "./App";
 
 
 const Projects = () => {
-  const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
 
   // Log user in if they are already signed in
@@ -24,17 +24,15 @@ const Projects = () => {
       dispatch(login(user));
     }
   }, [user]);
-
-  // const user = useSelector((state: RootState) => state.auth.user);
-  console.log('userRedux in Projects', user);
   
+  // params username in URL route
   const { username } = useParams();
 
-  // Prevent user from accessing Project by modifying URL
-  if (username !== user.username) {
+  // Prevent user from accessing Project by modifying URL params
+  if (!user || username !== user.username) {
     return (
-      <Center w='100%' h='100%'>
-        <Alert status='error' h='100px' w='50%' borderRadius='10px'>
+      <Center w='100%' h='100%' >
+        <Alert status='error' h='100px' w='50%' borderRadius='10px' className='alert'>
           <AlertIcon />
           Please login. You do not have access to this page
         </Alert>
@@ -44,11 +42,6 @@ const Projects = () => {
 
   // Chakra Modal
   const { isOpen, onOpen, onClose } = useDisclosure();
-    
-  const toAddProjectPage = ():void => {
-    const path = 'new';
-    navigate(path);
-  };
 
   const GET_USER_PROJECT = gql`
     query GetUserProject($userName: String!) {
@@ -80,7 +73,7 @@ const Projects = () => {
   if (error) {
     return (
       <Center w='100%' h='100%'>
-        <Alert status='error' h='100px' w='50%' borderRadius='10px'>
+        <Alert status='error' h='100px' w='50%' borderRadius='10px' className='alert'>
           <AlertIcon />
           There was an error processing your request
         </Alert>
@@ -98,8 +91,13 @@ const Projects = () => {
 
     projectCards.push(
       // <ProjectCard key={i} projectName={projectName} apiKey={apiKey} projectId={projectId} />
-      <GridItem key={i} className='projects-grid-item'>
-        <ProjectCard projectName={projectName} apiKey={apiKey} projectId={projectId} />
+      <GridItem key={i} className='projects-grid-item' onClick={() => {
+        // dispatch action to update currentProject in Redux store
+        dispatch(updateCurrentProjectId(projectId)); 
+        // save projectId to localStorage to persist data when refreshing
+        localStorage.setItem('projectId', projectId); 
+      }}>
+        <ProjectCard projectName={projectName} apiKey={apiKey} projectId={projectId}  />
       </GridItem>
     );
   }
@@ -110,7 +108,12 @@ const Projects = () => {
         <Heading id='welcome' >Welcome back, {data.username.username}</Heading>
         <Spacer />
         {/* Add Project Button */}
-        <Button onClick={onOpen} colorScheme='facebook'>New Project</Button>
+        <Button 
+          onClick={onOpen} 
+          colorScheme={theme === 'light' ? 'facebook' : 'gray'}
+        >
+          New Project
+        </Button>
       </Flex>
       <AddProject isOpen={isOpen} onClose={onClose} />
       

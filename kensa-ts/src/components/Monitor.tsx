@@ -1,27 +1,34 @@
 import React, { useContext, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
-import PlaygroundContainer from "./PlaygroundContainer";
 import MetricContainer from "./MetricContainer";
 import ProjectInfo from './ProjectInfo';
 import { Box, Center, Spinner, Alert, AlertIcon, Stack, Heading, Icon, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import { TbRefresh } from 'react-icons/tb';
-import Cookies from 'js-cookie';
-import { Link } from 'react-router-dom';
 import { ThemeContext } from './App';
 import { darkTheme } from '../theme/darkTheme';
 
 const Monitor = () => {
-  const { projectId } = useParams();
-
   const { theme } = useContext(ThemeContext);
 
-  Cookies.set('projectId', projectId);  // set projectId cookie so last seen project is displayed when clicked on Metrics tab
+  const currentProjectId = localStorage.getItem('projectId');
 
-  // Refetch data when user click back to the project/Metrics Tab on the sidebar
+  // Alert user when they click on Metrics tab if they haven't clicked on a project yet
+  if (!currentProjectId) {
+    return (
+      <Center w='100%' h='100%' >
+        <Alert status='error' h='100px' w='50%' borderRadius='10px' className='alert'>
+          <AlertIcon />
+          Please choose a project 
+        </Alert>
+      </Center>
+    );
+  }
+
+  // Refetch last seen project data when user click back to the Metrics Tab on the sidebar
   useEffect(() => {
-    refetch({ projectId: projectId });
+    refetch({ projectId: currentProjectId });
   }, []);
 
   const GET_PROJECT_DATA = gql`
@@ -43,11 +50,11 @@ const Monitor = () => {
         }
       }
     }
-`;
+  `;
 
   const { loading, error, data, refetch } = useQuery(GET_PROJECT_DATA, {
     variables: {
-      projectId: projectId
+      projectId: currentProjectId
     },
     // pollInterval: 10000,  // polling every 10 seconds
   });
@@ -64,7 +71,7 @@ const Monitor = () => {
   if (error) {
     return (
       <Center w='100%' h='100%'>
-        <Alert status='error' h='100px' w='50%' borderRadius='10px'>
+        <Alert status='error' h='100px' w='50%' borderRadius='10px' className='alert'>
           <AlertIcon />
           There was an error processing your request
         </Alert>
@@ -79,18 +86,24 @@ const Monitor = () => {
         <Heading size='md'>Project Name: {data.project['project_name']}</Heading>
         <Popover>
           <PopoverTrigger>
-            <Button size='xs' colorScheme='facebook'>Info</Button>
+            <Button 
+              size='xs' 
+              color={theme === 'dark' ? 'black' : 'white'} 
+              colorScheme={theme === 'light' ? 'facebook' : 'gray'}
+            >
+              Info
+            </Button>
           </PopoverTrigger>
           <PopoverContent style={theme === 'dark' && darkTheme}>
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader><Heading size='xs'>Project Info</Heading></PopoverHeader>
-            <PopoverBody><ProjectInfo projectId={projectId} apiKey={data.project['api_key']} /></PopoverBody>
+            <PopoverBody><ProjectInfo projectId={currentProjectId} apiKey={data.project['api_key']} /></PopoverBody>
           </PopoverContent>
         </Popover>
-        <Box onClick={() => refetch({ projectId: projectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'><TbRefresh /></Box>
+        {/* Refresh to fetch current project newest data  */}
+        <Box onClick={() => refetch({ projectId: currentProjectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'><TbRefresh /></Box>
       </Stack>
-      {/* <PlaygroundContainer /> */}
       <MetricContainer historyLogs={data.project['history_log']}/>
     </Stack>
   );

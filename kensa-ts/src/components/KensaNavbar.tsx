@@ -7,8 +7,7 @@ import { ThemeContext } from './App';
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { darkTheme } from '../theme/darkTheme';
 
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../app/store";
+import { useDispatch } from "react-redux";
 import { logout } from '../features/auth/authSlice';
 
 const themeHover = {
@@ -21,8 +20,8 @@ const KensaNavbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
-  // Global state user 
-  const user = useSelector((state: RootState) => state.auth.user);
+  // Get global state user from localStorage
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const { theme, toggleTheme } = useContext(ThemeContext);
 
@@ -50,11 +49,19 @@ const KensaNavbar = () => {
           <PopoverArrow />
           <PopoverHeader><Heading size='xs'>{user.username}</Heading></PopoverHeader>
           <PopoverBody>
-            <Button onClick={() => {
-              dispatch(logout());
-              localStorage.removeItem('user');
-              navigate('/login');
-            }}> Sign out</Button>
+            <Button 
+              color={theme === 'dark' ? 'black' : 'white'}
+              colorScheme={theme === 'light' ? 'facebook' : 'gray'}
+              onClick={() => {
+                dispatch(logout());
+                localStorage.removeItem('user');
+                localStorage.removeItem('projectId');
+                navigate('/login');
+              }}
+              size='sm'
+            > 
+              Sign out
+            </Button>
           </PopoverBody>
         </PopoverContent>
       </Popover>

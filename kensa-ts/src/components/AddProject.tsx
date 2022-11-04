@@ -101,8 +101,21 @@ const AddProject = ({ isOpen, onClose }: AddProjectType) => {
                 }}/>
               </FormControl>
               <Stack direction='row' justify='end'>
-                <Button colorScheme='facebook' mr={3} onClick={onClose}>Close</Button>
-                <Button type='submit' colorScheme='facebook'>Create</Button>
+                <Button 
+                  color={theme === 'dark' ? 'black' : 'white'} 
+                  colorScheme={theme === 'light' ? 'facebook' : 'gray'} 
+                  mr={3} 
+                  onClick={onClose}
+                >
+                  Close
+                </Button>
+                <Button 
+                  type='submit' 
+                  color={theme === 'dark' ? 'black' : 'white'} 
+                  colorScheme={theme === 'light' ? 'facebook' : 'gray'}
+                >
+                  Create
+                </Button>
               </Stack>
             </Stack>
           </form>
