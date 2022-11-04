@@ -20,9 +20,9 @@ const Signup = () => {
             <FormLabel>Password</FormLabel>
             <Input type='password' />
           </FormControl>
-          <Button type='submit' w={400} colorScheme='facebook'>JOIN</Button>
+          <Button type='submit' w={400} backgroundColor="#DEA057" _hover={{ backgroundColor: '#E38B29'}} >JOIN</Button>
           {/* <Button w={190} colorScheme='facebook'>Cancel</Button> */}
-          <Link to='/login'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Already have account? Sign in</Text></Link>
+          <Link to='/login'><Text align='right' color='blue.500' _hover={{ color: '#E38B29'}} >Already have account? Sign in</Text></Link>
         </Stack>
       </form>
       <Center>
