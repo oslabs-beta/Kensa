@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.testPlugin = exports.insertMetrics = exports.getProjectId = void 0;
+exports.getContext = exports.testPlugin = exports.insertMetrics = exports.getProjectId = void 0;
 const db_1 = require("./models/db");
 const getProjectId = (apiKey) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield (0, db_1.query)('SELECT id FROM projects WHERE api_key = $1;', [apiKey]);
@@ -68,7 +68,6 @@ exports.testPlugin = {
                         const elapsed = receiveResponse - requestStart;
                         console.log(`operation=${op} duration=${elapsed}ms`);
                         op = context.request.operationName;
-                        console.log('size', context);
                         // Getting projectId from context object
                         const { id } = context.contextValue.projectId;
                         const query_string = context.request.query;
@@ -87,4 +86,19 @@ exports.testPlugin = {
         });
     }
 };
+const getContext = ({ req, res }, api, db) => __awaiter(void 0, void 0, void 0, function* () {
+    // IntrospectionQuery keeps running. Use this to stop context from logging for IntrospectionQuery
+    if (req.body.operationName === 'IntrospectionQuery')
+        return;
+    // Calling npm package to get projectId
+    const projectId = yield (0, exports.getProjectId)(api);
+    // returning context object
+    return {
+        req,
+        res,
+        db,
+        projectId
+    };
+});
+exports.getContext = getContext;
 //# sourceMappingURL=index.js.map
