@@ -33,6 +33,7 @@
     "chartjs-adapter-date-fns": "^2.0.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "d3": "^7.6.1",
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
@@ -42,6 +43,7 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.8.0",
     "react-chartjs-2": "^4.3.1",
+    "react-d3-tree": "^3.3.5",
     "react-icons": "^4.6.0",
     "ts-node": "^10.9.1",
     "uuid": "^9.0.0"
@@ -52,6 +54,7 @@
     "@babel/preset-react": "^7.18.6",
     "@monaco-editor/react": "^4.4.6",
     "@types/cookie-parser": "^1.4.3",
+    "@types/d3": "^7.4.0",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",

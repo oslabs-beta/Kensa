@@ -212,3 +212,17 @@ table, td {
 	opacity: 0;
 	transition: all 1s ease-in-out;
 }
+
+.node__root > circle {
+	fill: rgb(255, 140, 0);
+}
+
+.node__branch > circle {
+	fill: rgb(255, 158, 40);
+}
+
+.node__leaf > circle {
+	fill: rgb(255, 197, 50);
+	/* Let's also make the radius of leaf nodes larger */
+	r: 40;
+}

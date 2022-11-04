@@ -19,7 +19,7 @@ const PlaygroundContainer = () => {
         </GridItem>
         <GridItem>
           <Text>Tree Structure</Text>
-          <PlaygroundTreeVis />
+          <PlaygroundTreeVis resData={resData}/>
         </GridItem>
         <GridItem>
           <Text>Response</Text>
