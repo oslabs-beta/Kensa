@@ -4,7 +4,7 @@ import { BsFillBarChartFill, BsFillFolderFill, BsFillPlayBtnFill } from 'react-i
 // import { MdSpaceDashboard } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
+import logo from '../assets/Kensa cropped2.png';
 
 const Sidebar = () => {
   const projectId = Cookies.get('projectId');
@@ -12,7 +12,7 @@ const Sidebar = () => {
   return (
     <Box flex='1' id='side-bar'>
       <Flex h='180px' justify='center' align='center' id='logo'>
-        <Image src='https://i.postimg.cc/mrWhhZG6/kensa.png' h='150px' w='200px'/>
+        <Link to='/'><Image src={logo} h='100px' w='150px'/></Link>
       </Flex>
       <Stack spacing={3} direction='column' marginTop={10}>
         {/* <Flex align='center' p='20px' gap={3} color='#d6c5c7' _hover={{ 

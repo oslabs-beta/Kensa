@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import Cookies from 'js-cookie';
@@ -8,14 +8,30 @@ import { Spinner, Alert, AlertIcon, Button, Heading, Box, Flex, Spacer, Center }
 import { useDisclosure } from "@chakra-ui/react";
 import AddProject from "./AddProject";
 
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from "../features/auth/authSlice";
+
+
 const Projects = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Log user in if they are already signed in
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    if (user) {
+      dispatch(login(user));
+    }
+  }, [user]);
+
+  // const user = useSelector((state: RootState) => state.auth.user);
+  console.log('userRedux in Projects', user);
+  
   const { username } = useParams();
-  // logic check - check for token, make sure they have the token with decode
-  const token = Cookies.get('token');
-  const userInCookie = Cookies.get('username');
-  console.log('username in projects ', username, userInCookie);
-  if (!token || userInCookie !== username) {
+
+  // Prevent user from accessing Project by modifying URL
+  if (username !== user.username) {
     return (
       <Center w='100%' h='100%'>
         <Alert status='error' h='100px' w='50%' borderRadius='10px'>

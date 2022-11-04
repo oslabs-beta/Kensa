@@ -18,13 +18,13 @@ export const userController = {
         const user = result.rows[0];
         if(!user){
           // invoke global error handler
-          res.locals.result = { success: false, token: null };
+          res.locals.user = { username: '', token: '' };
           return next();
         }
         const truePassword = user.password;
         const token = jwt.sign({ username: user.username }, process.env.JWT_KEY);
-        res.cookie('token', token);
-        res.locals.result = truePassword === password ? { success: true, token: token } : { success: false, token: null };
+        // res.cookie('token', token);
+        res.locals.user = truePassword === password ? { username: user.username, token: token } : { username: '', token: '' };
 
         return next();
       });

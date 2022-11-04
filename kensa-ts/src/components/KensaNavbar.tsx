@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
-import { Stack, InputGroup, InputLeftElement, Input, Avatar, Icon, Heading, Text, Box, Center, color } from '@chakra-ui/react';
+import { Stack, InputGroup, InputLeftElement, Input, Avatar, Icon, Heading, Center, Button } from '@chakra-ui/react';
 import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from './App';
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { darkTheme } from '../theme/darkTheme';
+
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../app/store";
+import { logout } from '../features/auth/authSlice';
 
 const themeHover = {
   cursor: 'pointer',
@@ -14,7 +18,11 @@ const themeHover = {
 };
 
 const KensaNavbar = () => {
-  const { username } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  // Global state user 
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const { theme, toggleTheme } = useContext(ThemeContext);
 
@@ -36,13 +44,17 @@ const KensaNavbar = () => {
       {/* Displpay username and logout button when click on Avatar */}
       <Popover placement='bottom-end'>
         <PopoverTrigger>
-          <Avatar name={username} size='md' justifyItems='flex-end' _hover={{ cursor: 'pointer' }} />
+          <Avatar name={user.username} size='md' justifyItems='flex-end' _hover={{ cursor: 'pointer' }} />
         </PopoverTrigger>
         <PopoverContent w='200px' style={theme === 'dark' && darkTheme}>
           <PopoverArrow />
-          <PopoverHeader><Heading size='xs'>{username}</Heading></PopoverHeader>
+          <PopoverHeader><Heading size='xs'>{user.username}</Heading></PopoverHeader>
           <PopoverBody>
-            <Text>Sign out</Text>
+            <Button onClick={() => {
+              dispatch(logout());
+              localStorage.removeItem('user');
+              navigate('/login');
+            }}> Sign out</Button>
           </PopoverBody>
         </PopoverContent>
       </Popover>

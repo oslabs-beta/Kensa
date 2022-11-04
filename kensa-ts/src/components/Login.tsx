@@ -1,26 +1,31 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-
-import { Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
-// import { verify } from 'jsonwebtoken'; // see comment in MainContainer.tsx
+import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate, Link } from "react-router-dom";
 import { Stack, Heading, Text, Box, Center } from '@chakra-ui/react';
 import { FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import { ThemeContext } from './App';
 
-type LoginProps = {
-    // verifyjwt: () => void;  // see comment in MainContainer.tsx
-    // handleCurrentUserId: (id:(number | null)) => void
-} 
+import { useDispatch } from 'react-redux';
+import { login } from '../features/auth/authSlice';
 
-const Login = (props: LoginProps) => {
+
+const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();  
+    
+  // Getting user state in localStorage. If there is a user, log them in and navigate to /user/:username
+  const user = JSON.parse(localStorage.getItem('user'));
+  useEffect(() => {
+    if (user) {
+      dispatch(login(user));
+      navigate(`/user/${user.username}`);     // navigate to user's Projects page
+    }
+  }, [user]);
+  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  
   const { theme, toggleTheme } = useContext(ThemeContext);
-
-  const navigate = useNavigate();
-
+  
   function handleUserChange(e: React.SyntheticEvent): void {
     const target = e.target as HTMLInputElement;
     setUsername(target.value);
@@ -29,11 +34,6 @@ const Login = (props: LoginProps) => {
   function handlePasswordChange(e: React.SyntheticEvent): void {
     const target = e.target as HTMLInputElement;
     setPassword(target.value);
-  }
-
-  function toProjectPage(username:string): void {
-    const path = `../user/${username}`;
-    navigate(path);
   }
 
   // login function that send username and psw to server (/login)
@@ -52,21 +52,14 @@ const Login = (props: LoginProps) => {
       })
     })
       .then((res) => res.json())
-      .then((verified) => {
-        console.log(verified);
-        if(verified.success) {
-          Cookies.set('token', verified.token);
-          Cookies.set('username', username);
-          console.log('cookies set in login', Cookies.get('token'));
-          // props.verifyjwt(); // see comment in MainContainer.tsx
-          // toProjectPage(username); // should redirect user to Kensa.tsx
-          navigate(`/user/${username}`);
-        } else {
-          alert("Wrong login credentials.");
-        } 
-        
+      .then((user) => {
+        dispatch(login(user));  // dispatch login action to Redux store
+        // save global state user in localStorage to persist user on refresh
+        localStorage.setItem('user', JSON.stringify(user));
+        // Navigate to Projects after successfully login
+        navigate(`/user/${username}`);
       })
-      .catch((err) => console.log("Error:", err));
+      .catch((err) => console.log(err));
   }
 
   return (

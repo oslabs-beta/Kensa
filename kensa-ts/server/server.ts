@@ -42,7 +42,7 @@ async function startApolloServer() {
   app.use('/', cors(), express.static(path.join(__dirname, '../dist')));
 
   app.post('/login', userController.loginAuth, (req, res) => {
-    res.status(200).json(res.locals.result);
+    res.status(200).json(res.locals.user);
   });
 
   app.post('/testjwt', (req, res) => {
