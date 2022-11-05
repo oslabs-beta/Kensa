@@ -1,56 +1,16 @@
+$dark-theme-bgColor: #121828;
+$dark-theme-color: rgba(255, 255, 255, 0.8);
+$dark-theme-borderColor: #5a5353;
+$dark-theme-alert-bgColor: #252a37;
+$dark-theme-link-hover-color: rgb(133, 133, 212);
+$light-theme-borderColor: #ebe4e5;
+$light-theme-sidebar-bgColor: #f4f6f8;
+$light-theme-link-hover-color: blue;
+$table-head-bgColor: #4e67af;
+
 body {
     background-color: #FDEEDC;
-    max-height: 96vh;
-}
-
-.secondary-container {
-    border: 1px solid black;
-}
-
-#main-monitor {
-    display: flex;
-
-    &>div {
-        width: 50%;
-    }
-}
-
-#projects-container {
-    display: flex;
-}
-
-.query-log {
-    border: 1px solid brown;
-}
-
-.project-cards {
-    width: 100px;
-    height: 100px;
-    border: 1px solid green;
-}
-
-#delete-project {
-    display: block;
-}
-
-#project-info {
-    &>div {
-        display: flex;
-        justify-content: space-between;
-        margin: 15px 0;
-    }
-
-    h4 {
-        margin: 10px 0;
-    }
-
-    span {
-        font-weight: normal;
-    }
-
-    button {
-        padding: 5px;
-    }
+    // max-height: 96vh;
 }
 
 // Projects Grid
@@ -75,7 +35,7 @@ body {
 	grid-template-columns: repeat(2, 1fr);
 	gap: 2rem;
 	.playground-items {
-		border: 1px solid #ebe4e5;
+		border: 1px solid $light-theme-borderColor;
 		border-radius: 5px;
 		height: 300px;
 	}
@@ -91,8 +51,8 @@ table, td {
 	text-align: center;
 	width: 600px;
 	thead {
-		background-color: #4e67af;
-		color: white;
+		background-color: $table-head-bgColor;
+		color: $dark-theme-color;
 		font-weight: bold;
 	}
 	tr:nth-child(even) {
@@ -104,6 +64,14 @@ table, td {
 	}
 	tbody > tr:hover {
 		background-color: rgb(190, 180, 180);
+	}
+}
+
+#history-log-dev {
+	overflow: scroll;
+	overflow-x: hidden;
+	table {
+		width: 700px;
 	}
 }
 
@@ -122,13 +90,13 @@ table, td {
 	background-color: white;
 
 	#logo {
-		border-bottom: 1px solid #ebe4e5;
+		border-bottom: 1px solid $light-theme-borderColor;
 	}
 
 	#side-bar {
-		background-color: #f4f6f8;
+		background-color: $light-theme-sidebar-bgColor;
 		color: black;
-		border-right: 1px solid #ebe4e5;
+		border-right: 1px solid $light-theme-borderColor;
 		.sidebar-text:hover {
 			cursor: pointer;
 			background-color: #e6e6ff;
@@ -136,16 +104,24 @@ table, td {
 	}
 
 	#project-card {
-		border: 1px solid #c6bdbd;
+		border: 1px solid $light-theme-borderColor;
+	}
+
+	.link:hover {
+		color: $light-theme-link-hover-color;
 	}
 }
 
 // Dark Mode
 #dark {
-	background-color: #121828;
+	background-color: $dark-theme-bgColor;
+
+	.link:hover {
+		color: $dark-theme-link-hover-color;
+	}
 
 	#landing-page, #login, #signup {
-		color: white;
+		color: $dark-theme-color;
 	}
 
 	#toggle-switch {
@@ -166,7 +142,7 @@ table, td {
 	}
 	
 	#kensa-navbar {
-		background-color: #121828;
+		background-color: $dark-theme-bgColor;
 		border-bottom: 1px solid #3a3232;
 		
 		#search-icon {
@@ -174,31 +150,37 @@ table, td {
 		}
 		input {
 			border: 1px solid #9f9191;
-			color: white;
+			color: $dark-theme-color;
 		}
 	}
 
 	#monitor, #welcome {
-		color: rgba(255, 255, 255, 0.8);
+		color: $dark-theme-color;
 	}
 
 	#project-card {
-		color: rgba(255, 255, 255, 0.8);
+		color: $dark-theme-color;
 		border: 1px solid #9f9191;
 	}
 
 	table{
 		td {
-			border: 1px solid #5a5353;
+			border: 1px solid $dark-theme-borderColor;
 		}
 		tr {
-			background-color: #121828;
-			color: rgba(255, 255, 255, 0.8);
+			background-color: $dark-theme-bgColor;
+			color: $dark-theme-color;
 		}
 	}
 
 	#playground-container {
-		color: rgba(255, 255, 255, 0.8);
+		color: $dark-theme-color;
+	}
+
+	.alert {
+		background-color: $dark-theme-alert-bgColor;
+		color: $dark-theme-color;
+		border: 1px solid $dark-theme-borderColor;
 	}
 }
 
