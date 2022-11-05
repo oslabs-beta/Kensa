@@ -16,6 +16,9 @@ export const typeDefs = gql`
     historyLog: [Log!]
     "Query to get all history log for development in Playground"
     historyLogDev: [Log!]
+
+    "test for mongodb migration"
+    testUser(id: ID!): TestUser
   }
 
   type Mutation {
@@ -66,6 +69,13 @@ export const typeDefs = gql`
     created_at: String!
     "Status of this query"
     success: Boolean!
+  }
+
+  # test for mongodb migration
+  type TestUser {
+    id: ID!
+    username: String!
+    password: String!
   }
 `;
 
