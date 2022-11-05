@@ -24,7 +24,14 @@ export const typeDefs = gql`
     "Mutation to delete a project given an ID"
     deleteProject(id: ID!): Project
     "Mutation to create a user"
-    createUser(username: String!, password: String!): User
+    createUser(username: String!, password: String!): CreateUserResponse
+  }
+
+  type CreateUserResponse {
+    "Username that user submit when signing up"
+    username: String!
+    "JWT token that contain user's username info"
+    token: String!
   }
 
   type User {

@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, gql } from "@apollo/client";
 import { Button, Flex, Text } from "@chakra-ui/react";
+import { ThemeContext } from "./App";
 
 type ProjectInfoType = {
     projectId: string,
     apiKey: string
 }
 
-const ProjectInfo = (props: ProjectInfoType) => {
+const ProjectInfo = ({ projectId, apiKey }: ProjectInfoType) => {
+  const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
   // this mutation string deletes a project in the Kensa's database based on project id
@@ -33,14 +35,18 @@ const ProjectInfo = (props: ProjectInfoType) => {
 
   return (
     <Flex direction='column' h='150px' justifyContent='space-between'>
-      <Text fontWeight={'bold'}>Project API:</Text> {props.apiKey}
-      <Button colorScheme='facebook' onClick={(): void => {
-        deleteProject({
-          variables: {
-            deleteProjectId: props.projectId
-          }
-        });
-      }}>
+      <Text fontWeight={'bold'}>Project API:</Text> 
+      {apiKey}
+      <Button 
+        color={theme === 'dark' ? 'black' : 'white'}
+        colorScheme={theme === 'light' ? 'facebook' : 'gray'} 
+        onClick={(): void => {
+          deleteProject({
+            variables: {
+              deleteProjectId: projectId
+            }
+          });
+        }}>
 				Delete Project
       </Button>
     </Flex>
