@@ -5,32 +5,39 @@ import bcrypt from 'bcryptjs';
 export const resolvers = {
   Query: {
     // Get all users
-    users: async (_: any, __: any, { db }: any, info: any) => {
+    users: async (_: any, __: any, { db }: any) => {
       const result = await db.query('SELECT * FROM users;');
       return result.rows;
     },
     // Get a single user by ID
-    user: async (_: any, { id }: any, { db }: any, info: any) => {
+    user: async (_: any, { id }: any, { db }: any) => {
       const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
       return result.rows[0];
     },
     // Get a single user by username
-    username: async (_: any, { username }: any, { db }: any, info: any) => {
+    username: async (_: any, { username }: any, { db, user }: any) => {
+      if (user.username !== username) {
+        throw new GraphQLError('Unauthenticated user', {
+          extensions: {
+            code: 'UNAUTHENTICATED USER'
+          }
+        });
+      }
       const result = await db.query('SELECT * FROM users WHERE username = $1', [username]);
       return result.rows[0];
     },
     // Get all projects
-    projects: async (_: any, __: any, { db }: any, info: any) => {
+    projects: async (_: any, __: any, { db }: any) => {
       const result = await db.query('SELECT * FROM projects;');
       return result.rows;
     },
     // Get a single project by ID
-    project: async (parent: any, args: any, { db }: any, info: any) => {
+    project: async (parent: any, args: any, { db }: any) => {
       const result = await db.query('SELECT * FROM projects WHERE id = $1', [args.id]);
       return result.rows[0];
     },
     // A history log of every project registered with Kensa
-    historyLog: async (_: any, __: any, { db }: any, info: any) => {
+    historyLog: async (_: any, __: any, { db }: any) => {
       const result = await db.query('SELECT * FROM history_log;');
       return result.rows;
     },
@@ -73,17 +80,17 @@ export const resolvers = {
     },
   },
   User: {
-    projects: async ({ id: user_id }: any, __: any, { db }: any, info: any) => {
+    projects: async ({ id: user_id }: any, __: any, { db }: any) => {
       const result = await db.query('SELECT * FROM projects WHERE user_id = $1', [user_id]);
       return result.rows;
     }
   },
   Project: {
-    user: async ({ user_id }: any, __: any, { db }: any, info: any) => {
+    user: async ({ user_id }: any, __: any, { db }: any) => {
       const result = await db.query('SELECT * FROM users WHERE id = $1', [user_id]);
       return result.rows[0];
     },
-    history_log: async ({ id: project_id }: any, __: any, { db }: any, info: any) => {
+    history_log: async ({ id: project_id }: any, __: any, { db }: any) => {
       const result = await db.query('SELECT * FROM history_log WHERE project_id = $1', [project_id]);
       return result.rows;
     },
@@ -93,7 +100,7 @@ export const resolvers = {
     }
   },
   Log: {
-    project: async({ project_id }: any, __: any, { db }: any, info: any) => {
+    project: async({ project_id }: any, __: any, { db }: any) => {
       const result = await db.query('SELECT * FROM projects WHERE id = $1', [project_id]);
       return result.rows[0];
     }

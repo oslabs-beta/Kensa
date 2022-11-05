@@ -11,6 +11,9 @@ import db from "./models/db";
 import { userController } from './controllers/userController';
 import cookieParser from "cookie-parser";
 
+import { getUser } from './util/util';
+import { GraphQLError } from "graphql";
+
 async function startApolloServer() {
   const app = express();
   const PORT = process.env.PORT || 3000;
@@ -25,11 +28,23 @@ async function startApolloServer() {
   // GraphQL logic
   app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(apolloServer, {
     context: async ({req, res}: any) => {
-      return {
-        req,
-        res,
-        db,
-      };
+    // get the user token from the headers
+      const token = req.headers.authorization.split(' ')[1] || '';
+      // try to retrieve a user with the token
+      const user = await getUser(token);
+
+      // if no user exists or if lookup fails, throws an error
+      if (!user) {
+        throw new GraphQLError('User is not authenticated', {
+          extensions: {
+            code: 'UNAUTHENTICATED',
+            http: { status: 401},
+          }
+        });
+      }
+
+      // add the user to the context
+      return { req, res, db, user };
     },
   }));
 
@@ -44,13 +59,6 @@ async function startApolloServer() {
   app.post('/login', userController.loginAuth, (req: Request, res: Response) => {
     return res.status(200).json(res.locals.user);
   });
-
-  // app.post('/testjwt', (req, res) => {
-  //   const { token } = req.body;
-  //   const username = jwt.verify(token, process.env.JWT_KEY);
-  //   console.log('from testjwt endpoint USERNAME: ', username);
-  //   res.status(200).json({ username: username });
-  // });
 
   app.get('/', (req: Request, res: Response) => {
     return res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
