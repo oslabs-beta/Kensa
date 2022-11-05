@@ -8,27 +8,25 @@ import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import { TbRefresh } from 'react-icons/tb';
 import { ThemeContext } from './App';
 import { darkTheme } from '../theme/darkTheme';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
 
 const Monitor = () => {
   const { theme } = useContext(ThemeContext);
 
-  const currentProjectId = localStorage.getItem('projectId');
-
-  // Alert user when they click on Metrics tab if they haven't clicked on a project yet
-  if (!currentProjectId) {
-    return (
-      <Center w='100%' h='100%' >
-        <Alert status='error' h='100px' w='50%' borderRadius='10px' className='alert'>
-          <AlertIcon />
-          Please choose a project 
-        </Alert>
-      </Center>
-    );
+  let projectId: string;
+  const user = useSelector((state: RootState) => state.auth.user);
+  
+  if (user.currentProjectId !== '0') {
+    projectId = user.currentProjectId;
+    localStorage.setItem('projectId', projectId);
+  } else {
+    projectId = localStorage.getItem('projectId');
   }
-
+  
   // Refetch last seen project data when user click back to the Metrics Tab on the sidebar
   useEffect(() => {
-    refetch({ projectId: currentProjectId });
+    refetch({ projectId: projectId });
   }, []);
 
   const GET_PROJECT_DATA = gql`
@@ -54,7 +52,7 @@ const Monitor = () => {
 
   const { loading, error, data, refetch } = useQuery(GET_PROJECT_DATA, {
     variables: {
-      projectId: currentProjectId
+      projectId: projectId
     },
     // pollInterval: 10000,  // polling every 10 seconds
   });
@@ -98,11 +96,13 @@ const Monitor = () => {
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader><Heading size='xs'>Project Info</Heading></PopoverHeader>
-            <PopoverBody><ProjectInfo projectId={currentProjectId} apiKey={data.project['api_key']} /></PopoverBody>
+            <PopoverBody>
+              <ProjectInfo projectId={projectId} apiKey={data.project['api_key']} />
+            </PopoverBody>
           </PopoverContent>
         </Popover>
         {/* Refresh to fetch current project newest data  */}
-        <Box onClick={() => refetch({ projectId: currentProjectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'><TbRefresh /></Box>
+        <Box onClick={() => refetch({ projectId: projectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'><TbRefresh /></Box>
       </Stack>
       <MetricContainer historyLogs={data.project['history_log']}/>
     </Stack>
