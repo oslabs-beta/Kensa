@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 export const resolvers = {
   Query: {
@@ -58,9 +59,13 @@ export const resolvers = {
           }
         });
       }
+
+      // Encrypt password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
       
       // Insert new user into database
-      await db.query('INSERT INTO users(username, password) VALUES($1, $2) RETURNING username;', [username, password]);
+      await db.query('INSERT INTO users(username, password) VALUES($1, $2) RETURNING username;', [username, hashedPassword]);
       // Create token to send back to client
       const token = jwt.sign({ username: username }, process.env.JWT_KEY);
 

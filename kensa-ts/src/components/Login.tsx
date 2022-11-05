@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from "react-router-dom";
-import { Stack, Heading, Text, Box, Center, Flex } from '@chakra-ui/react';
+import { Stack, Heading, Text, Box, Center, FormErrorMessage } from '@chakra-ui/react';
 import { FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import { ThemeContext } from './App';
 import { useDispatch } from 'react-redux';
@@ -11,8 +11,9 @@ const Login = () => {
   // App theme state and function to switch between themes
   const { theme, toggleTheme } = useContext(ThemeContext);
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
   
   // Getting user state in localStorage. If there is a user, log them in and navigate to /user/:username
   const user = JSON.parse(localStorage.getItem('user'));
@@ -57,7 +58,13 @@ const Login = () => {
         password: password
       })
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 400) {
+          setIsPasswordError(true);
+          throw new Error('Wrong username or password'); 
+        }
+        return res.json();
+      })
       .then((user) => {
         // dispatch login action to Redux store
         dispatch(login(user));  
@@ -81,9 +88,10 @@ const Login = () => {
             <FormLabel>Username</FormLabel>
             <Input type='text' onChange={handleUserChange} ref={usernameRef} />
           </FormControl>
-          <FormControl isRequired>
+          <FormControl isRequired isInvalid={isPasswordError}>
             <FormLabel>Password</FormLabel>
             <Input type='password' onChange={handlePasswordChange}/>
+            <FormErrorMessage>Wrong username or password</FormErrorMessage>
           </FormControl>
           <Button type='submit' w={400} colorScheme='facebook'>Sign In</Button>
           <Link to='/signup'><Text color='blue.500' className='link'>Don&#39;t have account? Get started</Text></Link>

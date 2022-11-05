@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from '@apollo/server/express4';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import path from 'path';
@@ -9,7 +10,6 @@ import { resolvers } from "./resolvers";
 import db from "./models/db";
 import { userController } from './controllers/userController';
 import cookieParser from "cookie-parser";
-import jwt from 'jsonwebtoken';
 
 async function startApolloServer() {
   const app = express();
@@ -41,30 +41,28 @@ async function startApolloServer() {
   // Express REST API routes
   app.use('/', cors(), express.static(path.join(__dirname, '../dist')));
 
-  app.post('/login', userController.loginAuth, (req, res) => {
-    res.status(200).json(res.locals.user);
+  app.post('/login', userController.loginAuth, (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.user);
   });
 
-  app.post('/testjwt', (req, res) => {
-    const { token } = req.body;
-    const username = jwt.verify(token, process.env.JWT_KEY);
-    console.log('from testjwt endpoint USERNAME: ', username);
-    res.status(200).json({ username: username });
-  });
+  // app.post('/testjwt', (req, res) => {
+  //   const { token } = req.body;
+  //   const username = jwt.verify(token, process.env.JWT_KEY);
+  //   console.log('from testjwt endpoint USERNAME: ', username);
+  //   res.status(200).json({ username: username });
+  // });
 
-  app.get('/', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
+  app.get('/', (req: Request, res: Response) => {
+    return res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
   });
 
   // the get '/*' request is required to get React router to work in production
-  app.get('/*', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
+  app.get('/*', (req: Request, res: Response) => {
+    return res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
   });
 
-  // global error handler
 
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
 }
 
 startApolloServer();
