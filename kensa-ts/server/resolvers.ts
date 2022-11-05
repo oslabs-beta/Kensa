@@ -34,6 +34,12 @@ export const resolvers = {
       const result = await db.query('SELECT * FROM history_log_dev;');
       return result.rows;
     }
+
+    // test for mongodb migration
+    testUser: async (_: any, __: any, { db }: any) => {
+      const result = await db.
+      return result;
+    }
   },
   Mutation: {
     addProject: async (_: any, { project_name, api_key, server_url, user }: any, { db }: any) => {
