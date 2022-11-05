@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, FormControl, FormLabel, Input, Stack, border } from '@chakra-ui/react';
 import { ThemeContext } from "./App";
 import { darkTheme } from '../theme/darkTheme';
+import { useDispatch } from "react-redux";
+import { updateCurrentProjectId } from '../features/auth/authSlice';
 
 type AddProjectType = {
     isOpen: boolean;
@@ -19,6 +21,7 @@ const AddProject = ({ isOpen, onClose }: AddProjectType) => {
 
   const navigate = useNavigate();
   const params = useParams();
+  const dispatch = useDispatch();
 
   const GET_PROJECT_DATA = gql`
     query GetUser($userName: String!) {
@@ -38,11 +41,6 @@ const AddProject = ({ isOpen, onClose }: AddProjectType) => {
     const path = `monitor/${projectId}`;
     navigate(path);
   };
-    
-  // const backToUserPage = (): void => {
-  //   const path = `../user/${params.username}`;
-  //   navigate(path);
-  // };
 
   // this mutation string creates a new project in Kensa's database
   const ADD_PROJECT = gql`
@@ -58,6 +56,8 @@ const AddProject = ({ isOpen, onClose }: AddProjectType) => {
   const [addProject, { data: mutationData }] = useMutation(ADD_PROJECT, {
     onCompleted: () => {
       const projectId = mutationData.addProject.id;
+      // Dispatch action to Redux store to update currentprojectId state
+      dispatch(updateCurrentProjectId(projectId)); 
       toMonitorPage(Number(projectId));
     }
   });
@@ -101,8 +101,21 @@ const AddProject = ({ isOpen, onClose }: AddProjectType) => {
                 }}/>
               </FormControl>
               <Stack direction='row' justify='end'>
-                <Button colorScheme='facebook' mr={3} onClick={onClose}>Close</Button>
-                <Button type='submit' colorScheme='facebook'>Create</Button>
+                <Button 
+                  color={theme === 'dark' ? 'black' : 'white'} 
+                  colorScheme={theme === 'light' ? 'facebook' : 'gray'} 
+                  mr={3} 
+                  onClick={onClose}
+                >
+                  Close
+                </Button>
+                <Button 
+                  type='submit' 
+                  color={theme === 'dark' ? 'black' : 'white'} 
+                  colorScheme={theme === 'light' ? 'facebook' : 'gray'}
+                >
+                  Create
+                </Button>
               </Stack>
             </Stack>
           </form>

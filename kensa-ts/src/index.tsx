@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { ChakraProvider } from '@chakra-ui/react';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
 
 import App from './components/App';
 import './assets/styles/styles.scss';
@@ -14,10 +16,12 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <BrowserRouter>
+    <Provider store={store}>
       <ChakraProvider>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ChakraProvider>
-    </BrowserRouter>
+    </Provider>
   </ApolloProvider>,
   document.getElementById('root'));
