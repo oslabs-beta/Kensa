@@ -5,9 +5,9 @@ import { Box, Button, Flex } from '@chakra-ui/react';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { ThemeContext } from './App';
 
-const CodeEditor = ({ setResData }: any) => {
+const CodeEditor = ({ setResData, query, setQuery }: any) => {
   const { theme } = useContext(ThemeContext);
-  const [query, setQuery] = useState<string>('');
+  // const [query, setQuery] = useState<string>('');
 
   const handleEditorChange = (value?: string, event?: editor.IModelContentChangedEvent): any => {
     setQuery(value);

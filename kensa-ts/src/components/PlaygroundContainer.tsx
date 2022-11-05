@@ -8,6 +8,7 @@ import PlaygroundTreeVis from './PlaygroundTreeVis';
 
 const PlaygroundContainer = () => {
   const [resData, setResData] = useState<string>('');
+  const [query, setQuery] = useState<string>('');
 
   return (
     <Stack direction='column' p='20px' id='playground-container'>
@@ -15,11 +16,11 @@ const PlaygroundContainer = () => {
       <Grid id='playground'>
         <GridItem >
           <Text>Playground</Text>
-          <CodeEditor className='playground-items' setResData={setResData} />
+          <CodeEditor className='playground-items' setResData={setResData} query={query} setQuery={setQuery}/>
         </GridItem>
         <GridItem>
           <Text>Tree Structure</Text>
-          <PlaygroundTreeVis />
+          <PlaygroundTreeVis resData={resData} query={query}/>
         </GridItem>
         <GridItem>
           <Text>Response</Text>
