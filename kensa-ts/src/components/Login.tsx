@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import { Stack, Heading, Text, Box, Center, Flex } from '@chakra-ui/react';
 import { FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
@@ -8,11 +8,12 @@ import { login } from '../features/auth/authSlice';
 
 
 const Login = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();  
-  
+  // App theme state and function to switch between themes
   const { theme, toggleTheme } = useContext(ThemeContext);
 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  
   // Getting user state in localStorage. If there is a user, log them in and navigate to /user/:username
   const user = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
@@ -21,9 +22,15 @@ const Login = () => {
       navigate(`/user/${user.username}`); // navigate to user's Projects page
     }
   }, [user]);
-  
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+
+  // Focus Username input upon rendering  
+  const usernameRef = useRef(null);
+  useEffect(() => {
+    usernameRef.current.focus();
+  }, []);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();  
   
   function handleUserChange(e: React.SyntheticEvent): void {
     const target = e.target as HTMLInputElement;
@@ -66,11 +73,13 @@ const Login = () => {
     <Box id='login'>
       <form onSubmit={handleLogin}>
         <Stack spacing={10} direction='column' align='center' maxWidth={400}>
-          <Link to='/'><Text color='blue.500' className='link'>Back to Homepage</Text></Link>
+          <Link to='/'>
+            <Text color='blue.500' className='link'>Back to Homepage</Text>
+          </Link>
           <Heading>Sign In</Heading>
           <FormControl isRequired>
             <FormLabel>Username</FormLabel>
-            <Input type='text' onChange={handleUserChange} />
+            <Input type='text' onChange={handleUserChange} ref={usernameRef} />
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Password</FormLabel>

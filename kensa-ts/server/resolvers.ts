@@ -1,3 +1,6 @@
+import { GraphQLError } from 'graphql';
+import jwt from 'jsonwebtoken';
+
 export const resolvers = {
   Query: {
     // Get all users
@@ -45,14 +48,28 @@ export const resolvers = {
       return result.rows[0];
     },
     createUser: async (_: any, { username, password }: any, { db }: any) => {
-      const result = await db.query('INSERT INTO users(username, password) VALUES($1, $2) RETURNING *;', [username, password]);
-      return result.rows[0];
-    },
+      // Check if there is a same username exists in the database. If yes, throw error
+      const dbResult = await db.query('SELECT username FROM users WHERE username = $1', [username]);
+      const existingUser = dbResult.rows[0];
+      if (existingUser) {
+        throw new GraphQLError('Please choose different username', {
+          extensions: {
+            code: 'BAD_USER_INPUT'
+          }
+        });
+      }
+      
+      // Insert new user into database
+      await db.query('INSERT INTO users(username, password) VALUES($1, $2) RETURNING username;', [username, password]);
+      // Create token to send back to client
+      const token = jwt.sign({ username: username }, process.env.JWT_KEY);
 
+      return { username, token };
+    },
   },
   User: {
     projects: async ({ id: user_id }: any, __: any, { db }: any, info: any) => {
-      const result = await db.query('SELECT * FROM projects WHERE user_id = $1', [user_id])
+      const result = await db.query('SELECT * FROM projects WHERE user_id = $1', [user_id]);
       return result.rows;
     }
   },
@@ -76,4 +93,4 @@ export const resolvers = {
       return result.rows[0];
     }
   }
-}
+};

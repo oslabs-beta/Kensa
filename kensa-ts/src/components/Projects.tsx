@@ -19,12 +19,10 @@ const Projects = () => {
   
   // Log user in if they are already signed in
   const user = JSON.parse(localStorage.getItem('user'));
-  console.log(user);
 
   useEffect(() => {
     if (user) {
       dispatch(login(user));
-      console.log('dispatched');
     }
   }, [user]);
   
