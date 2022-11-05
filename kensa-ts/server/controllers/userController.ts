@@ -28,21 +28,5 @@ export const userController = {
     } else {
       return res.status(400).json('Wrong username or password');
     }
-
-    // db.query(GET_USER)
-    //   .then((result: any) => {
-    //     const user = result.rows[0];
-    //     if(!user){
-    //       // invoke global error handler
-    //       res.locals.user = { username: '', token: '' };
-    //       return next();
-    //     }
-    //     // const truePassword = user.password;
-    //     const token = jwt.sign({ username: user.username }, process.env.JWT_KEY);
-    //     // res.cookie('token', token);
-    //     res.locals.user = truePassword === password ? { username: user.username, token: token } : { username: '', token: '' };
-
-    //     return next();
-    //   });
   },
 };
