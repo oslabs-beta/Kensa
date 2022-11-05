@@ -215,14 +215,16 @@ table, td {
 
 .node__root > circle {
 	fill: rgb(255, 140, 0);
+	border-color: #2d2d32;
 }
 
 .node__branch > circle {
 	fill: rgb(255, 158, 40);
+	border-color: #2d2d32;
 }
 
 .node__leaf > circle {
 	fill: rgb(255, 197, 50);
-	/* Let's also make the radius of leaf nodes larger */
 	r: 40;
+	border-color: #2d2d32;
 }

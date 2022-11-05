@@ -9,47 +9,59 @@ const orgChart = {
 };
 
 const queryTransform = ( query: string  )=> {
-  let end = 0;
-  const arr: Array<string> = [];
-  let str = '';
-  let isFirst = true;
-  while (end < query.length) {
-    if(query[end] === ' '){
-      if(isFirst) isFirst = false;
-      if(str.length > 0) {
-        arr.push(str.split('\n').join(''));
-        str = '';
+  // Clean the query from '\n' and spaces and non wanted characters and form an array
+  const clearQuery = (end = 0, str = '', isFirst = true) =>{
+    const queryArr: Array<string> = [];
+    while (end < query.length) {
+      if(query[end] === ' '){
+        if(isFirst) isFirst = false;
+        if(str.length > 0) {
+          queryArr.push(str.split('\n').join(''));
+          str = '';
+        }
+      } else if(query[end] === "}"){
+        queryArr.push('}');
+        end++;
+      } else {
+        if(!isFirst)str += query[end];
       }
-    } else if(query[end] === "}"){
-      arr.push('}');
       end++;
-    } else {
-      if(!isFirst)str += query[end];
     }
-    end++;
-  }
+    return queryArr;
+  };
+
+  // Build array with clean query
+  const arr: Array<string> = clearQuery();
+
+  // If name is not provided add default as name
   if(arr[0] === '{') arr.unshift('default');
   const treeObject: {name: string, children: Array<any>} = {name: arr[0], children: []};
 
-  const recurseFunc = (arr: Array<string> )  =>{
+  // recursively built the nested objects in the format required for the D3 tree component
+  // Format: { name: string!, attributes: string, children: Array<string> }
+  const recurseFunc = (arr: Array<string>, index:any = 0 )  =>{
     const arrObjs: Array<any> = [];
-    let closeBracket = false;
-    let index = 0;
-    while (!closeBracket){
+    let numObj = 0;
+    while (index < arr.length){
       const element = arr[index];
+      let temp = [];
       if(element[0] === '{'){
-        arrObjs[index - 1].children = recurseFunc(arr.slice(index + 1, arr.length));
-        return arrObjs;
+        temp = recurseFunc(arr, index + 1);
+        arrObjs[numObj].children = temp[0];
+        numObj++;
+        index = temp[1];
       } else if(element === '}'){
-        closeBracket = true;
+        return [arrObjs, index];
       } else {
         arrObjs.push({name: element});
       }
       index++;
     }
-    return arrObjs;
+    return [arrObjs, index];
   };
-  if(arr[1][0] === '{') treeObject.children = recurseFunc(arr.slice(2, arr.length));
+
+  // If object has an opening bracket build the children array with the parameters
+  if(arr[1][0] === '{') treeObject.children = recurseFunc(arr.slice(2, arr.length))[0];
   return treeObject;
 };
 
@@ -62,11 +74,8 @@ const PlaygroundTreeVis = ({ resData, query}: any) => {
   // When they submit the query call the queryTransform inside use effect 
   // and update the object in tree
   useEffect(() => {
-    console.log('IN USE EFFECT TREE');
-    console.log('query',query);
     if(resData) {
       setObjQuery(queryTransform(query));
-      console.log('objQuery',objQuery);
     }
   }, [resData]);
 
