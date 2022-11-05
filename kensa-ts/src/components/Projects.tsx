@@ -10,18 +10,21 @@ import AddProject from "./AddProject";
 import { useDispatch } from 'react-redux';
 import { login, updateCurrentProjectId } from "../features/auth/authSlice";
 import { ThemeContext } from "./App";
+import { ProjectType } from "../types/types";
 
 
 const Projects = () => {
   const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
-
+  
   // Log user in if they are already signed in
   const user = JSON.parse(localStorage.getItem('user'));
+  console.log(user);
 
   useEffect(() => {
     if (user) {
       dispatch(login(user));
+      console.log('dispatched');
     }
   }, [user]);
   
@@ -58,7 +61,7 @@ const Projects = () => {
 
   const { error, data, loading } = useQuery(GET_USER_PROJECT, {
     variables: {
-      userName: username
+      userName: user.username
     }
   });
   
@@ -81,7 +84,7 @@ const Projects = () => {
     );
   }
 
-  const projects = data.username.projects;
+  const projects: ProjectType[] = data.username.projects;
   const projectCards: Array<any> = [];
 
   for (let i = 0; i < projects.length; i++) {
@@ -90,14 +93,14 @@ const Projects = () => {
     const apiKey = projects[i]["api_key"];
 
     projectCards.push(
-      // <ProjectCard key={i} projectName={projectName} apiKey={apiKey} projectId={projectId} />
+      // <ProjectCard key={i} projectName={projectName} projectId={projectId} />
       <GridItem key={i} className='projects-grid-item' onClick={() => {
         // dispatch action to update currentProject in Redux store
         dispatch(updateCurrentProjectId(projectId)); 
         // save projectId to localStorage to persist data when refreshing
         localStorage.setItem('projectId', projectId); 
       }}>
-        <ProjectCard projectName={projectName} apiKey={apiKey} projectId={projectId}  />
+        <ProjectCard projectName={projectName} projectId={projectId}  />
       </GridItem>
     );
   }

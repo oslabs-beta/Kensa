@@ -1,16 +1,25 @@
+import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { Alert, AlertIcon, Box, Center, Spinner } from "@chakra-ui/react";
-import React from "react";
-import Cookies from "js-cookie";
 import { QueryTypeDev } from "../types/types";
+import { format } from 'date-fns';
 
-const HistoryLogDev = (props: any) => {
-  const projectId = Cookies.get('projectId');
+
+type HistoryLogDevProps = {
+  selectedProjectId: string;
+}
+
+const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
+  console.log(selectedProjectId);
+
+  if (selectedProjectId === '') {
+    return null;
+  }
+
 
   const GET_PROJECT = gql`
     query GetProject($projectId: ID!) {
       project(id : $projectId) {
-        project_name
         history_log_dev {
           id
           operation_name
@@ -24,7 +33,7 @@ const HistoryLogDev = (props: any) => {
 
   const { loading, error, data } = useQuery(GET_PROJECT, {
     variables: {
-      projectId: projectId
+      projectId: selectedProjectId
     }
   });
 
@@ -57,7 +66,6 @@ const HistoryLogDev = (props: any) => {
 
   return (
     <Box p={5}>
-      {/* <Heading size='md' marginBottom='10px'>History Logs</Heading> */}
       <table>
         <thead>
           <tr>
@@ -71,12 +79,14 @@ const HistoryLogDev = (props: any) => {
 
         <tbody>
           {data.project['history_log_dev'].map((query: QueryTypeDev, index: number) => {
+            const queryDate = new Date(parseInt(query['created_at']));
+            const formatDate = format(queryDate, 'MMM dd yyyy HH:mm:ss');
             return (
               <tr key={query.id}>
                 <td>{index + 1}</td>
                 <td>{query.operation_name}</td>
                 <td>{query.execution_time}</td>
-                <td>{query.created_at}</td>
+                <td>{formatDate}</td>
                 <td>{query.success ? 'No' : 'Yes'}</td>
               </tr>
             );

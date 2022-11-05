@@ -9,7 +9,7 @@ type ProjectInfoType = {
     apiKey: string
 }
 
-const ProjectInfo = (props: ProjectInfoType) => {
+const ProjectInfo = ({ projectId, apiKey }: ProjectInfoType) => {
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
@@ -35,14 +35,15 @@ const ProjectInfo = (props: ProjectInfoType) => {
 
   return (
     <Flex direction='column' h='150px' justifyContent='space-between'>
-      <Text fontWeight={'bold'}>Project API:</Text> {props.apiKey}
+      <Text fontWeight={'bold'}>Project API:</Text> 
+      {apiKey}
       <Button 
         color={theme === 'dark' ? 'black' : 'white'}
         colorScheme={theme === 'light' ? 'facebook' : 'gray'} 
         onClick={(): void => {
           deleteProject({
             variables: {
-              deleteProjectId: props.projectId
+              deleteProjectId: projectId
             }
           });
         }}>

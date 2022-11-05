@@ -4,15 +4,14 @@ import { Link } from "react-router-dom";
 
 type ProjectCardPropsType = {
     projectName: string,
-    projectId: number,
-    apiKey: string
+    projectId: string,
 }
 
-const ProjectCard = (props: ProjectCardPropsType) => {
+const ProjectCard = ({ projectName, projectId }: ProjectCardPropsType) => {
   return (
-    <Link to={`monitor/${props.projectId}`}>
+    <Link to={`monitor/${projectId}`}>
       <Center h='200px' w='200px' id='project-card' borderRadius='10px' boxShadow={'md'}>
-        <Heading size='md'>{props.projectName}</Heading>
+        <Heading size='md'>{projectName}</Heading>
       </Center>
     </Link>
   );

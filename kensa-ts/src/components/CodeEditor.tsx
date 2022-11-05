@@ -1,20 +1,42 @@
 import React, { useContext, useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
 import Editor from '@monaco-editor/react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { ThemeContext } from './App';
 
-const CodeEditor = ({ setResData }: any) => {
+type CodeEditorProps = {
+  setResData: React.Dispatch<React.SetStateAction<string>>;
+  selectedProjectId: string;
+}
+
+const CodeEditor = ({ setResData, selectedProjectId }: CodeEditorProps) => {
   const { theme } = useContext(ThemeContext);
   const [query, setQuery] = useState<string>('');
 
-  const handleEditorChange = (value?: string, event?: editor.IModelContentChangedEvent): any => {
+  const GET_PROJECT = gql`
+    query GetProject($projectId: ID!) {
+      project(id: $projectId) {
+        server_url
+      }
+    }
+  `;
+
+  const { loading, error, data } = useQuery(GET_PROJECT, {
+    variables: {
+      projectId: selectedProjectId
+    }
+  });
+
+  const handleEditorChange = (value?: string, event?: editor.IModelContentChangedEvent): void => {
     setQuery(value);
   };
 
   const handleQuerySubmit = () => {
-    fetch('http://localhost:3050/graphql', {
+    console.log('server_url', data.project.server_url);
+    const serverUrl = data.project.server_url;
+    fetch(serverUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

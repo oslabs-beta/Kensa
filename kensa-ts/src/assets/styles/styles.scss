@@ -67,6 +67,14 @@ table, td {
 	}
 }
 
+#history-log-dev {
+	overflow: scroll;
+	overflow-x: hidden;
+	table {
+		width: 700px;
+	}
+}
+
 .sort-btn {
 	cursor: pointer;
 	margin-left: 5px;
