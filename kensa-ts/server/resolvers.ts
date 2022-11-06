@@ -29,7 +29,7 @@ export const resolvers = {
     },
     // Get all projects
     projects: async (_: any, __: any, { db }: any) => {
-      const result = await db.query('SELECT * FROM projects;');
+      const result = await db.query('SELECT * FROM projects ORDER BY id;');
       return result.rows;
     },
     // Get a single project by ID
@@ -79,19 +79,19 @@ export const resolvers = {
       return result.rows[0];
     },
     deleteProject: async (_: any, { id }: { id: string }, { db }: any) => {
-      const result = await db.query('DELETE FROM projects WHERE id = $1 RETURNING *;', [id]);
+      const result = await db.query('DELETE FROM projects WHERE id = $1 RETURNING *;', [Number(id)]);
       return result.rows[0];
     },
     updateProject: async (_: any, { id, project }: { id: string; project: ProjectArgs['project'] }, { db }: any) => {
       const { project_name, server_url } = project;
-      const result = await db.query('UPDATE projects SET project_name=$1, server_url=$2 WHERE id=$3 RETURNING *', [project_name, server_url, id]);
+      const result = await db.query('UPDATE projects SET project_name=$1, server_url=$2 WHERE id=$3 RETURNING *', [project_name, server_url, Number(id)]);
       
       return result.rows[0];
     }
   },
   User: {
     projects: async ({ id: user_id }: any, __: any, { db }: any) => {
-      const result = await db.query('SELECT * FROM projects WHERE user_id = $1', [user_id]);
+      const result = await db.query('SELECT * FROM projects WHERE user_id = $1 ORDER BY id;', [user_id]);
       return result.rows;
     }
   },

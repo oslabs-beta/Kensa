@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import MetricContainer from "./MetricContainer";
 import ProjectInfo from './ProjectInfo';
-import { Box, Center, Spinner, Alert, AlertIcon, Stack, Heading, Icon, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
+import { Box, Center, Spinner, Alert, AlertIcon, Stack, Heading, Icon, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Flex } from '@chakra-ui/react';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import { TbRefresh } from 'react-icons/tb';
 import { ThemeContext } from './App';
@@ -13,7 +13,11 @@ import { RootState } from '../app/store';
 
 const Monitor = () => {
   const { theme } = useContext(ThemeContext);
+  const { username } = useParams();
 
+  const [projectName, setProjectName] = useState<string>('');
+  const [projectURL, setProjectURL] = useState<string>('');
+  
   let projectId: string;
   const user = useSelector((state: RootState) => state.auth.user);
   
@@ -35,9 +39,6 @@ const Monitor = () => {
         project_name
         server_url
         api_key
-        user {
-          username
-        }
         history_log {
           id
           operation_name
@@ -54,6 +55,10 @@ const Monitor = () => {
     variables: {
       projectId: projectId
     },
+    onCompleted: () => {
+      setProjectName(data.project['project_name']);
+      setProjectURL(data.project['server_url']);
+    }
     // pollInterval: 10000,  // polling every 10 seconds
   });
 
@@ -79,31 +84,46 @@ const Monitor = () => {
 
   return (
     <Stack direction='column' p={'20px'} id='monitor'>
-      <Stack spacing={4} direction='row' align='center' marginBottom='25px'>
-        <Link to={`/user/${data.project.user.username}`}><Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem'/></Link>
-        <Heading size='md'>Project Name: {data.project['project_name']}</Heading>
-        <Popover>
-          <PopoverTrigger>
-            <Button 
-              size='xs' 
-              color={theme === 'dark' ? 'black' : 'white'} 
-              colorScheme={theme === 'light' ? 'facebook' : 'gray'}
-            >
+      <Flex direction='row' justifyContent='space-between' marginBottom='25px'>
+        <Flex gap={2} align='center' marginBottom='10px'>
+          <Link to={`/user/${username}`}>
+            <Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem'/>
+          </Link>
+          <Heading size='md'>Project Name: {projectName}</Heading>
+        </Flex>
+        <Flex gap={2}>
+          <Popover>
+            <PopoverTrigger>
+              <Button 
+                size='xs' 
+                color={theme === 'dark' ? 'black' : 'white'} 
+                colorScheme={theme === 'light' ? 'facebook' : 'gray'}
+              >
               Info
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent style={theme === 'dark' && darkTheme}>
-            <PopoverArrow />
-            <PopoverCloseButton />
-            <PopoverHeader><Heading size='xs'>Project Info</Heading></PopoverHeader>
-            <PopoverBody>
-              <ProjectInfo projectId={projectId} apiKey={data.project['api_key']} />
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
-        {/* Refresh to fetch current project newest data  */}
-        <Box onClick={() => refetch({ projectId: projectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'><TbRefresh /></Box>
-      </Stack>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent style={theme === 'dark' && darkTheme}>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverHeader><Heading size='xs'>Project Info</Heading></PopoverHeader>
+              <PopoverBody>
+                <ProjectInfo 
+                  projectId={projectId} 
+                  projectName={projectName}
+                  setProjectName={setProjectName}
+                  projectURL={projectURL}
+                  setProjectURL={setProjectURL}
+                  apiKey={data.project['api_key']}
+                />
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+          {/* Refresh to fetch current project newest data  */}
+          <Box onClick={() => refetch({ projectId: projectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'>
+            <TbRefresh />
+          </Box>
+        </Flex>
+      </Flex>
       <MetricContainer historyLogs={data.project['history_log']}/>
     </Stack>
   );
