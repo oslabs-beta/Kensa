@@ -1,6 +1,7 @@
 import { GraphQLError } from 'graphql';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { CreateUserArgs, ProjectArgs } from './types';
 
 export const resolvers = {
   Query: {
@@ -47,15 +48,7 @@ export const resolvers = {
     }
   },
   Mutation: {
-    addProject: async (_: any, { project_name, api_key, server_url, user }: any, { db }: any) => {
-      const result = await db.query('INSERT INTO projects(project_name, api_key, server_url, user_id) VALUES($1, $2, $3, $4) RETURNING *;', [project_name, api_key, server_url, user]);
-      return result.rows[0];
-    },
-    deleteProject: async (_: any, { id }: any, { db }: any) => {
-      const result = await db.query('DELETE FROM projects WHERE id = $1 RETURNING *;', [id]);
-      return result.rows[0];
-    },
-    createUser: async (_: any, { username, password }: any, { db }: any) => {
+    createUser: async (_: any, { username, password }: CreateUserArgs, { db }: any) => {
       // Check if there is a same username exists in the database. If yes, throw error
       const dbResult = await db.query('SELECT username FROM users WHERE username = $1', [username]);
       const existingUser = dbResult.rows[0];
@@ -66,7 +59,6 @@ export const resolvers = {
           }
         });
       }
-
       // Encrypt password
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -74,10 +66,28 @@ export const resolvers = {
       // Insert new user into database
       await db.query('INSERT INTO users(username, password) VALUES($1, $2) RETURNING username;', [username, hashedPassword]);
       // Create token to send back to client
-      const token = jwt.sign({ username: username }, process.env.JWT_KEY);
-
+      const token = jwt.sign({ username: username }, process.env.JWT_KEY, {
+        expiresIn: "1h",
+      });
+      
       return { username, token };
     },
+    addProject: async (_: any, { project }: ProjectArgs, { db }: any) => {
+      const { project_name, api_key, server_url, userId } = project;
+      const result = await db.query('INSERT INTO projects(project_name, api_key, server_url, user_id) VALUES($1, $2, $3, $4) RETURNING *;', [project_name, api_key, server_url, userId]);
+
+      return result.rows[0];
+    },
+    deleteProject: async (_: any, { id }: { id: string }, { db }: any) => {
+      const result = await db.query('DELETE FROM projects WHERE id = $1 RETURNING *;', [id]);
+      return result.rows[0];
+    },
+    updateProject: async (_: any, { id, project }: { id: string; project: ProjectArgs['project'] }, { db }: any) => {
+      const { project_name, server_url } = project;
+      const result = await db.query('UPDATE projects SET project_name=$1, server_url=$2 WHERE id=$3 RETURNING *', [project_name, server_url, id]);
+      
+      return result.rows[0];
+    }
   },
   User: {
     projects: async ({ id: user_id }: any, __: any, { db }: any) => {
