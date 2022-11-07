@@ -58,7 +58,7 @@ const PlaygroundContainer = () => {
   return (
     <Stack direction='column' p='20px' id='playground-container'>
       <Stack>
-        <Heading size='md' marginBottom={1}>Playground</Heading>
+        <Heading size='md' marginBottom={1}>Development Playground</Heading>
         <Select
           w='300px' 
           placeholder='Select Project' 
@@ -73,7 +73,7 @@ const PlaygroundContainer = () => {
       </Stack>
       <Grid id='playground'>
         <GridItem >
-          <Text>Playground</Text>
+          <Heading size='sm'>Operation</Heading>
           <Box className='playground-items'>
             <CodeEditor 
               setResData={setResData} 
@@ -82,19 +82,19 @@ const PlaygroundContainer = () => {
           </Box>
         </GridItem>
         <GridItem>
-          <Text>Tree Structure</Text>
+          <Heading size='sm'>Tree Structure</Heading>
           <Box className='playground-items'>
             <PlaygroundTreeVis />
           </Box>
         </GridItem>
         <GridItem>
-          <Text>Response</Text>
+          <Heading size='sm'>Response</Heading>
           <Box className='playground-items'>
             <PlaygroudQueryResponse resData={resData} />
           </Box>
         </GridItem>
         <GridItem>
-          <Text>History Log</Text>
+          <Heading size='sm'>History Log</Heading>
           <Box className='playground-items' id='history-log-dev'>
             <HistoryLogDev selectedProjectId={selectedProjectId}/>
           </Box>

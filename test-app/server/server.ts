@@ -79,7 +79,8 @@ async function startApolloServer() {
 
   await apolloServer.start();
 
-  const api = 'bcdf2ec0-47ae-400b-8aeb-a4a78daf2f05';
+  // Kensa test-app id=1, user_id=1 (brian)
+  const api = 'f1d275e5-5557-4aa0-bb29-ebd0ab871cf2';
   
   app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(apolloServer, {
     // when referencing the database in resolvers, use 'db' when deconstructing context object
