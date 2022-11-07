@@ -13,3 +13,9 @@ export interface ProjectArgs {
     userId?: string;
   }
 }
+
+export interface ChangePasswordArgs {
+  username: string;
+  oldPassword: string;
+  newPassword: string;
+}

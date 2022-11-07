@@ -27,6 +27,8 @@ export const typeDefs = gql`
     deleteProject(id: ID!): Project!
     "Mutation to update a project given ProjectInput"
     updateProject(id: ID!, project: ProjectInput!): Project!
+    "Mutation to change password"
+    changePassword(userInput: ChangePasswordInput!): User!
   }
 
   type CreateUserResponse {
@@ -82,6 +84,12 @@ export const typeDefs = gql`
     api_key: String
     server_url: String!
     userId: String
+  }
+
+  input ChangePasswordInput {
+    username: String!
+    oldPassword: String!
+    newPassword: String!
   }
 `;
 

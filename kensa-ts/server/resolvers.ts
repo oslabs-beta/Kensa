@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { CreateUserArgs, ProjectArgs } from './types';
+import { CreateUserArgs, ProjectArgs, ChangePasswordArgs } from './types';
 
 export const resolvers = {
   Query: {
@@ -84,7 +84,37 @@ export const resolvers = {
     },
     updateProject: async (_: any, { id, project }: { id: string; project: ProjectArgs['project'] }, { db }: any) => {
       const { project_name, server_url } = project;
-      const result = await db.query('UPDATE projects SET project_name=$1, server_url=$2 WHERE id=$3 RETURNING *', [project_name, server_url, Number(id)]);
+      const result = await db.query('UPDATE projects SET project_name=$1, server_url=$2 WHERE id=$3 RETURNING *;', [project_name, server_url, Number(id)]);
+      
+      return result.rows[0];
+    },
+    changePassword: async (_: any, { userInput }: { userInput: ChangePasswordArgs }, { db }: any) => {
+      const { username, oldPassword, newPassword } = userInput;
+      // Check if there is a same username exists in the database. If not, throw error
+      const dbResult = await db.query('SELECT * FROM users WHERE username = $1;', [username]);
+      const existingUser = dbResult.rows[0];
+      if (!existingUser) {
+        throw new GraphQLError('Invalid username. User does not exist', {
+          extensions: {
+            code: 'BAD_USER_INPUT'
+          }
+        });
+      }
+
+      // Verify password against hashed password in database
+      // if success, change new password
+      if (!bcrypt.compare(oldPassword, existingUser.password)) {
+        throw new GraphQLError('Invalid password. Please provide correct password', {
+          extensions: {
+            code: 'BAD_USER_INPUT'
+          }
+        });
+      }
+
+      // Encrypt password and Update database with new password
+      const salt = await bcrypt.genSalt(10);
+      const newHashedPassword = await bcrypt.hash(newPassword, salt);
+      const result = await db.query('UPDATE users SET password = $1 WHERE username = $2 RETURNING *;', [newHashedPassword, username]);
       
       return result.rows[0];
     }
