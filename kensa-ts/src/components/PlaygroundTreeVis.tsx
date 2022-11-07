@@ -5,7 +5,39 @@ import { Button } from "@chakra-ui/react";
 import { ThemeContext } from './App';
 
 const orgChart = {
-  name: 'Your Query',
+  name: 'CEO',
+  children: [
+    {
+      name: 'Manager',
+      attributes: {
+        time: '10m/s',
+      },
+      children: [
+        {
+          name: 'Foreman',
+          attributes: {
+            department: 'Fabrication',
+          },
+          children: [
+            {
+              name: 'Worker',
+            },
+          ],
+        },
+        {
+          name: 'Foreman',
+          attributes: {
+            department: 'Assembly',
+          },
+          children: [
+            {
+              name: 'Worker',
+            },
+          ],
+        },
+      ],
+    },
+  ],
 };
 
 const queryTransform = ( query: string  )=> {
@@ -34,7 +66,7 @@ const queryTransform = ( query: string  )=> {
   const arr: Array<string> = clearQuery();
 
   // If name is not provided add default as name
-  if(arr[0] === '{') arr.unshift('default');
+  if(arr[0] === '{') arr.unshift('default name');
   const treeObject: {name: string, children: Array<any>} = {name: arr[0], children: []};
 
   // recursively built the nested objects in the format required for the D3 tree component
@@ -68,9 +100,6 @@ const queryTransform = ( query: string  )=> {
 const PlaygroundTreeVis = ({ resData, query}: any) => {
   const { theme } = useContext(ThemeContext);
   const [objQuery, setObjQuery ] = useState<any>(null);
-  // console.log('Response IN Tree',resData);
-  // console.log('Query IN Tree',query);
-  // console.log('typeof query IN Tree',typeof query);
   // When they submit the query call the queryTransform inside use effect 
   // and update the object in tree
   useEffect(() => {
