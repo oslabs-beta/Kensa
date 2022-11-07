@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import ProjectCard from "./ProjectCard";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, Input } from "@chakra-ui/react";
 import { Spinner, Alert, AlertIcon, Button, Heading, Box, Flex, Spacer, Center } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import AddProject from "./AddProject";
@@ -16,6 +16,9 @@ import { ProjectType } from "../types/types";
 const Projects = () => {
   const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
+
+  // params username in URL route
+  const { username } = useParams();
   
   // Log user in if they are already signed in
   const user = JSON.parse(localStorage.getItem('user'));
@@ -26,9 +29,6 @@ const Projects = () => {
     }
   }, [user]);
   
-  // params username in URL route
-  const { username } = useParams();
-
   // Prevent user from accessing Project by modifying URL params
   if (!user || username !== user.username) {
     return (
@@ -47,6 +47,7 @@ const Projects = () => {
   const GET_USER_PROJECT = gql`
     query GetUserProject($userName: String!) {
       username(username: $userName) {
+        id
         username
         projects {
           id
@@ -57,12 +58,14 @@ const Projects = () => {
     }
   `;
 
-  const { error, data, loading } = useQuery(GET_USER_PROJECT, {
+  const { error, data, loading, refetch } = useQuery(GET_USER_PROJECT, {
     variables: {
       userName: user.username
-    }
+    }, 
+    // by default, useQuery hook check Apollo Client cache to see if it is available locally. This is needed to make sure we have newly updated project rendered after adding a project
+    fetchPolicy: 'network-only', // Doesn't check cache before making a network request
   });
-  
+
   if (loading) {
     return (
       <Center w='100%' h='100%'>
@@ -91,7 +94,6 @@ const Projects = () => {
     const apiKey = projects[i]["api_key"];
 
     projectCards.push(
-      // <ProjectCard key={i} projectName={projectName} projectId={projectId} />
       <GridItem key={i} className='projects-grid-item' onClick={() => {
         // dispatch action to update currentProject in Redux store
         dispatch(updateCurrentProjectId(projectId)); 
@@ -116,12 +118,9 @@ const Projects = () => {
           New Project
         </Button>
       </Flex>
-      <AddProject isOpen={isOpen} onClose={onClose} />
+      <AddProject isOpen={isOpen} onClose={onClose} userId={data.username.id} />
       
       {/* Display Projects */}
-      {/* <Flex gap={5} m={5} direction='column'>
-        {projectCards}
-      </Flex> */}
       <Grid id='projects-grid-container'>
         {projectCards}
       </Grid>     

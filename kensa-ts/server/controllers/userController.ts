@@ -22,7 +22,9 @@ export const userController = {
     // Verify password against hashed password in database
     // if success, generate token and return to client
     if (await (bcrypt.compare(password, user.password))) {
-      const token = jwt.sign({ username: user.username }, process.env.JWT_KEY);
+      const token = jwt.sign({ username: user.username }, process.env.JWT_KEY, {
+        expiresIn: "1h",
+      });
       res.locals.user = { username: user.username, token: token };
       next();
     } else {

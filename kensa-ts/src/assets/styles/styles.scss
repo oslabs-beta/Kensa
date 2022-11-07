@@ -38,6 +38,7 @@ body {
 		border: 1px solid $light-theme-borderColor;
 		border-radius: 5px;
 		height: 300px;
+		padding-bottom: 10px;
 	}
 
 	#code-editor {
@@ -93,6 +94,10 @@ table, td {
 		border-bottom: 1px solid $light-theme-borderColor;
 	}
 
+	#kensa-navbar {
+		border-bottom: 1px solid $light-theme-borderColor;
+	}
+
 	#side-bar {
 		background-color: $light-theme-sidebar-bgColor;
 		color: black;
@@ -110,6 +115,12 @@ table, td {
 	.link:hover {
 		color: $light-theme-link-hover-color;
 	}
+
+	#playground-error-message {
+		// border: 1px solid $light-theme-borderColor;
+		color: red;
+		margin-bottom: 10px;
+	}
 }
 
 // Dark Mode
@@ -120,7 +131,7 @@ table, td {
 		color: $dark-theme-link-hover-color;
 	}
 
-	#landing-page, #login, #signup {
+	#landing-page, #login, #signup, #change-password-form {
 		color: $dark-theme-color;
 	}
 
@@ -175,6 +186,10 @@ table, td {
 
 	#playground-container {
 		color: $dark-theme-color;
+	}
+
+	#playground-error-message {
+		color: rgb(228, 138, 43);
 	}
 
 	.alert {
