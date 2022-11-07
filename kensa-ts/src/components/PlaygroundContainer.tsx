@@ -11,6 +11,7 @@ import { ProjectType } from "../types/types";
 
 const PlaygroundContainer = () => {
   const [resData, setResData] = useState<string>('');
+  const [query, setQuery] = useState<string>('');
   const [selectedProjectId, setSelectedProjectId] = useState<string>('');
 
   const user = JSON.parse(localStorage.getItem('user'));
@@ -73,18 +74,26 @@ const PlaygroundContainer = () => {
       </Stack>
       <Grid id='playground'>
         <GridItem >
+          {/* <Text>Playground</Text>
+          <CodeEditor className='playground-items' setResData={setResData} query={query} setQuery={setQuery}/>
+        </GridItem>
+        <GridItem>
+          <Text>Tree Structure</Text>
+          <PlaygroundTreeVis resData={resData} query={query}/> */}
           <Heading size='sm'>Operation</Heading>
           <Box className='playground-items'>
             <CodeEditor 
               setResData={setResData} 
               selectedProjectId={selectedProjectId} 
+              query={query} 
+              setQuery={setQuery}
             />
           </Box>
         </GridItem>
         <GridItem>
           <Heading size='sm'>Tree Structure</Heading>
           <Box className='playground-items'>
-            <PlaygroundTreeVis />
+            <PlaygroundTreeVis resData={resData} query={query} />
           </Box>
         </GridItem>
         <GridItem>

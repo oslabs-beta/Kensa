@@ -6,14 +6,17 @@ import { Box, Button } from '@chakra-ui/react';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { ThemeContext } from './App';
 
+// const CodeEditor = ({ setResData, query, setQuery }: any) => {
 type CodeEditorProps = {
   setResData: React.Dispatch<React.SetStateAction<string>>;
   selectedProjectId: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+  query: string;
 }
 
-const CodeEditor = ({ setResData, selectedProjectId }: CodeEditorProps) => {
+const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEditorProps) => {
   const { theme } = useContext(ThemeContext);
-  const [query, setQuery] = useState<string>('');
+  // const [query, setQuery] = useState<string>('');
 
   const [invalidQueryMessage, setInvalidQueryMessage] = useState<string>('');
 

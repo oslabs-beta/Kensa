@@ -6,7 +6,7 @@ import { ThemeContext } from './App';
 const PlaygroudQueryResponse = ({ resData }: any) => {
   const { theme } = useContext(ThemeContext);
   const editorRef = useRef(null);
-
+  console.log(resData)
   // Display new value in editor when resData changes
   useEffect(() => {
     if (editorRef.current) {
