@@ -44,7 +44,6 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
     if (!serverUrl.startsWith('http://')) {
       serverUrl = `http://${serverUrl}`;
     }
-    console.log('serverUrl', serverUrl)
 
     fetch(serverUrl, {
       method: 'POST',
