@@ -1,32 +1,34 @@
+/* eslint-disable no-undef */
 import { Request, Response, NextFunction } from "express";
-import path from "path";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from '../models/db';
 
 export const userController = {
-  loginAuth: (req: Request, res: Response, next: NextFunction) => {
+  loginAuth: async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
-
-    // encrypt  password
+    
     // Build query
-    const GET_PASSWORD = `SELECT * FROM users WHERE username = '${username}'`;
+    const GET_USER = `SELECT * FROM users WHERE username = '${username}'`;
     // Talk to DB 
-    db.query(GET_PASSWORD)
-      .then((result: any) => {
-        // console.log(result.rows);
-        const user = result.rows[0];
-        if(!user){
-          // invoke global error handler
-          res.locals.result = { success: false, token: null };
-          return next();
-        }
-        const truePassword = user.password;
-        const token = jwt.sign({ username: user.username }, process.env.JWT_KEY);
-        res.cookie('token', token);
-        res.locals.result = truePassword === password ? { success: true, token: token } : { success: false, token: null };
+    const result = await db.query(GET_USER);
+    const user = result.rows[0];
 
-        return next();
+    // If no user exists in database, throw error
+    if(!user){
+      return res.status(400).json('Wrong username or password');
+    }
+
+    // Verify password against hashed password in database
+    // if success, generate token and return to client
+    if (await (bcrypt.compare(password, user.password))) {
+      const token = jwt.sign({ username: user.username }, process.env.JWT_KEY, {
+        expiresIn: "1h",
       });
+      res.locals.user = { username: user.username, token: token };
+      next();
+    } else {
+      return res.status(400).json('Wrong username or password');
+    }
   },
 };

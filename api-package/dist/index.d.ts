@@ -9,3 +9,9 @@ export declare const testPlugin: {
         willSendResponse(context: any): Promise<void>;
     }>;
 };
+export declare const getContext: ({ req, res }: any, api: string, db: any) => Promise<{
+    req: any;
+    res: any;
+    db: any;
+    projectId: any;
+}>;

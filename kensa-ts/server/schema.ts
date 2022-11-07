@@ -19,12 +19,23 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    "Mutation to add a project, history log is default to empty array"
-    addProject(project_name: String!, api_key: String!, server_url: String!, user: String!): Project
-    "Mutation to delete a project given an ID"
-    deleteProject(id: ID!): Project
     "Mutation to create a user"
-    createUser(username: String!, password: String!): User
+    createUser(username: String!, password: String!): CreateUserResponse!
+    "Mutation to add a project, history log is default to empty array"
+    addProject(project: ProjectInput!): Project!
+    "Mutation to delete a project given an ID"
+    deleteProject(id: ID!): Project!
+    "Mutation to update a project given ProjectInput"
+    updateProject(id: ID!, project: ProjectInput!): Project!
+    "Mutation to change password"
+    changePassword(userInput: ChangePasswordInput!): User!
+  }
+
+  type CreateUserResponse {
+    "Username that user submit when signing up"
+    username: String!
+    "JWT token that contain user's username info"
+    token: String!
   }
 
   type User {
@@ -66,6 +77,19 @@ export const typeDefs = gql`
     created_at: String!
     "Status of this query"
     success: Boolean!
+  }
+
+  input ProjectInput {
+    project_name: String!
+    api_key: String
+    server_url: String!
+    userId: String
+  }
+
+  input ChangePasswordInput {
+    username: String!
+    oldPassword: String!
+    newPassword: String!
   }
 `;
 

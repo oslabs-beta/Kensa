@@ -11,7 +11,7 @@ export type QueryTypeDev = {
   id: string;
   operation_name: string;
   execution_time: number;
-  created_at: number;
+  created_at: string;
   success: boolean;
 }
 
@@ -22,4 +22,11 @@ export type OperationLogTable = {
   avg_res_time: number;
   // avg_res_size: number;
   error_count: number;
+}
+
+export type ProjectType = {
+  id: string;
+  project_name: string;
+  api_key?: string;
+  server_url?: string;
 }

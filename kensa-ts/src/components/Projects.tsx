@@ -1,24 +1,39 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
-import Cookies from 'js-cookie';
 import ProjectCard from "./ProjectCard";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, Input } from "@chakra-ui/react";
 import { Spinner, Alert, AlertIcon, Button, Heading, Box, Flex, Spacer, Center } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import AddProject from "./AddProject";
 
+import { useDispatch } from 'react-redux';
+import { login, updateCurrentProjectId } from "../features/auth/authSlice";
+import { ThemeContext } from "./App";
+import { ProjectType } from "../types/types";
+
+
 const Projects = () => {
-  const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+
+  // params username in URL route
   const { username } = useParams();
-  // logic check - check for token, make sure they have the token with decode
-  const token = Cookies.get('token');
-  const userInCookie = Cookies.get('username');
-  console.log('username in projects ', username, userInCookie);
-  if (!token || userInCookie !== username) {
+  
+  // Log user in if they are already signed in
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    if (user) {
+      dispatch(login(user));
+    }
+  }, [user]);
+  
+  // Prevent user from accessing Project by modifying URL params
+  if (!user || username !== user.username) {
     return (
-      <Center w='100%' h='100%'>
-        <Alert status='error' h='100px' w='50%' borderRadius='10px'>
+      <Center w='100%' h='100%' >
+        <Alert status='error' h='100px' w='50%' borderRadius='10px' className='alert'>
           <AlertIcon />
           Please login. You do not have access to this page
         </Alert>
@@ -28,15 +43,11 @@ const Projects = () => {
 
   // Chakra Modal
   const { isOpen, onOpen, onClose } = useDisclosure();
-    
-  const toAddProjectPage = ():void => {
-    const path = 'new';
-    navigate(path);
-  };
 
   const GET_USER_PROJECT = gql`
     query GetUserProject($userName: String!) {
       username(username: $userName) {
+        id
         username
         projects {
           id
@@ -47,12 +58,14 @@ const Projects = () => {
     }
   `;
 
-  const { error, data, loading } = useQuery(GET_USER_PROJECT, {
+  const { error, data, loading, refetch } = useQuery(GET_USER_PROJECT, {
     variables: {
-      userName: username
-    }
+      userName: user.username
+    }, 
+    // by default, useQuery hook check Apollo Client cache to see if it is available locally. This is needed to make sure we have newly updated project rendered after adding a project
+    fetchPolicy: 'network-only', // Doesn't check cache before making a network request
   });
-  
+
   if (loading) {
     return (
       <Center w='100%' h='100%'>
@@ -64,7 +77,7 @@ const Projects = () => {
   if (error) {
     return (
       <Center w='100%' h='100%'>
-        <Alert status='error' h='100px' w='50%' borderRadius='10px'>
+        <Alert status='error' h='100px' w='50%' borderRadius='10px' className='alert'>
           <AlertIcon />
           There was an error processing your request
         </Alert>
@@ -72,7 +85,7 @@ const Projects = () => {
     );
   }
 
-  const projects = data.username.projects;
+  const projects: ProjectType[] = data.username.projects;
   const projectCards: Array<any> = [];
 
   for (let i = 0; i < projects.length; i++) {
@@ -81,9 +94,13 @@ const Projects = () => {
     const apiKey = projects[i]["api_key"];
 
     projectCards.push(
-      // <ProjectCard key={i} projectName={projectName} apiKey={apiKey} projectId={projectId} />
-      <GridItem key={i} className='projects-grid-item'>
-        <ProjectCard projectName={projectName} apiKey={apiKey} projectId={projectId} />
+      <GridItem key={i} className='projects-grid-item' onClick={() => {
+        // dispatch action to update currentProject in Redux store
+        dispatch(updateCurrentProjectId(projectId)); 
+        // save projectId to localStorage to persist data when refreshing
+        localStorage.setItem('projectId', projectId); 
+      }}>
+        <ProjectCard projectName={projectName} projectId={projectId}  />
       </GridItem>
     );
   }
@@ -94,14 +111,16 @@ const Projects = () => {
         <Heading id='welcome' >Welcome back, {data.username.username}</Heading>
         <Spacer />
         {/* Add Project Button */}
-        <Button onClick={onOpen} colorScheme='facebook'>New Project</Button>
+        <Button 
+          onClick={onOpen} 
+          colorScheme={theme === 'light' ? 'facebook' : 'gray'}
+        >
+          New Project
+        </Button>
       </Flex>
-      <AddProject isOpen={isOpen} onClose={onClose} />
+      <AddProject isOpen={isOpen} onClose={onClose} userId={data.username.id} />
       
       {/* Display Projects */}
-      {/* <Flex gap={5} m={5} direction='column'>
-        {projectCards}
-      </Flex> */}
       <Grid id='projects-grid-container'>
         {projectCards}
       </Grid>     

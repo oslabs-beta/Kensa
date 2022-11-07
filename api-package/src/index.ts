@@ -53,7 +53,6 @@ export const testPlugin = {
         const elapsed = receiveResponse - requestStart;
         console.log(`operation=${op} duration=${elapsed}ms`);
         op = context.request.operationName;
-        console.log('size', context)
 
         // Getting projectId from context object
         const { id } = context.contextValue.projectId;
@@ -70,4 +69,20 @@ export const testPlugin = {
       }
     }
   }
-};
+}
+
+export const getContext = async ({req, res}: any, api:string, db:any) => {
+  // IntrospectionQuery keeps running. Use this to stop context from logging for IntrospectionQuery
+  if (req.body.operationName === 'IntrospectionQuery') return;
+
+  // Calling npm package to get projectId
+  const projectId = await getProjectId(api);
+
+  // returning context object
+  return {
+      req,
+      res,
+      db,
+      projectId
+  }
+}
