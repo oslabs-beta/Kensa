@@ -10,6 +10,8 @@ import { resolvers } from "./resolvers";
 import db from "./models/db";
 import { userController } from './controllers/userController';
 import cookieParser from "cookie-parser";
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
 async function startApolloServer() {
   const app = express();
@@ -21,6 +23,9 @@ async function startApolloServer() {
   });
 
   await apolloServer.start();
+
+  // connect to MongoDB
+  // await mongoose.connect(process.env.MONGO_URI);
 
   // GraphQL logic
   app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(apolloServer, {

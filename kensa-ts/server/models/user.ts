@@ -1,10 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-// Create interface representing a document in MongoDb
-export interface IUser {
-  username: string,
-  password: string
-}
 
 
 // connecting to mongo database
