@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, NetworkStatus } from "@apollo/client";
 import MetricContainer from "./MetricContainer";
 import ProjectInfo from './ProjectInfo';
 import { Box, Center, Spinner, Alert, AlertIcon, Stack, Heading, Icon, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Flex } from '@chakra-ui/react';
@@ -15,6 +15,7 @@ const Monitor = () => {
   const { theme } = useContext(ThemeContext);
   const { username } = useParams();
 
+  // Project name nad URL state for editing in ProjectInfo
   const [projectName, setProjectName] = useState<string>('');
   const [projectURL, setProjectURL] = useState<string>('');
   
@@ -28,11 +29,6 @@ const Monitor = () => {
     projectId = localStorage.getItem('projectId');
   }
   
-  // Refetch last seen project data when user click back to the Metrics Tab on the sidebar
-  useEffect(() => {
-    refetch({ projectId: projectId });
-  }, []);
-
   const GET_PROJECT_DATA = gql`
     query GetProjectData($projectId: ID!) {
       project(id: $projectId) {
@@ -51,17 +47,28 @@ const Monitor = () => {
     }
   `;
 
-  const { loading, error, data, refetch } = useQuery(GET_PROJECT_DATA, {
+  const { loading, error, data, refetch, networkStatus } = useQuery(GET_PROJECT_DATA, {
     variables: {
       projectId: projectId
     },
     onCompleted: () => {
       setProjectName(data.project['project_name']);
       setProjectURL(data.project['server_url']);
-    }
+    },
+    fetchPolicy: 'network-only', // Doesn't check cache before making a network request
+    notifyOnNetworkStatusChange: true,
     // pollInterval: 10000,  // polling every 10 seconds
   });
 
+  // This is needed to ensure GraphQL loading state updates accordingly
+  // It also render Spinner to indicate that we're refetching data
+  if (networkStatus === NetworkStatus.refetch) {
+    return (
+      <Center w='100%' h='100%'>
+        <Spinner size='xl'/>
+      </Center>
+    );
+  }
   
   if (loading) {
     return (

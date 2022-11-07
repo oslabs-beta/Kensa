@@ -32,18 +32,8 @@ async function startApolloServer() {
       // Only return { req, res, db } for GraphQL playground to work
     // get the user token from the headers
       const token = req.headers.authorization.split(' ')[1] || '';
-      // try to retrieve a user with the token
+      // // try to retrieve a user with the token
       const user = await getUser(token);
-
-      // if no user exists or if lookup fails, throws an error
-      if (!user) {
-        throw new GraphQLError('User is not authenticated', {
-          extensions: {
-            code: 'UNAUTHENTICATED',
-            http: { status: 401},
-          }
-        });
-      }
 
       // add the user to the context
       return { req, res, db, user };

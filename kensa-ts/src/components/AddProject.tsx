@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import { useMutation, gql } from "@apollo/client";
 import { v4 as uuidv4 } from 'uuid';
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
 import { ThemeContext } from "./App";
@@ -19,6 +19,7 @@ const AddProject = ({ isOpen, onClose, userId }: AddProjectType) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // Project name and url state for editing project
   const [projectName, setProjectName] = useState('');
   const [projectUrl, setProjectUrl] = useState('');
 

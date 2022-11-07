@@ -12,6 +12,7 @@ import Kensa from './Kensa';
 import Projects from './Projects';
 import Hero from './Hero';
 import PlaygroundContainer from './PlaygroundContainer';
+import ChangePasswordForm from './ChangePasswordForm';
 import NotFound from './NotFound';
 
 const MainContainer = () => {
@@ -36,6 +37,7 @@ const MainContainer = () => {
             <Route path='' element={<Projects />} />
             <Route path='monitor/:projectId' element={<Monitor />} />
             <Route path='playground' element={<PlaygroundContainer />} />
+            <Route path='security' element={<ChangePasswordForm />} />
           </Route>
           <Route path='/*' element={<NotFound />} />
         </Route>

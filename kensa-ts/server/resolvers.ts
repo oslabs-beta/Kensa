@@ -103,7 +103,14 @@ export const resolvers = {
 
       // Verify password against hashed password in database
       // if success, change new password
-      if (!bcrypt.compare(oldPassword, existingUser.password)) {
+      if (await (bcrypt.compare(oldPassword, existingUser.password))) {
+        // Encrypt password and Update database with new password
+        const salt = await bcrypt.genSalt(10);
+        const newHashedPassword = await bcrypt.hash(newPassword, salt);
+        const result = await db.query('UPDATE users SET password = $1 WHERE username = $2 RETURNING *;', [newHashedPassword, username]);
+      
+        return result.rows[0];
+      } else {
         throw new GraphQLError('Invalid password. Please provide correct password', {
           extensions: {
             code: 'BAD_USER_INPUT'
@@ -111,12 +118,7 @@ export const resolvers = {
         });
       }
 
-      // Encrypt password and Update database with new password
-      const salt = await bcrypt.genSalt(10);
-      const newHashedPassword = await bcrypt.hash(newPassword, salt);
-      const result = await db.query('UPDATE users SET password = $1 WHERE username = $2 RETURNING *;', [newHashedPassword, username]);
       
-      return result.rows[0];
     }
   },
   User: {

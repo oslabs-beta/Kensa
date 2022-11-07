@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import ProjectCard from "./ProjectCard";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, Input } from "@chakra-ui/react";
 import { Spinner, Alert, AlertIcon, Button, Heading, Box, Flex, Spacer, Center } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import AddProject from "./AddProject";
@@ -28,13 +28,6 @@ const Projects = () => {
       dispatch(login(user));
     }
   }, [user]);
-
-  // Refetch user's projects
-  useEffect(() => {
-    if (user) {
-      refetch({ userName: username });
-    }
-  }, []);
   
   // Prevent user from accessing Project by modifying URL params
   if (!user || username !== user.username) {
@@ -68,9 +61,11 @@ const Projects = () => {
   const { error, data, loading, refetch } = useQuery(GET_USER_PROJECT, {
     variables: {
       userName: user.username
-    }
+    }, 
+    // by default, useQuery hook check Apollo Client cache to see if it is available locally. This is needed to make sure we have newly updated project rendered after adding a project
+    fetchPolicy: 'network-only', // Doesn't check cache before making a network request
   });
-  
+
   if (loading) {
     return (
       <Center w='100%' h='100%'>

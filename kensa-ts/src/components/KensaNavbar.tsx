@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { Avatar, Heading, Center, Button, Flex, Box } from '@chakra-ui/react';
+import { Avatar, Heading, Center, Button, Flex, Box, Text } from '@chakra-ui/react';
 import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ThemeContext } from './App';
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { darkTheme } from '../theme/darkTheme';
@@ -41,9 +41,9 @@ const KensaNavbar = () => {
             <PopoverArrow />
             <PopoverHeader><Heading size='xs'>{user.username}</Heading></PopoverHeader>
             <PopoverBody>
-              <Button 
-                color={theme === 'dark' ? 'black' : 'white'}
-                colorScheme={theme === 'light' ? 'facebook' : 'gray'}
+              <Link to='security'><Box marginBottom='10px'>Change password</Box></Link>
+              <Text 
+                _hover={{ cursor: 'pointer' }}
                 onClick={() => {
                   dispatch(logout());
                   localStorage.removeItem('user');
@@ -53,7 +53,7 @@ const KensaNavbar = () => {
                 size='sm'
               > 
               Sign out
-              </Button>
+              </Text>
             </PopoverBody>
           </PopoverContent>
         </Popover>
