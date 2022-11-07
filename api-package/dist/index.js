@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getContext = exports.testPlugin = exports.insertMetrics = exports.getProjectId = void 0;
+exports.getContext = exports.testPlugin = exports.insertMetricsDev = exports.insertMetrics = exports.getProjectId = void 0;
 const db_1 = require("./models/db");
 const getProjectId = (apiKey) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield (0, db_1.query)('SELECT id FROM projects WHERE api_key = $1;', [apiKey]);
@@ -24,6 +24,14 @@ const insertMetrics = (response, projectId) => __awaiter(void 0, void 0, void 0,
     return result.rows[0];
 });
 exports.insertMetrics = insertMetrics;
+const insertMetricsDev = (response, projectId) => __awaiter(void 0, void 0, void 0, function* () {
+    // cosnt { project_id } = GraphQL context object
+    const { query_string, execution_time, success, operation_name } = response;
+    const result = yield (0, db_1.query)('INSERT INTO history_log_dev(query_string, project_id, execution_time, success, operation_name) VALUES($1, $2, $3, $4, $5) RETURNING *;', [query_string, projectId, execution_time, success, operation_name]);
+    console.log(result.rows[0]);
+    return result.rows[0];
+});
+exports.insertMetricsDev = insertMetricsDev;
 exports.testPlugin = {
     // Fires whenever a GraphQL request is received from a client. This plugin runs after whatever happens in ApolloServer's context
     requestDidStart(requestContext) {

@@ -41,11 +41,13 @@ const CodeEditor = ({ setResData, selectedProjectId }: CodeEditorProps) => {
     if (!serverUrl.startsWith('http://')) {
       serverUrl = `http://${serverUrl}`;
     }
+    console.log('serverUrl', serverUrl)
 
     fetch(serverUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Devmode": 'true'
       },
       body: JSON.stringify({
         query: query

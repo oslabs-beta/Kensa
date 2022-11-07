@@ -1,5 +1,6 @@
 export declare const getProjectId: (apiKey: any) => Promise<any>;
 export declare const insertMetrics: (response: any, projectId: number) => Promise<any>;
+export declare const insertMetricsDev: (response: any, projectId: number) => Promise<any>;
 export declare const testPlugin: {
     requestDidStart(requestContext: any): Promise<{
         executionDidStart(executionRequestContext: any): Promise<{

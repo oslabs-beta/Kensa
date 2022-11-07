@@ -17,15 +17,16 @@ export const resolvers = {
     },
     // Get a single user by username
     username: async (_: any, { username }: any, { db, user }: any) => {
-      if (user.username !== username) {
-        throw new GraphQLError('Unauthenticated user', {
-          extensions: {
-            code: 'UNAUTHENTICATED USER'
-          }
-        });
-      }
+      // uncomment this if want to test on localhost:3000/graphql
+      // if (user.username !== username) {
+      //   throw new GraphQLError('Unauthenticated user', {
+      //     extensions: {
+      //       code: 'UNAUTHENTICATED USER'
+      //     }
+      //   });
+      // }
       const result = await db.query('SELECT * FROM users WHERE username = $1', [username]);
-      return result.rows[0];
+      return result.rows[0];  
     },
     // Get all projects
     projects: async (_: any, __: any, { db }: any) => {

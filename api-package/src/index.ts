@@ -15,6 +15,16 @@ export const insertMetrics = async (response: any, projectId: number) : Promise<
   return result.rows[0];
 }
 
+export const insertMetricsDev = async (response: any, projectId: number) : Promise<any> => {
+  // cosnt { project_id } = GraphQL context object
+  const { query_string, execution_time, success, operation_name } = response;
+  
+  const result = await query('INSERT INTO history_log_dev(query_string, project_id, execution_time, success, operation_name) VALUES($1, $2, $3, $4, $5) RETURNING *;', [query_string, projectId, execution_time, success, operation_name])
+
+  console.log(result.rows[0]);
+  return result.rows[0];
+}
+
 export const testPlugin = {
   // Fires whenever a GraphQL request is received from a client. This plugin runs after whatever happens in ApolloServer's context
   async requestDidStart(requestContext: any) {
