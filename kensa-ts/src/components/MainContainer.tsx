@@ -6,7 +6,6 @@ import Signup from "./Signup";
 import Login from "./Login";
 import Monitor from "./Monitor";
 import TeamPage from "./TeamPage";
-import DocsPage from "./DocsPage";
 import WhyKensaPage from "./WhyKensaPage";
 import Kensa from './Kensa';
 import Projects from './Projects';
@@ -26,7 +25,6 @@ const MainContainer = () => {
           <Route path='/' element={<LandingPage />}>
             <Route path='/' element={<Hero />} />
             <Route path='/team' element={<TeamPage />} />
-            <Route path='/docs' element={<DocsPage />} />
             <Route path='/whykensa' element={<WhyKensaPage />} />
           </Route>
 

@@ -4,11 +4,6 @@ import Chart from './Chart';
 import Query from './Query';
 import QueryTree from './QueryTree';
 
-// type ChartContainerProps = {
-//   operation: string;
-//   historyLogs: Array<QueryType>
-// }
-
 // Render all info related to operation
 const ChartContainer = () => {
 
@@ -16,9 +11,9 @@ const ChartContainer = () => {
     <Box w='100%' id='chart-container'>
       <Tabs>
         <TabList>
-          <Tab>Chart</Tab>
-          <Tab>Query</Tab>
-          <Tab>Visualize</Tab>
+          <Tab fontWeight='bold'>Chart</Tab>
+          <Tab fontWeight='bold'>Query</Tab>
+          <Tab fontWeight='bold'>Query Visualizer</Tab>
         </TabList>
 
         <TabPanels>

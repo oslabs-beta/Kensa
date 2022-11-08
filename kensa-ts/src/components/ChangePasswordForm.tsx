@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Stack, Heading, Center, Box, FormErrorMessage, Spinner, Flex } from "@chakra-ui/react";
-import { FormControl, FormLabel, Input, Button, Text } from "@chakra-ui/react";
 import { useMutation, gql } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import { Stack, Heading, Center, FormErrorMessage, Spinner, Flex } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 
 
 const ChangePasswordForm = () => {
@@ -50,8 +50,8 @@ const ChangePasswordForm = () => {
   // Render spinner when loading GraphQL mutation
   if (loading) {
     return (
-      <Center w='100%' h='100%'>
-        <Spinner size='xl' />
+      <Center w='100%' h='100%' >
+        <Spinner size='xl' className='spinner'/>
       </Center>
     );
   }

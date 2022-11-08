@@ -36,10 +36,12 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
 
   const handleEditorChange = (value?: string, event?: editor.IModelContentChangedEvent): void => {
     let i = 6;
+
     while(value[i] === ' ' && i < value.length){
       i++;
     }
-    if(value[i] === '{') value = `${value.slice(0,6)}defaultName ${value.slice(i)}`;
+
+    if(value[i] === '{') value = `${value.slice(0,6)}DefaultName ${value.slice(i)}`;
     setQuery(value);
   };
 
@@ -77,10 +79,11 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
   const operationName = query.slice(query.indexOf(' '), query.indexOf('{'));
 
   return (
-    <Box id='code-editor' position='relative'>
+    <Box id='code-editor' className='playground-items' position='relative'>
       <Editor 
         onChange={handleEditorChange} 
-        height='280px' 
+        height='280px'
+        width='500px' 
         theme={theme === 'dark' ? 'vs-dark' : ''}
         defaultLanguage='graphql'
         defaultValue='// type your query here'

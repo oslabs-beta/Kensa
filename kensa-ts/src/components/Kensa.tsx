@@ -7,7 +7,7 @@ import Sidebar from './Sidebar';
 const Kensa = () => {
 
   return (
-    <Flex h='100vh' w='100vw'>
+    <Flex h='100vh' w='100vw' id='kensa'>
       <Sidebar />
       <Flex flex='5' direction='column'>
         <KensaNavbar />
