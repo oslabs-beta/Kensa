@@ -54,6 +54,14 @@ const queryTransform = ( query: string  )=> {
       } else if(query[end] === "}"){
         queryArr.push('}');
         end++;
+      } else if(query[end] === '('){
+        console.log('IN', end)
+        let i = end;
+        while(query[i] !== ')' && i < query.length){
+          i++;
+        }
+        end = i;
+        console.log(end)
       } else {
         if(!isFirst)str += query[end];
       }
