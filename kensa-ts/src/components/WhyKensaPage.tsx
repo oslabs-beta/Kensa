@@ -1,13 +1,13 @@
-import * as React from "react";
-import { Text } from "@chakra-ui/react";
+import React from "react";
+import { Box, Text } from "@chakra-ui/react";
 
 
 const WhyKensaPage = () => {
   return ( 
-    <>
+    <Box h='90vh' bgColor='white'>
       <Text>Why Kensa.
       </Text>
-    </>
+    </Box>
   );
 };
 

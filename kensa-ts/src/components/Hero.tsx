@@ -17,9 +17,9 @@ const Hero = () => {
   }, []);
 
   return (
-    <Flex bgImage={bg3} filter="blur(0px)" opacity={.8} h='calc(100vh)' objectFit="cover" w='100%'>
+    <Flex bgImage={bg3} filter="blur(0px)" opacity={.8} h='90vh' objectFit="cover" w='100%'>
       <Box>
-        <Text color= "#FDEEDC" fontSize='75px' fontFamily ="Arial Black" lineHeight="20px" letterSpacing={"80px"} fontWeight="900" zIndex="100" pt="300px" pl="75px">
+        <Text color= "#FDEEDC" fontSize='75px' fontFamily ="Arial Black" lineHeight="20px" letterSpacing={"80px"} fontWeight="900" zIndex="100" pt="200px" pl="75px">
            KENSA
         </Text>
         <Text color= "#FDEEDC" fontSize='45px' fontFamily ="Arial" lineHeight="40px" fontWeight="100" letterSpacing={".1px"} zIndex="100" pt="30px" pl="75px">
@@ -36,7 +36,7 @@ const Hero = () => {
         </RouterLink>
       </Box>
       <Box>
-        <Image src={logo} w='500px' pt='150px' id={`${render}`}/> 
+        <Image src={logo} w='500px' pt='80px' id={`${render}`}/> 
       </Box>
     </Flex>
   );
