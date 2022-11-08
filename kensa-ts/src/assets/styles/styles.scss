@@ -7,10 +7,10 @@ $light-theme-borderColor: #ebe4e5;
 $light-theme-sidebar-bgColor: #f4f6f8;
 $light-theme-link-hover-color: blue;
 $table-head-bgColor: #4e67af;
+$landing-page-bgColor: rgb(148, 107, 107);
 
 body {
     background-color: #FDEEDC;
-    // max-height: 96vh;
 }
 
 // Projects Grid
@@ -31,20 +31,29 @@ body {
 // Playground
 #playground {
 	height: 92%;
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 2rem;
+	gap: 1rem;
 	.playground-items {
 		border: 1px solid $light-theme-borderColor;
 		border-radius: 5px;
 		height: 300px;
+		width: 502px;
 		padding-bottom: 10px;
 	}
 
 	#code-editor {
 		border: none;
 	}
+
+	#log-dev {
+		height: 550px;
+		overflow: scroll;
+	}
+
+	#treeWrapper {
+		color: white;
+	}
 }
+
 
 // Table 
 table, td {
@@ -90,6 +99,10 @@ table, td {
 #light {
 	background-color: white;
 
+	#landing-page {
+		background-color: $landing-page-bgColor;
+	}
+
 	#logo {
 		border-bottom: 1px solid $light-theme-borderColor;
 	}
@@ -127,11 +140,20 @@ table, td {
 #dark {
 	background-color: $dark-theme-bgColor;
 
+	#landing-page {
+		background-color: $landing-page-bgColor;
+		color: $dark-theme-color;
+	}
+
+	.spinner {
+		color: $dark-theme-color;
+	}
+
 	.link:hover {
 		color: $dark-theme-link-hover-color;
 	}
 
-	#landing-page, #login, #signup, #change-password-form {
+	#login, #signup, #change-password-form {
 		color: $dark-theme-color;
 	}
 
@@ -197,6 +219,38 @@ table, td {
 		color: $dark-theme-color;
 		border: 1px solid $dark-theme-borderColor;
 	}
+
+	#log-dev-alert {
+		background-color: $dark-theme-alert-bgColor;
+		color: $dark-theme-color;
+		border: 1px solid $dark-theme-borderColor;
+	}
+
+	.node__root  {
+		text {
+			fill: $dark-theme-color
+		}
+	}
+
+	.node__branch {
+		text {
+			fill: $dark-theme-color
+		}
+	}
+
+	.node__leaf {
+		text {
+			fill: $dark-theme-color
+		}
+	}
+
+	#treeWrapper-1 path {
+		stroke: $dark-theme-color;
+	}
+
+	#treeWrapper path {
+		stroke: $dark-theme-color;
+	}
 }
 
 // Hero Section on Landing Page
@@ -210,18 +264,37 @@ table, td {
 	transition: all 1s ease-in-out;
 }
 
-.node__root > circle {
-	fill: rgb(255, 140, 0);
-	border-color: #2d2d32;
+// Styling for D3 Tree
+.node__root {
+	& > circle {
+		fill: rgb(255, 140, 0);
+		border-color: #2d2d32;
+	}
+
+	g {
+		translate: -150px -25px;
+	}
 }
 
-.node__branch > circle {
-	fill: rgb(255, 158, 40);
-	border-color: #2d2d32;
+.node__branch {
+	& > circle {
+		fill: rgb(255, 158, 40);
+		border-color: #2d2d32;
+	}
+
+	g {
+	translate: -80px -25px;
+	}
 }
 
-.node__leaf > circle {
-	fill: rgb(255, 197, 50);
-	r: 40;
-	border-color: #2d2d32;
+.node__leaf {
+	& > circle {
+		fill: rgb(255, 197, 50);
+		border-color: #2d2d32;
+	}
+
+	g {
+		translate: -50px -30px;
+
+	}
 }

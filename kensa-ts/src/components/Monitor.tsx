@@ -62,18 +62,10 @@ const Monitor = () => {
 
   // This is needed to ensure GraphQL loading state updates accordingly
   // It also render Spinner to indicate that we're refetching data
-  if (networkStatus === NetworkStatus.refetch) {
+  if (networkStatus === NetworkStatus.refetch || loading) {
     return (
       <Center w='100%' h='100%'>
-        <Spinner size='xl'/>
-      </Center>
-    );
-  }
-  
-  if (loading) {
-    return (
-      <Center w='100%' h='100%'>
-        <Spinner size='xl'/>
+        <Spinner size='xl' className='spinner'/>
       </Center>
     );
   }
