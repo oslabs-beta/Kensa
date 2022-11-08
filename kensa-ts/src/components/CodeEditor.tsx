@@ -35,6 +35,11 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
   });
 
   const handleEditorChange = (value?: string, event?: editor.IModelContentChangedEvent): void => {
+    let i = 6;
+    while(value[i] === ' ' && i < value.length){
+      i++;
+    }
+    if(value[i] === '{') value = `${value.slice(0,6)}defaultName ${value.slice(i)}`;
     setQuery(value);
   };
 
