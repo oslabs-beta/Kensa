@@ -17,13 +17,13 @@ export const resolvers = {
     },
     // Get a single user by username
     username: async (_: any, { username }: any, { db, user }: any) => {
-      if (user.username !== username) {
-        throw new GraphQLError('Unauthenticated user', {
-          extensions: {
-            code: 'UNAUTHENTICATED USER'
-          }
-        });
-      }
+      // if (user.username !== username) {
+      //   throw new GraphQLError('Unauthenticated user', {
+      //     extensions: {
+      //       code: 'UNAUTHENTICATED USER'
+      //     }
+      //   });
+      // }
       const result = await db.query('SELECT * FROM users WHERE username = $1', [username]);
       return result.rows[0];
     },
@@ -48,7 +48,8 @@ export const resolvers = {
       return result.rows;
     },
     fieldLogs: async (_: any, { operation_id }: any, { db }: any) => {
-      const result = await db.query('SELECT * FROM resolver_log_dev WHERE operation_id = $1' [operation_id]);
+      console.log(operation_id);
+      const result = await db.query('SELECT * FROM resolver_log_dev WHERE operation_id = $1', [operation_id]);
       return result.rows;
     },
   },
@@ -122,9 +123,24 @@ export const resolvers = {
           }
         });
       }
-
-      
-    }
+    },
+    // delete all the metric logs related to a project when a project is deleted
+    deleteHistoryLogs: async (_: any, { id }: { id: string }, { db }: any) => {
+      const result = await db.query('DELETE FROM history_log WHERE project_id = $1 RETURNING *;', [Number(id)]);
+      return result.rows;
+    },
+    deleteHistoryLogsDev: async (_: any, { id }: { id: string }, { db }: any) => {
+      const result = await db.query('DELETE FROM history_log_dev WHERE project_id = $1 RETURNING *;', [Number(id)]);
+      return result.rows;
+    },
+    deleteResolverLogsDev: async (_: any, { id }: { id: string }, { db }: any) => {
+      const result = await db.query('DELETE FROM resolver_log_dev WHERE project_id = $1 RETURNING *;', [Number(id)]);
+      return result.rows;
+    },
+    deleteOperationResolverLogs: async (_: any, { id }: { id: string }, { db }: any) => {
+      const result = await db.query('DELETE FROM resolver_log_dev WHERE operation_id = $1 RETURNING *;', [Number(id)]);
+      return result.rows;
+    },
   },
   User: {
     projects: async ({ id: user_id }: any, __: any, { db }: any) => {

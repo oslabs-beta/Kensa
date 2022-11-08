@@ -62,6 +62,7 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
       return res.json();
     })
       .then(responseData => {
+        console.log('response data frontend')
         setInvalidQueryMessage('');
         setResData(JSON.stringify(responseData.data, null, 2));
       })

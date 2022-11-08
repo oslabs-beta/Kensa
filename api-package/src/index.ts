@@ -8,7 +8,7 @@ export const getProjectId = async (apiKey: any): Promise<any> => {
 export const insertResolverMetric = async (response: any, projectId: number) : Promise<any> => {
   const { resolver_name, execution_time, operation_id, success } = response;
 
-  const result = await query('INSERT INTO resolver_log_dev(resolver_name, execution_time, operation_id, success) VALUES($1, $2, $3, $4) RETURNING *;', [resolver_name, execution_time, operation_id, success])
+  const result = await query('INSERT INTO resolver_log_dev(resolver_name, execution_time, operation_id, success, project_id) VALUES($1, $2, $3, $4, $5) RETURNING *;', [resolver_name, execution_time, operation_id, success, projectId])
 
   console.log(result.rows);
   return result.rows[0];
@@ -120,32 +120,21 @@ export const kensaPlugin = {
           const result = await insertMetricsDev(metricBody, id);
 
           const operation_id = result.id;
-          const fields = context.operation.directives;
+          const fields = context.operation.directives.slice();
+          context.operation.directives = [];
           for (let i = 0; i < fields.length; i++) {
             const field = fields[i];
             const resolverMetric = {
               resolver_name: field.query_string,
               execution_time: field.execution_time,
               operation_id: operation_id,
-              success: success
+              success: success,
+              project_id: id
             };
             const fieldMetricResult = await insertResolverMetric(resolverMetric, id);
-            console.log(fieldMetricResult);
+            console.log('saving resolver log')
+            // console.log(fieldMetricResult);
           }
-
-          // fields.forEach((field:any) => {
-          //   // resolver_name, execution_time, operation_id, success
-          //   const resolverMetric = {
-          //     resolver_name: field.query_string,
-          //     execution_time: field.execution_time,
-          //     operation_id: operation_id,
-          //     success: success
-          //   };
-          //   const fieldMetricResult = await insertResolverMetric(metricBody, id);
-          // });
-          // console.log('operation_id: ', typeof operation_id);
-          // console.log('willSendResponse context', context.operation.directives);
-          // console.log('willSendResponse context', Array.isArray(context.operation.directives));
         } else {
           // This insert metrics to Kensa database
           const result = await insertMetrics(metricBody, id);

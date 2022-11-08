@@ -31,7 +31,7 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
     }
   `;
 
-  const { loading, error, data } = useQuery(GET_PROJECT, {
+  const { loading, error, data, refetch } = useQuery(GET_PROJECT, {
     variables: {
       projectId: selectedProjectId
     }
@@ -66,6 +66,7 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
 
   return (
     <Box p={5}>
+      <button onClick={() => refetch({projectId: selectedProjectId})}>Refresh</button>
       <table>
         <thead>
           <tr>

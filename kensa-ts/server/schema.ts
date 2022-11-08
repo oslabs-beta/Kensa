@@ -31,6 +31,14 @@ export const typeDefs = gql`
     updateProject(id: ID!, project: ProjectInput!): Project!
     "Mutation to change password"
     changePassword(userInput: ChangePasswordInput!): User!
+    "Mutation to delete all history logs given the project Id"
+    deleteHistoryLogs(id: ID!): [Log]
+    "Mutation to delete all history log in development mode given the project Id"
+    deleteHistoryLogsDev(id: ID!): [Log]
+    "Mutation to delete all field logs from development mode related to a project given the project Id"
+    deleteResolverLogsDev(id: ID!): [FieldLog]
+    "Mutation to delete all field logs from development mode given the development operation id"
+    deleteOperationResolverLogs(id: ID!): [FieldLog]
   }
 
   type CreateUserResponse {
