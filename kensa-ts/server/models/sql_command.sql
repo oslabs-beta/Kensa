@@ -34,6 +34,19 @@ CREATE TABLE history_log_dev(
   success boolean NOT NULL
 );
 
+DROP TABLE history_log_dev;
+
+CREATE TABLE resolver_log_dev(
+  id serial PRIMARY KEY,
+  resolver_name varchar NOT NULL,
+  execution_time integer NOT NULL,
+  operation_id integer NOT NULL,
+  success boolean NOT NULL,
+  project_id integer NOT NULL
+);
+
+DROP TABLE resolver_log_dev;
+
 'Get Operation request count'
 SELECT COUNT(*) FROM history_log WHERE operation_name='GetAllClients';
 
