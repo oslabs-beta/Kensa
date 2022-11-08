@@ -8,7 +8,7 @@ const LandingPage = ()=> {
   
   return (
     <>
-      <Box h='calc(100vh)' w='100%'>
+      <Box h='100vh' w='100%' id='landing-page'>
         <Header />
         <Outlet />
       </Box>

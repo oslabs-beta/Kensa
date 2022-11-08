@@ -1,8 +1,9 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-import { Alert, AlertIcon, Box, Center, Spinner } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Center, Flex, Spinner } from "@chakra-ui/react";
 import { QueryTypeDev } from "../types/types";
 import { format } from 'date-fns';
+import { TbRefresh } from "react-icons/tb";
 
 
 type HistoryLogDevProps = {
@@ -10,12 +11,9 @@ type HistoryLogDevProps = {
 }
 
 const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
-  console.log(selectedProjectId);
-
   if (selectedProjectId === '') {
     return null;
   }
-
 
   const GET_PROJECT = gql`
     query GetProject($projectId: ID!) {
@@ -31,24 +29,25 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
     }
   `;
 
-  const { loading, error, data } = useQuery(GET_PROJECT, {
+  const { loading, error, data, refetch } = useQuery(GET_PROJECT, {
     variables: {
       projectId: selectedProjectId
-    }
+    },
   });
 
   if (loading) {
     return (
       <Center w='100%' h='100%'>
-        <Spinner size='xl'/>
+        <Spinner size='xl' className='spinner'/>
       </Center>
     );
   }
+
   
   if (error) {
     return (
       <Center w='100%' h='100%'>
-        <Alert status='error' h='100px' w='50%' borderRadius='10px'>
+        <Alert status='error' h='100px' w='50%' borderRadius='10px' id='log-dev-alert'>
           <AlertIcon />
           There was an error processing your request
         </Alert>
@@ -65,8 +64,13 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
   ];
 
   return (
-    <Box p={5}>
-      <table>
+    <div id="log-dev">
+      <Flex justifyContent='flex-end' marginBottom='20px'>
+        <Box onClick={() => refetch({ projectId: selectedProjectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'>
+          <TbRefresh />
+        </Box>
+      </Flex>
+      <table style={{ position: 'sticky' }}>
         <thead>
           <tr>
             {headers.map((header, i) => {
@@ -93,7 +97,7 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
           })}
         </tbody>
       </table>
-    </Box>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { Grid, GridItem, Stack, Heading, Text, Select, Box } from '@chakra-ui/react';
+import { Stack, Heading, Select, Box, Flex, TabList, Tabs, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
 import { Center, Spinner, Alert, AlertIcon } from "@chakra-ui/react";
 import HistoryLogDev from "./HistoryLogDev";
 import CodeEditor from "./CodeEditor";
@@ -38,7 +38,7 @@ const PlaygroundContainer = () => {
   if (loading) {
     return (
       <Center w='100%' h='100%'>
-        <Spinner size='xl' />
+        <Spinner size='xl' className='spinner'/>
       </Center>
     );
   }
@@ -58,7 +58,7 @@ const PlaygroundContainer = () => {
   
   return (
     <Stack direction='column' p='20px' id='playground-container'>
-      <Stack>
+      <Flex direction='row' justifyContent='space-between'>
         <Heading size='md' marginBottom={1}>Development Playground</Heading>
         <Select
           w='300px' 
@@ -71,44 +71,47 @@ const PlaygroundContainer = () => {
             );
           })}
         </Select>
-      </Stack>
-      <Grid id='playground'>
-        <GridItem >
-          {/* <Text>Playground</Text>
-          <CodeEditor className='playground-items' setResData={setResData} query={query} setQuery={setQuery}/>
-        </GridItem>
-        <GridItem>
-          <Text>Tree Structure</Text>
-          <PlaygroundTreeVis resData={resData} query={query}/> */}
-          <Heading size='sm'>Operation</Heading>
-          <Box className='playground-items'>
-            <CodeEditor 
-              setResData={setResData} 
-              selectedProjectId={selectedProjectId} 
-              query={query} 
-              setQuery={setQuery}
-            />
+      </Flex>
+      <Flex direction='row' id='playground'>
+        <Flex direction='column' gap={0} id='playground-left'>
+          <Box>
+            <Heading size='sm'>Operation</Heading>
+            <Box className='playground-items'>
+              <CodeEditor 
+                setResData={setResData} 
+                selectedProjectId={selectedProjectId} 
+                query={query} 
+                setQuery={setQuery}
+              />
+            </Box>
           </Box>
-        </GridItem>
-        <GridItem>
-          <Heading size='sm'>Tree Structure</Heading>
-          <Box className='playground-items'>
-            <PlaygroundTreeVis resData={resData} query={query} />
+          <Box>
+            <Heading size='sm'>Response</Heading>
+            <Box className='playground-items'>
+              <PlaygroudQueryResponse resData={resData} />
+            </Box>
           </Box>
-        </GridItem>
-        <GridItem>
-          <Heading size='sm'>Response</Heading>
-          <Box className='playground-items'>
-            <PlaygroudQueryResponse resData={resData} />
-          </Box>
-        </GridItem>
-        <GridItem>
-          <Heading size='sm'>History Log</Heading>
-          <Box className='playground-items' id='history-log-dev'>
-            <HistoryLogDev selectedProjectId={selectedProjectId}/>
-          </Box>
-        </GridItem>
-      </Grid>
+        </Flex>
+
+        <Flex id='plaground-right' w='100%'>
+          <Tabs w='100%'>
+            <TabList>
+              <Tab fontWeight='bold'>Logs</Tab>
+              <Tab fontWeight='bold'>Query Visualizer</Tab>
+            </TabList>
+
+            <TabPanels w='100%' h='100%'>
+              <TabPanel h='100%'>
+                <HistoryLogDev selectedProjectId={selectedProjectId}/>
+              </TabPanel>
+              <TabPanel>
+                <PlaygroundTreeVis resData={resData} query={query}/>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Flex>
+        
+      </Flex>
     </Stack>
   );
 };

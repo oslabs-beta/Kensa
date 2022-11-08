@@ -80,7 +80,7 @@ const Signup = () => {
   if (loading) {
     return (
       <Center w='100%' h='100%'>
-        <Spinner size='xl' />
+        <Spinner size='xl' className='spinner'/>
       </Center>
     );
   }
