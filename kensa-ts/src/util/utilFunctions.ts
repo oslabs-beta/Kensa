@@ -20,6 +20,12 @@ export const queryTransform = ( query: string ) => {
       } else if(query[end] === "}"){
         queryArr.push('}');
         end++;
+      } else if(query[end] === '('){
+        let i = end;
+        while(query[i] !== ')' && i < query.length){
+          i++;
+        }
+        end = i;
       } else {
         if(!isFirst)str += query[end];
       }
