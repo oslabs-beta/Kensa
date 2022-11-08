@@ -49,7 +49,7 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        "Devmode": 'true'
+        'Devmode': 'true'
       },
       body: JSON.stringify({
         query: query

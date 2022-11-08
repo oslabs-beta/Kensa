@@ -17,16 +17,15 @@ export const resolvers = {
     },
     // Get a single user by username
     username: async (_: any, { username }: any, { db, user }: any) => {
-      // uncomment this if want to test on localhost:3000/graphql
-      // if (user.username !== username) {
-      //   throw new GraphQLError('Unauthenticated user', {
-      //     extensions: {
-      //       code: 'UNAUTHENTICATED USER'
-      //     }
-      //   });
-      // }
+      if (user.username !== username) {
+        throw new GraphQLError('Unauthenticated user', {
+          extensions: {
+            code: 'UNAUTHENTICATED USER'
+          }
+        });
+      }
       const result = await db.query('SELECT * FROM users WHERE username = $1', [username]);
-      return result.rows[0];  
+      return result.rows[0];
     },
     // Get all projects
     projects: async (_: any, __: any, { db }: any) => {
@@ -43,10 +42,15 @@ export const resolvers = {
       const result = await db.query('SELECT * FROM history_log;');
       return result.rows;
     },
+    // A history log of every project queried during development mode
     historyLogDev: async (_: any, __: any, { db }: any) => {
       const result = await db.query('SELECT * FROM history_log_dev;');
       return result.rows;
-    }
+    },
+    fieldLogs: async (_: any, { operation_id }: any, { db }: any) => {
+      const result = await db.query('SELECT * FROM resolver_log_dev WHERE operation_id = $1' [operation_id]);
+      return result.rows;
+    },
   },
   Mutation: {
     createUser: async (_: any, { username, password }: CreateUserArgs, { db }: any) => {

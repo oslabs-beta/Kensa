@@ -16,6 +16,8 @@ export const typeDefs = gql`
     historyLog: [Log!]
     "Query to get all history log for development in Playground"
     historyLogDev: [Log!]
+    "Query all resolver execution metrics for a specified operation in history log for development"
+    fieldLogs(operation_id: ID!): [FieldLog!]
   }
 
   type Mutation {
@@ -61,6 +63,18 @@ export const typeDefs = gql`
     history_log: [Log]
     "All history log associated with this project (development)"
     history_log_dev: [Log]
+  }
+
+  type FieldLog {
+    id: ID!
+    "Field name of query"
+    resolver_name: String
+    "Total query execution time for this field"
+    execution_time: Int!
+    "Operation that contains this resolver"
+    operation: Log!
+    "Status of this query"
+    success: Boolean!
   }
 
   type Log {
