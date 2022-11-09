@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { GraphQLError } from 'graphql';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -17,13 +18,13 @@ export const resolvers = {
     },
     // Get a single user by username
     username: async (_: any, { username }: any, { db, user }: any) => {
-      // if (user.username !== username) {
-      //   throw new GraphQLError('Unauthenticated user', {
-      //     extensions: {
-      //       code: 'UNAUTHENTICATED USER'
-      //     }
-      //   });
-      // }
+      if (user.username !== username) {
+        throw new GraphQLError('Unauthenticated user', {
+          extensions: {
+            code: 'UNAUTHENTICATED USER'
+          }
+        });
+      }
       const result = await db.query('SELECT * FROM users WHERE username = $1', [username]);
       return result.rows[0];
     },
@@ -165,7 +166,7 @@ export const resolvers = {
       return result.rows;
     },
     history_log_dev: async ({ id: project_id }: any, __: any, { db }: any) => {
-      const result = await db.query('SELECT * FROM history_log_dev WHERE project_id = $1', [project_id]);
+      const result = await db.query('SELECT * FROM history_log_dev WHERE project_id = $1 ORDER BY created_at;', [project_id]);
       return result.rows;
     }
   },

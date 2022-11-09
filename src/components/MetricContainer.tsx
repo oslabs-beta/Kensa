@@ -1,7 +1,6 @@
 import React, { useState, createContext } from "react";
-// import HistoryLog from "./HistoryLog";
 import OperationTable from "./OperationTable";
-import { Flex, Box, Center, Spinner, Alert, AlertIcon } from "@chakra-ui/react";
+import { Flex, Box } from "@chakra-ui/react";
 import ChartContainer from "./ChartContainer";
 import { QueryType } from '../types/types';
 
@@ -12,9 +11,9 @@ type MetricContainerProps = {
     historyLogs: QueryType[]
 }
 
-// OperationTable on the left side
+// OperationTable on the left side, ChartContainer on the right side
 // When click on operation name, show ChartContainer on the right side
-// ChartContainer has 3 tabs (chart, query, visualize)
+// ChartContainer has 3 tabs (chart, query, query visualizer)
 
 const MetricContainer = ({ historyLogs }: MetricContainerProps) => {
   const [operation, setOperation] = useState<string>('');
@@ -28,7 +27,6 @@ const MetricContainer = ({ historyLogs }: MetricContainerProps) => {
         <Box flex='1'>
           {operation !== '' && <ChartContainer />}
         </Box>
-        {/* <HistoryLog logs={props.historyLog}/> */}
       </Flex>
     </ChartContext.Provider>
   );

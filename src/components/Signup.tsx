@@ -31,26 +31,27 @@ const Signup = () => {
     usernameRef.current.focus();
   }, []);
 
-  
-  function handleUserChange(e: React.SyntheticEvent) {
+  // Functions to handle username/password/confirm password input change
+  const handleUserChange = (e: React.SyntheticEvent): void  => {
     const target = e.target as HTMLInputElement;
     setUsername(target.value);
-  }
+  };
 
-  function handlePasswordChange(e: React.SyntheticEvent) {
+  const handlePasswordChange = (e: React.SyntheticEvent): void => {
     const target = e.target as HTMLInputElement;
     setPassword(target.value);
-  }
+  };
 
-  function handleConfirmPasswordChange(e: React.SyntheticEvent) {
+  const handleConfirmPasswordChange = (e: React.SyntheticEvent): void => {
     const target = e.target as HTMLInputElement;
     setConfirmPassword(target.value);
-  }
+  };
 
   const getUserInfo = () => {
     return { user: username, pw: password };
   };
 
+  // GraphQL mutation string to create a user
   const CREATE_USER = gql`
   mutation CreateUser ($username: String!, $password: String!){
     createUser(username: $username, password: $password) {
@@ -68,6 +69,7 @@ const Signup = () => {
         username: data.createUser.username,
         token: data.createUser.token
       };
+
       dispatch(login(user));
 
       // save user info into localStorage
@@ -92,19 +94,23 @@ const Signup = () => {
     isUserNameError = true;
   }
 
+  const handleSignUp = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { user, pw } = getUserInfo();
+    if (password !== confirmPassword) {
+      setIsPasswordError(true);
+      return;
+    }
+
+    setIsPasswordError(false);
+    // GraphQL mutation to create user
+    createUser({variables: { username: user, password: pw }});
+  };
+
   return (
     <Box id='signup'>
-      <form id="add-project-form" onSubmit={(e: React.SyntheticEvent): void => {
-        e.preventDefault();
-        const { user, pw } = getUserInfo();
-        if(password !== confirmPassword) {
-          setIsPasswordError(true);
-          return;
-        }
-        setIsPasswordError(false);
-        // GraphQL mutation to create user
-        createUser({variables: { username: user, password: pw }});
-      }}>
+      <form id="add-project-form" onSubmit={handleSignUp}>
         <Stack spacing={10} direction='column' align='center' maxWidth={400}>
           <Link to='/'>
             <Text color='blue.500' className='link'>Back to Homepage</Text>
@@ -128,6 +134,7 @@ const Signup = () => {
           <Link to='/login'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Already have account? Sign in</Text></Link>
         </Stack>
       </form>
+      {/* Button to toggle light/dark mode */}
       <Center>
         <Button size='sm' mt='20px' onClick={toggleTheme} id='toggle-switch'>{theme === 'light' ? 'Dark mode' : 'Light mode'}</Button>
       </Center>

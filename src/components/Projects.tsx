@@ -1,14 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
-import ProjectCard from "./ProjectCard";
-import { Grid, GridItem, Input } from "@chakra-ui/react";
-import { Spinner, Alert, AlertIcon, Button, Heading, Box, Flex, Spacer, Center } from "@chakra-ui/react";
+import { Spinner, Alert, AlertIcon, Button, Heading, Box, Flex, Spacer, Center, Grid, GridItem } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
+import ProjectCard from "./ProjectCard";
 import AddProject from "./AddProject";
 
 import { useDispatch } from 'react-redux';
-import { login, updateCurrentProjectId } from "../features/auth/authSlice";
+import { updateCurrentProjectId } from "../features/auth/authSlice";
 import { ThemeContext } from "./App";
 import { ProjectType } from "../types/types";
 
@@ -23,12 +22,6 @@ const Projects = () => {
   // Log user in if they are already signed in
   const user = JSON.parse(localStorage.getItem('user'));
 
-  useEffect(() => {
-    if (user) {
-      dispatch(login(user));
-    }
-  }, [user]);
-  
   // Prevent user from accessing Project by modifying URL params
   if (!user || username !== user.username) {
     return (
@@ -44,6 +37,7 @@ const Projects = () => {
   // Chakra Modal
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  // GraphQL query string to get all user's projects
   const GET_USER_PROJECT = gql`
     query GetUserProject($userName: String!) {
       username(username: $userName) {
@@ -58,7 +52,7 @@ const Projects = () => {
     }
   `;
 
-  const { error, data, loading, refetch } = useQuery(GET_USER_PROJECT, {
+  const { error, data, loading } = useQuery(GET_USER_PROJECT, {
     variables: {
       userName: user.username
     }, 
@@ -66,6 +60,7 @@ const Projects = () => {
     fetchPolicy: 'network-only', // Doesn't check cache before making a network request
   });
 
+  // Render spinner during loading state
   if (loading) {
     return (
       <Center w='100%' h='100%'>
@@ -74,6 +69,7 @@ const Projects = () => {
     );
   }
 
+  // Render error message if there is an error with the request
   if (error) {
     return (
       <Center w='100%' h='100%'>
@@ -85,13 +81,13 @@ const Projects = () => {
     );
   }
 
+  // Get projects from data to display 
   const projects: ProjectType[] = data.username.projects;
   const projectCards: Array<any> = [];
 
   for (let i = 0; i < projects.length; i++) {
     const projectName = projects[i]["project_name"];
     const projectId = projects[i]["id"];
-    const apiKey = projects[i]["api_key"];
 
     projectCards.push(
       <GridItem key={i} className='projects-grid-item' onClick={() => {

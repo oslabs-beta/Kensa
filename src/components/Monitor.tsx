@@ -19,9 +19,10 @@ const Monitor = () => {
   const [projectName, setProjectName] = useState<string>('');
   const [projectURL, setProjectURL] = useState<string>('');
   
-  let projectId: string;
+  // User in global state
   const user = useSelector((state: RootState) => state.auth.user);
   
+  let projectId: string;
   if (user.currentProjectId !== '0') {
     projectId = user.currentProjectId;
     localStorage.setItem('projectId', projectId);
@@ -29,6 +30,7 @@ const Monitor = () => {
     projectId = localStorage.getItem('projectId');
   }
   
+  // GraphQL query to get all info associated with a project
   const GET_PROJECT_DATA = gql`
     query GetProjectData($projectId: ID!) {
       project(id: $projectId) {
@@ -83,9 +85,10 @@ const Monitor = () => {
 
   return (
     <Stack direction='column' p={'20px'} id='monitor'>
-      <Flex direction='row' gap='20px' alignItems='center' marginBottom='25px'>
+      <Flex direction='row' justifyContent='space-between' alignItems='center' marginBottom='25px'>
         <Flex gap={4} alignItems='center'>
           <Flex alignItems='center' w='30px'>
+            {/* Button to navigate back Projects page */}
             <Link to={`/user/${username}`}>
               <Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem'/>
             </Link>
@@ -93,6 +96,7 @@ const Monitor = () => {
           <Heading size='md'>Project Name: {projectName}</Heading>
         </Flex>
         <Flex gap={4} alignItems='center'>
+          {/* Info button where user can access apiKey and change project's info */}
           <Popover>
             <PopoverTrigger>
               <Button 

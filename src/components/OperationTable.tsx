@@ -4,19 +4,13 @@ import { randomBgColor } from '../util/utilFunctions';
 import { ChartContext } from './MetricContainer';
 import { format } from 'date-fns';
 
-// type OperationTableProps = {
-//   historyLogs: Array<QueryType>;
-//   setOperation: (op: string) => void;
-// }
-
 type SortKeys = "id" | "operation_name" | "req_count" | "avg_res_size" | "avg_res_time" | "error_count"
 
 type SortOrder = 'ascn' | 'desc' 
 
-
 const OperationTable = () => {
   // Grab context values passed from MetricContainer
-  const { historyLogs, setOperation, metricsData, setMetricsData } = useContext(ChartContext);
+  const { historyLogs, setOperation, setMetricsData } = useContext(ChartContext);
 
   const [sortKey, setSortKey] = useState<SortKeys>('operation_name');
   const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
@@ -26,7 +20,6 @@ const OperationTable = () => {
     { key: 'id', label: 'ID' },
     { key: 'operation_name', label: 'Operation Name' },
     { key: 'req_count', label: 'Request Count' },
-    // { key: 'avg_res_size', label: 'Avg Response Size' },
     { key: 'avg_res_time', label: 'Avg Response Time (ms)' },
     { key: 'error_count', label: 'Error Count' },
   ];
@@ -35,7 +28,11 @@ const OperationTable = () => {
   const totalResTime = historyLogs.reduce((obj: any, query: QueryType) => {
     const operationName = query.operation_name;
     if (!obj[operationName]) obj[operationName] = 0;
-    obj[operationName] += query.execution_time;
+    
+    // Only include successful queries into total execution time
+    if (query.success) {
+      obj[operationName] += query.execution_time;
+    }
 
     return obj;
   }, {});
@@ -60,18 +57,23 @@ const OperationTable = () => {
     return obj;
   }, {});
 
-  // console.log(operationErrorCount);
-
   // An array of all operation with total request counts and average response time
   const operationLog: OperationLogTable[] = Object.keys(operationReqCount).map((operationName: string, index: number) => {
     const reqCount = operationReqCount[operationName];
-    const averageResTime = totalResTime[operationName] / reqCount;
+    const errorCount = operationErrorCount[operationName];
+
+    let averageResTime;
+    if (reqCount - errorCount !== 0) {
+      averageResTime = totalResTime[operationName] / (reqCount - errorCount);
+    } else {
+      averageResTime = 0;
+    }
 
     return {
       id: index + 1,
       operation_name: operationName,
       req_count: reqCount,
-      avg_res_time: Math.round(averageResTime),
+      avg_res_time: averageResTime.toFixed(2),
       error_count: operationErrorCount[operationName]
     };
   });
@@ -98,7 +100,7 @@ const OperationTable = () => {
     setSortKey(key);
   };
 
-  // Event handler to show metrics(chart, query, visualization) when operation is clicked
+  // Event handler to show metrics (chart, query, visualization) when an operation in the table is clicked
   const handleShowMetrics = (query: OperationLogTable): void => {
     setOperation(query.operation_name);
     
@@ -155,7 +157,6 @@ const OperationTable = () => {
               <td>{query.id}</td>
               <td>{query.operation_name}</td>
               <td>{query.req_count}</td>
-              {/* <td>{query.avg_res_size}</td> */}
               <td>{query.avg_res_time}</td>
               <td>{query.error_count}</td>
             </tr>

@@ -21,6 +21,7 @@ const ProjectInfo = ({ projectId, projectName, projectURL, setProjectName, setPr
 
   const [isEditting, setIsEditting] = useState<boolean>(false);
 
+  // GraphQL mutation to delete a project and all its associated history log (production and development) as well as resolvers' log
   const DELETE_PROJECT = gql`
     mutation DeleteHistoryLogs($deleteHistoryLogsId: ID!, 
     $deleteHistoryLogsDevId: ID!, 
@@ -42,6 +43,7 @@ const ProjectInfo = ({ projectId, projectName, projectURL, setProjectName, setPr
     }
   `;
 
+  // GraphQL mutation to update project, only project name and URL are allowed to update
   const UPDATE_PROJECT = gql`
     mutation UpdateProject($updateProjectId: ID!, $project: ProjectInput!) {
       updateProject(id: $updateProjectId, project: $project) {
@@ -65,13 +67,14 @@ const ProjectInfo = ({ projectId, projectName, projectURL, setProjectName, setPr
     }
   });
 
+  // Function to handle delete and update project, calling GraphQL mutation function
   const handleDeleteProject = () => {
     deleteProject({
       variables: {
-        "deleteResolverLogsDevId": projectId,
-        "deleteHistoryLogsDevId": projectId,
-        "deleteHistoryLogsId": projectId,
-        "deleteProjectId": projectId
+        deleteResolverLogsDevId: projectId,
+        deleteHistoryLogsDevId: projectId,
+        deleteHistoryLogsId: projectId,
+        deleteProjectId: projectId
       }
     });
   };
@@ -88,6 +91,7 @@ const ProjectInfo = ({ projectId, projectName, projectURL, setProjectName, setPr
     });
   };
 
+  // Render editing state if isEditting is true
   if (isEditting) {
     return (
       <Flex direction='column' justifyContent='space-between'>

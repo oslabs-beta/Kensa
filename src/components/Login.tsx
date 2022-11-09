@@ -35,18 +35,18 @@ const Login = () => {
   }, []);
 
   // Functions to handle username/password input change
-  function handleUserChange(e: React.SyntheticEvent): void {
+  const handleUserChange = (e: React.SyntheticEvent): void => {
     const target = e.target as HTMLInputElement;
     setUsername(target.value);
-  }
+  };
 
-  function handlePasswordChange(e: React.SyntheticEvent): void {
+  const handlePasswordChange = (e: React.SyntheticEvent): void => {
     const target = e.target as HTMLInputElement;
     setPassword(target.value);
-  }
+  };
 
   // login function that send username and psw to server (/login)
-  function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     fetch('http://localhost:3000/login', {
@@ -77,7 +77,7 @@ const Login = () => {
         navigate(`/user/${username}`);
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   return (
     <Box id='login'>
@@ -100,6 +100,7 @@ const Login = () => {
           <Link to='/signup'><Text color='blue.500' className='link'>Don&#39;t have account? Get started</Text></Link>
         </Stack>
       </form>
+      {/* Button to toggle light/dark mode */}
       <Center>
         <Button size='sm' mt='20px' onClick={toggleTheme} id='toggle-switch'>{theme === 'light' ? 'Dark mode' : 'Light mode'}</Button>
       </Center>

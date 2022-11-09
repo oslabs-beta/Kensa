@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { Stack, Heading, Select, Box, Flex, TabList, Tabs, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
+import { Stack, Heading, Select, Flex, TabList, Tabs, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
 import { Center, Spinner, Alert, AlertIcon } from "@chakra-ui/react";
 import HistoryLogDev from "./HistoryLogDev";
 import CodeEditor from "./CodeEditor";
@@ -10,12 +10,17 @@ import { ProjectType } from "../types/types";
 
 
 const PlaygroundContainer = () => {
+  // State for response data received after query is submitted
   const [resData, setResData] = useState<string>('');
+  // State for query submitted in CodeEditor component
   const [query, setQuery] = useState<string>('');
+  // State for current selected project from drop down menu
   const [selectedProjectId, setSelectedProjectId] = useState<string>('');
-  const [operationId, setOperationId] = useState<any>('');
+
+  // Get username from localStorage
   const user = JSON.parse(localStorage.getItem('user'));
 
+  // GraphQL mutation string to get all user's projects to populate in drop down menu
   const GET_USER_PROJECT = gql`
     query GetUserProject($userName: String!) {
       username(username: $userName) {
@@ -58,6 +63,7 @@ const PlaygroundContainer = () => {
   
   return (
     <Stack direction='column' p='20px' id='playground-container'>
+      {/* Display all user's projects in drop down */}
       <Flex direction='row' justifyContent='space-between'>
         <Heading size='md' marginBottom={1}>Development Playground</Heading>
         <Select
@@ -72,6 +78,8 @@ const PlaygroundContainer = () => {
           })}
         </Select>
       </Flex>
+      {/* Main playground where CodeEditor and PlaygroudQueryResponse are on the left
+      Log and Query Visualizer tabs are on the right */}
       <Flex direction='row' id='playground'>
         <Flex direction='column' gap='40px' id='playground-left'>
           <CodeEditor 

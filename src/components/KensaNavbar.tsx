@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { Avatar, Heading, Center, Button, Flex, Box, Text } from '@chakra-ui/react';
-import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody } from '@chakra-ui/react';
+import { Avatar, Heading, Center, Flex, Box, Text } from '@chakra-ui/react';
+import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverHeader, PopoverBody } from '@chakra-ui/react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ThemeContext } from './App';
 import { BsSun, BsMoon } from 'react-icons/bs';
@@ -9,6 +9,7 @@ import { darkTheme } from '../theme/darkTheme';
 import { useDispatch } from "react-redux";
 import { logout } from '../features/auth/authSlice';
 
+// Theme when user hover light/dark mode toggle button
 const themeHover = {
   cursor: 'pointer',
   bgColor: '#b3cccc',
@@ -16,13 +17,24 @@ const themeHover = {
 };
 
 const KensaNavbar = () => {
+  // App theme state and function to switch between themes
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // Get global state user from localStorage
   const user = JSON.parse(localStorage.getItem('user'));
 
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const handleLogout = () => {
+    // Dispatch logout action to Redux store
+    dispatch(logout());
+    // Clear user's info in localStorage
+    localStorage.removeItem('user');
+    localStorage.removeItem('projectId');
+    // Redirect user back to Login page
+    navigate('/login');
+  };
 
   return (
     <Flex gap={4} h='8%' w='100%' align='center' justifyContent='flex-end' p='20px' id='kensa-navbar'>
@@ -43,14 +55,9 @@ const KensaNavbar = () => {
             <PopoverBody>
               <Link to='security'><Box marginBottom='10px'>Change password</Box></Link>
               <Text 
-                _hover={{ cursor: 'pointer' }}
-                onClick={() => {
-                  dispatch(logout());
-                  localStorage.removeItem('user');
-                  localStorage.removeItem('projectId');
-                  navigate('/login');
-                }}
                 size='sm'
+                _hover={{ cursor: 'pointer' }}
+                onClick={handleLogout}
               > 
               Sign out
               </Text>

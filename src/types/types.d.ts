@@ -22,7 +22,7 @@ export type OperationLogTable = {
   id: number;
   operation_name: string;
   req_count: number;
-  avg_res_time: number;
+  avg_res_time: string;
   // avg_res_size: number;  // currently not used
   error_count: number;
 }
