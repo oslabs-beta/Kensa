@@ -16,8 +16,10 @@ export const typeDefs = gql`
     historyLog: [Log!]
     "Query to get all history log for development in Playground"
     historyLogDev: [Log!]
-    "Query all resolver execution metrics for a specified operation in history log for development"
+    "Query all resolver execution metrics for a specified operation in history log for development with operation id"
     fieldLogs(operation_id: ID!): [FieldLog!]
+    "Query all resolver execution metrics for a specified operation in history log for development with project id"
+    projectFieldLogs(project_id: ID!): [FieldLog!]
   }
 
   type Mutation {

@@ -13,7 +13,7 @@ const PlaygroundContainer = () => {
   const [resData, setResData] = useState<string>('');
   const [query, setQuery] = useState<string>('');
   const [selectedProjectId, setSelectedProjectId] = useState<string>('');
-
+  const [operationId, setOperationId] = useState<any>('');
   const user = JSON.parse(localStorage.getItem('user'));
 
   const GET_USER_PROJECT = gql`
