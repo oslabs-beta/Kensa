@@ -49,7 +49,6 @@ export const resolvers = {
       return result.rows;
     },
     fieldLogs: async (_: any, { operation_id }: any, { db }: any) => {
-      console.log(operation_id);
       const result = await db.query('SELECT * FROM resolver_log_dev WHERE operation_id = $1', [operation_id]);
       return result.rows;
     },
@@ -87,7 +86,6 @@ export const resolvers = {
     addProject: async (_: any, { project }: ProjectArgs, { db }: any) => {
       const { project_name, api_key, server_url, userId } = project;
       const result = await db.query('INSERT INTO projects(project_name, api_key, server_url, user_id) VALUES($1, $2, $3, $4) RETURNING *;', [project_name, api_key, server_url, userId]);
-
       return result.rows[0];
     },
     deleteProject: async (_: any, { id }: { id: string }, { db }: any) => {
@@ -97,7 +95,6 @@ export const resolvers = {
     updateProject: async (_: any, { id, project }: { id: string; project: ProjectArgs['project'] }, { db }: any) => {
       const { project_name, server_url } = project;
       const result = await db.query('UPDATE projects SET project_name=$1, server_url=$2 WHERE id=$3 RETURNING *;', [project_name, server_url, Number(id)]);
-      
       return result.rows[0];
     },
     changePassword: async (_: any, { userInput }: { userInput: ChangePasswordArgs }, { db }: any) => {
@@ -120,7 +117,6 @@ export const resolvers = {
         const salt = await bcrypt.genSalt(10);
         const newHashedPassword = await bcrypt.hash(newPassword, salt);
         const result = await db.query('UPDATE users SET password = $1 WHERE username = $2 RETURNING *;', [newHashedPassword, username]);
-      
         return result.rows[0];
       } else {
         throw new GraphQLError('Invalid password. Please provide correct password', {
@@ -144,7 +140,6 @@ export const resolvers = {
       return result.rows;
     },
     deleteOperationResolverLogs: async (_: any, { id }: { id: string }, { db }: any) => {
-      console.log(id);
       await db.query('DELETE FROM history_log_dev WHERE id = $1', [Number(id)]);
       const result = await db.query('DELETE FROM resolver_log_dev WHERE operation_id = $1 RETURNING *;', [Number(id)]);
       return result.rows;
