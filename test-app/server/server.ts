@@ -8,7 +8,7 @@ import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import testDb from './models/testDb';
 // import { GraphQLRequestContext } from "apollo-server-types";
-import { kensaPlugin, getContext, insertMetrics, insertMetricsDev, insertResolverMetric } from 'kensa-api';
+import { kensaPlugin, getContext, insertMetrics, insertMetricsDev, insertResolverMetric } from 'kensa-npm';
 
 async function startApolloServer() {
   const app = express()

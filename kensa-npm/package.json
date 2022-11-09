@@ -1,5 +1,5 @@
 {
-  "name": "kensa-api",
+  "name": "kensa-npm",
   "version": "1.0.1",
   "description": "Connect graphql server to Kensa Monitoring Tool",
   "main": "dist/index.js",

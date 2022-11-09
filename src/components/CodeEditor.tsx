@@ -66,15 +66,13 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
         query: query
       })
     }).then(res => {
-      if (res.status === 400) {
-        
+      if (res.status !== 200) {
         setInvalidQueryMessage('Invalid query. Please resubmit');
         throw new Error('Invalid query'); 
       }
       return res.json();
     })
       .then(responseData => {
-        console.log('responseData from code',responseData);
         setInvalidQueryMessage('');
         setResData(JSON.stringify(responseData.data, null, 2));
       })
