@@ -11,17 +11,22 @@ export const queryTransform = ( query: string ) => {
   const clearQuery = (end = 0, str = '', isFirst = true) =>{
     const queryArr: Array<string> = [];
     while (end < query.length) {
-      if(query[end] === ' '){
-        if(isFirst) isFirst = false;
-        if(str.length > 0) {
-          queryArr.push(str.split('\n').join(''));
-          str = '';
-        }
-      } else if(query[end] === "}"){
+      switch(query[end]){
+      case ' ':
+        !isFirst && str.length ? queryArr.push(str.split('\n').join('')) : isFirst = false;
+        str = '';
+        break;
+      case '}':
         queryArr.push('}');
         end++;
-      } else {
-        if(!isFirst)str += query[end];
+        break;
+      case '(':
+        while(query[end] !== ')' && end < query.length){
+          end++;
+        }
+        break;
+      default:
+        str = isFirst ? str : str += query[end];
       }
       end++;
     }
@@ -41,17 +46,14 @@ export const queryTransform = ( query: string ) => {
     const arrObjs: Array<any> = [];
     let numObj = 0;
     while (index < arr.length){
-      const element = arr[index];
-      let temp = [];
-      if(element[0] === '{'){
-        temp = recurseFunc(arr, index + 1);
-        arrObjs[numObj].children = temp[0];
-        numObj++;
-        index = temp[1];
-      } else if(element === '}'){
+      switch(arr[index]){
+      case '{':
+        [arrObjs[numObj++].children, index] = recurseFunc(arr, index + 1);
+        break;
+      case '}':
         return [arrObjs, index];
-      } else {
-        arrObjs.push({name: element});
+      default:
+        arrObjs.push({name: arr[index]});
       }
       index++;
     }

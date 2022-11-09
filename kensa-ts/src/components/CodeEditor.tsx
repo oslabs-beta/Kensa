@@ -28,6 +28,10 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
     }
   `;
 
+  // const GET_RESOLVERS = gql`
+    
+  // `;
+
   const { loading, error, data } = useQuery(GET_PROJECT, {
     variables: {
       projectId: selectedProjectId
@@ -55,19 +59,22 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
     fetch(serverUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Devmode': 'true'
       },
       body: JSON.stringify({
         query: query
       })
     }).then(res => {
       if (res.status === 400) {
+        
         setInvalidQueryMessage('Invalid query. Please resubmit');
         throw new Error('Invalid query'); 
       }
       return res.json();
     })
       .then(responseData => {
+        console.log('responseData from code',responseData);
         setInvalidQueryMessage('');
         setResData(JSON.stringify(responseData.data, null, 2));
       })
