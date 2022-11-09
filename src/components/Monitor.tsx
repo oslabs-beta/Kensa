@@ -83,18 +83,21 @@ const Monitor = () => {
 
   return (
     <Stack direction='column' p={'20px'} id='monitor'>
-      <Flex direction='row' justifyContent='space-between' marginBottom='25px'>
-        <Flex gap={2} align='center' marginBottom='10px'>
-          <Link to={`/user/${username}`}>
-            <Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem'/>
-          </Link>
+      <Flex direction='row' gap='20px' alignItems='center' marginBottom='25px'>
+        <Flex gap={4} alignItems='center'>
+          <Flex alignItems='center' w='30px'>
+            <Link to={`/user/${username}`}>
+              <Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem'/>
+            </Link>
+          </Flex>
           <Heading size='md'>Project Name: {projectName}</Heading>
         </Flex>
-        <Flex gap={2}>
+        <Flex gap={4} alignItems='center'>
           <Popover>
             <PopoverTrigger>
               <Button 
-                size='xs' 
+                w='50px'
+                h='30px'
                 color={theme === 'dark' ? 'black' : 'white'} 
                 colorScheme={theme === 'light' ? 'facebook' : 'gray'}
               >

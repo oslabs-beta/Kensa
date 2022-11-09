@@ -61,7 +61,7 @@ const PlaygroundContainer = () => {
       <Flex direction='row' justifyContent='space-between'>
         <Heading size='md' marginBottom={1}>Development Playground</Heading>
         <Select
-          w='300px' 
+          w='400px' 
           placeholder='Select Project' 
           onChange={(e) => setSelectedProjectId(e.target.value)}
         >
@@ -73,24 +73,14 @@ const PlaygroundContainer = () => {
         </Select>
       </Flex>
       <Flex direction='row' id='playground'>
-        <Flex direction='column' gap={0} id='playground-left'>
-          <Box>
-            <Heading size='sm'>Operation</Heading>
-            <Box className='playground-items'>
-              <CodeEditor 
-                setResData={setResData} 
-                selectedProjectId={selectedProjectId} 
-                query={query} 
-                setQuery={setQuery}
-              />
-            </Box>
-          </Box>
-          <Box>
-            <Heading size='sm'>Response</Heading>
-            <Box className='playground-items'>
-              <PlaygroudQueryResponse resData={resData} />
-            </Box>
-          </Box>
+        <Flex direction='column' gap='40px' id='playground-left'>
+          <CodeEditor 
+            setResData={setResData} 
+            selectedProjectId={selectedProjectId} 
+            query={query} 
+            setQuery={setQuery}
+          />
+          <PlaygroudQueryResponse resData={resData} />
         </Flex>
 
         <Flex id='plaground-right' w='100%'>

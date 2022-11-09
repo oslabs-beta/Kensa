@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+// authReducer will contain logic to handle state.auth
 import authReducer from '../features/auth/authSlice';
 
 export const store = configureStore({
@@ -7,7 +8,5 @@ export const store = configureStore({
   }
 });
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-// authReducer will contain logic to handle state.auth
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

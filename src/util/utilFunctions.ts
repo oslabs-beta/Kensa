@@ -1,3 +1,4 @@
+// Generate random colors. Used to generate colors for bar chart in OperationTable component
 export const randomBgColor = () => {
   const red = Math.floor(Math.random() * 256);
   const green = Math.floor(Math.random() * 256);

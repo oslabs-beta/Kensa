@@ -9,6 +9,12 @@ $light-theme-link-hover-color: blue;
 $table-head-bgColor: #4e67af;
 $landing-page-bgColor: rgb(148, 107, 107);
 
+* {
+  margin: 0;
+  padding: 0;
+	box-sizing: border-box;
+}
+
 body {
     background-color: #FDEEDC;
 }
@@ -30,14 +36,15 @@ body {
 
 // Playground
 #playground {
-	height: 92%;
+	height: 100%;
 	gap: 1rem;
+	
 	.playground-items {
 		border: 1px solid $light-theme-borderColor;
 		border-radius: 5px;
-		height: 300px;
+		height: 252px;
 		width: 502px;
-		padding-bottom: 10px;
+		margin-top: 10px;
 	}
 
 	#code-editor {
@@ -52,6 +59,11 @@ body {
 	#treeWrapper {
 		color: white;
 	}
+
+	table {
+		height: 100%;
+		width: 100%;
+	}
 }
 
 
@@ -60,21 +72,26 @@ table, td {
 	border: 1px solid black;
 	text-align: center;
 	width: 600px;
+
 	thead {
 		background-color: $table-head-bgColor;
 		color: $dark-theme-color;
 		font-weight: bold;
 	}
+
 	tr:nth-child(even) {
 		background-color: #d3d3d3;
 	}
+
 	tr {
 		cursor: pointer;
 		font-weight: 600;
 	}
+
 	tbody > tr:hover {
 		background-color: rgb(190, 180, 180);
 	}
+
 	#delete-btn {
 		text-align: center;
 		font-size: 1.5rem;
@@ -111,6 +128,7 @@ table, td {
 		background-color: $light-theme-sidebar-bgColor;
 		color: black;
 		border-right: 1px solid $light-theme-borderColor;
+
 		.sidebar-text:hover {
 			cursor: pointer;
 			background-color: #e6e6ff;
@@ -126,9 +144,7 @@ table, td {
 	}
 
 	#playground-error-message {
-		// border: 1px solid $light-theme-borderColor;
 		color: red;
-		margin-bottom: 10px;
 	}
 }
 
@@ -164,6 +180,7 @@ table, td {
 	#side-bar {
 		color: rgba(255, 255, 255, 0.8);
 		border-right: 1px solid #3a3232;
+
 		.sidebar-text:hover {
 			cursor: pointer;
 			background-color: #2d2d32;
@@ -177,6 +194,7 @@ table, td {
 		#search-icon {
 			color: #9f9191;
 		}
+
 		input {
 			border: 1px solid #9f9191;
 			color: $dark-theme-color;
@@ -196,6 +214,7 @@ table, td {
 		td {
 			border: 1px solid $dark-theme-borderColor;
 		}
+
 		tr {
 			background-color: $dark-theme-bgColor;
 			color: $dark-theme-color;
@@ -291,6 +310,5 @@ table, td {
 
 	g {
 		translate: -50px -30px;
-
 	}
 }

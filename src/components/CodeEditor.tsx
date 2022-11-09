@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import Editor from '@monaco-editor/react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { ThemeContext } from './App';
 
@@ -84,22 +84,27 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
   const operationName = query.slice(query.indexOf(' '), query.indexOf('{'));
 
   return (
-    <Box id='code-editor' className='playground-items' position='relative'>
-      <Editor 
-        onChange={handleEditorChange} 
-        height='280px'
-        width='500px' 
-        theme={theme === 'dark' ? 'vs-dark' : ''}
-        defaultLanguage='graphql'
-        defaultValue='// type your query here'
-      />
-      <Button justifyContent='center' position='absolute' top='2px' right='0' w='fit-content' h='30px' fontSize='0.8rem' colorScheme='facebook' color='white'>
-        <BsFillPlayFill fontSize='1rem' />
-        <Box marginLeft='5px' onClick={handleQuerySubmit}>{operationName.length > 0 ? operationName : 'Run'}</Box>
-      </Button>
-      {invalidQueryMessage && (
-        <Box id='playground-error-message' position='absolute' top='30px' right='20px'>{invalidQueryMessage}</Box>
-      )} 
+    <Box id='code-editor' position='relative' pt='13px'>
+      <Flex direction='row' alignItems='center' gap={5} marginBottom='20px'>
+        <Heading size='sm'>Operation</Heading>
+        <Button justifyContent='center'  h='30px' fontSize='0.8rem' colorScheme='facebook' color='white' onClick={handleQuerySubmit}>
+          <BsFillPlayFill fontSize='1rem' />
+          <Box marginLeft='5px'>{operationName.length > 0 ? operationName : 'Run'}</Box>
+        </Button>
+        {invalidQueryMessage && (
+          <Center id='playground-error-message'>{invalidQueryMessage}</Center>
+        )} 
+      </Flex>
+      <Box className='playground-items'>
+        <Editor 
+          onChange={handleEditorChange} 
+          height='250px'
+          width='500px' 
+          theme={theme === 'dark' ? 'vs-dark' : ''}
+          defaultLanguage='graphql'
+          defaultValue='// type your query here'
+        />
+      </Box>
     </Box>
   );
 };

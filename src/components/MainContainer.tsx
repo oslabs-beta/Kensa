@@ -19,9 +19,8 @@ const MainContainer = () => {
   return (
     <Center h='100vh'>
       <Routes>
-        {/* The outer route is used for auth routing later */}
         <Route path='/'>
-
+          {/* Routes within Landing page */}
           <Route path='/' element={<LandingPage />}>
             <Route path='/' element={<Hero />} />
             <Route path='/team' element={<TeamPage />} />
@@ -31,12 +30,14 @@ const MainContainer = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 
+          {/* Routes within main Kensa app */}
           <Route path='/user/:username' element={<Kensa />}>
             <Route path='' element={<Projects />} />
             <Route path='monitor/:projectId' element={<Monitor />} />
             <Route path='playground' element={<PlaygroundContainer />} />
             <Route path='security' element={<ChangePasswordForm />} />
           </Route>
+          {/* 404 for all other routes */}
           <Route path='/*' element={<NotFound />} />
         </Route>
       </Routes>

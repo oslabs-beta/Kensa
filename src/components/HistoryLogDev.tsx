@@ -93,42 +93,44 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
   };
 
   return (
-    <div id="log-dev">
-      <Flex justifyContent='flex-end' marginBottom='20px'>
-        <Box onClick={() => refetch({ projectId: selectedProjectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem' marginRight='20px'>
+    <Box>
+      <Flex justifyContent='flex-end' marginBottom='10px'>
+        <Box onClick={() => refetch({ projectId: selectedProjectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'>
           <TbRefresh />
         </Box>
       </Flex>
-      <table style={{ position: 'sticky' }}>
-        <thead>
-          <tr>
-            {headers.map((header, i) => {
+      <Box id="log-dev">
+        <table>
+          <thead>
+            <tr>
+              {headers.map((header, i) => {
+                return (
+                  <td key={i}>{header.label}</td>
+                );
+              })}
+              <td></td>
+            </tr>
+          </thead>
+
+          <tbody>
+            {data.project['history_log_dev'].map((query: QueryTypeDev, index: number) => {
+              const queryDate = new Date(parseInt(query['created_at']));
+              const formatDate = format(queryDate, 'MMM dd yyyy HH:mm:ss');
               return (
-                <td key={i}>{header.label}</td>
+                <tr key={query.id}>
+                  <td>{index + 1}</td>
+                  <td>{query.operation_name}</td>
+                  <td>{query.execution_time}</td>
+                  <td>{formatDate}</td>
+                  <td>{query.success ? 'No' : 'Yes'}</td>
+                  <td onClick={() => handleDeleteOperationDev(query.id)} id='delete-btn'><Flex justifyContent='center'><TiDelete /></Flex></td>
+                </tr>
               );
             })}
-            <td></td>
-          </tr>
-        </thead>
-
-        <tbody>
-          {data.project['history_log_dev'].map((query: QueryTypeDev, index: number) => {
-            const queryDate = new Date(parseInt(query['created_at']));
-            const formatDate = format(queryDate, 'MMM dd yyyy HH:mm:ss');
-            return (
-              <tr key={query.id}>
-                <td>{index + 1}</td>
-                <td>{query.operation_name}</td>
-                <td>{query.execution_time}</td>
-                <td>{formatDate}</td>
-                <td>{query.success ? 'No' : 'Yes'}</td>
-                <td onClick={() => handleDeleteOperationDev(query.id)} id='delete-btn'><Flex justifyContent='center'><TiDelete /></Flex></td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+      </Box>
+    </Box>
   );
 };
 

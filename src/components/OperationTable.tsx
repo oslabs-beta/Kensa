@@ -18,7 +18,7 @@ const OperationTable = () => {
   // Grab context values passed from MetricContainer
   const { historyLogs, setOperation, metricsData, setMetricsData } = useContext(ChartContext);
 
-  const [sortKey, setSortKey] = useState<SortKeys>('id');
+  const [sortKey, setSortKey] = useState<SortKeys>('operation_name');
   const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
 
   // Headers for operation table

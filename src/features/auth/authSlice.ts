@@ -20,6 +20,8 @@ const initialState: AuthState = {
   user: initialStateValue
 };
 
+// Global state across entire application. Every request to backend
+// will send the token along in the headers
 export const authSlice = createSlice({
   name: 'auth',
   initialState,

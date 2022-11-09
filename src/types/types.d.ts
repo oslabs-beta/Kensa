@@ -1,3 +1,4 @@
+// Type for each query operation in History Log (production)
 export type QueryType = {
   id: string;
   operation_name: string;
@@ -7,6 +8,7 @@ export type QueryType = {
   success: boolean;
 }
 
+// Type for each query operation in History Log (development)
 export type QueryTypeDev = {
   id: string;
   operation_name: string;
@@ -15,15 +17,17 @@ export type QueryTypeDev = {
   success: boolean;
 }
 
+// Type for each query displayed in History Log table (production)
 export type OperationLogTable = {
   id: number;
   operation_name: string;
   req_count: number;
   avg_res_time: number;
-  // avg_res_size: number;
+  // avg_res_size: number;  // currently not used
   error_count: number;
 }
 
+// Type for Project received from GraphQL, id and project_name are required in the response data
 export type ProjectType = {
   id: string;
   project_name: string;

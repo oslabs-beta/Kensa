@@ -8,19 +8,23 @@ import { login } from '../features/auth/authSlice';
 
 
 const Login = () => {
-  // App theme state and function to switch between themes
+  // App theme state and function to toggle between themes
   const { theme, toggleTheme } = useContext(ThemeContext);
 
+  // state for all form fields (username, password, password error message)
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();  
   
-  // Getting user state in localStorage. If there is a user, log them in and navigate to /user/:username
+  // Getting user state in localStorage. If there is a user, log them in and navigate to user's Projects page
   const user = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     if (user) {
       dispatch(login(user));
-      navigate(`/user/${user.username}`); // navigate to user's Projects page
+      navigate(`/user/${user.username}`);
     }
   }, [user]);
 
@@ -30,9 +34,7 @@ const Login = () => {
     usernameRef.current.focus();
   }, []);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();  
-  
+  // Functions to handle username/password input change
   function handleUserChange(e: React.SyntheticEvent): void {
     const target = e.target as HTMLInputElement;
     setUsername(target.value);
@@ -59,6 +61,7 @@ const Login = () => {
       })
     })
       .then((res) => {
+        // Set password error message in state to display to user
         if (res.status === 400) {
           setIsPasswordError(true);
           throw new Error('Wrong username or password'); 
@@ -66,7 +69,7 @@ const Login = () => {
         return res.json();
       })
       .then((user) => {
-        // dispatch login action to Redux store
+        // dispatch login action to Redux store to log user in
         dispatch(login(user));  
         // save global state user in localStorage to persist user on refresh
         localStorage.setItem('user', JSON.stringify(user));

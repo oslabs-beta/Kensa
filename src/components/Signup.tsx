@@ -1,10 +1,9 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useMutation, gql } from "@apollo/client";
 import { Stack, Heading, Center, Box, FormErrorMessage, Spinner } from "@chakra-ui/react";
 import { FormControl, FormLabel, Input, Button, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import { ThemeContext } from "./App";
-import { useMutation, gql } from "@apollo/client";
 import { useDispatch } from "react-redux";
 import { login } from "../features/auth/authSlice";
 
@@ -13,10 +12,14 @@ const Signup = () => {
   // App theme state and function to switch between themes
   const { theme, toggleTheme } = useContext(ThemeContext);
 
+  // state for all form fields (username, password, confirm password)
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch(); // Redux action dispatcher
+  
   // used to set up error message if username is taken
   let isUserNameError = false;
   // used to set up error message if passwords do not match
@@ -28,8 +31,6 @@ const Signup = () => {
     usernameRef.current.focus();
   }, []);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch(); // Redux action dispatcher
   
   function handleUserChange(e: React.SyntheticEvent) {
     const target = e.target as HTMLInputElement;
