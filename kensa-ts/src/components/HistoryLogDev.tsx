@@ -1,9 +1,11 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { Alert, AlertIcon, Box, Center, Flex, Spinner } from "@chakra-ui/react";
 import { QueryTypeDev } from "../types/types";
 import { format } from 'date-fns';
 import { TbRefresh } from "react-icons/tb";
+// import { MdDelete } from 'react-icons/md';
+import { TiDelete, TiDeleteOutline } from 'react-icons/ti';
 
 
 type HistoryLogDevProps = {
@@ -29,10 +31,28 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
     }
   `;
 
+  // Mutation query to delete all resolvers associated with an operation in Dev mode
+  // User can delete by clicking on an operation in Logs table
+  const DELETE_RESOLVERS_DEV = gql`
+    mutation DeleteResolversDev($operationDevId: ID!) {
+      deleteOperationResolverLogs(id: $operationDevId) {
+        id
+        resolver_name
+        execution_time
+        success
+      }
+    }
+  `;
+
   const { loading, error, data, refetch } = useQuery(GET_PROJECT, {
     variables: {
       projectId: selectedProjectId
     },
+  });
+
+  const [deleteOperationDev] = useMutation(DELETE_RESOLVERS_DEV, {
+    // Refetch GET_PROJECT after delete an operation in the table
+    refetchQueries: [{ query: GET_PROJECT, variables: { projectId: selectedProjectId } }]
   });
 
   if (loading) {
@@ -63,10 +83,19 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
     { label: 'Error' }
   ];
 
+  const handleDeleteOperationDev = (operationId: string): void => {
+    console.log('delete operation', operationId);
+    deleteOperationDev({
+      variables: {
+        operationDevId: operationId
+      }
+    });
+  };
+
   return (
     <div id="log-dev">
       <Flex justifyContent='flex-end' marginBottom='20px'>
-        <Box onClick={() => refetch({ projectId: selectedProjectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'>
+        <Box onClick={() => refetch({ projectId: selectedProjectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem' marginRight='20px'>
           <TbRefresh />
         </Box>
       </Flex>
@@ -78,6 +107,7 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
                 <td key={i}>{header.label}</td>
               );
             })}
+            <td></td>
           </tr>
         </thead>
 
@@ -92,6 +122,7 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
                 <td>{query.execution_time}</td>
                 <td>{formatDate}</td>
                 <td>{query.success ? 'No' : 'Yes'}</td>
+                <td onClick={() => handleDeleteOperationDev(query.id)} id='delete-btn'><Flex justifyContent='center'><TiDelete /></Flex></td>
               </tr>
             );
           })}
