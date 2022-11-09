@@ -52,6 +52,11 @@ export const resolvers = {
       const result = await db.query('SELECT * FROM resolver_log_dev WHERE operation_id = $1', [operation_id]);
       return result.rows;
     },
+    projectFieldLogs: async (_: any, { project_id }: any, { db }: any) => {
+      console.log(project_id);
+      const result = await db.query('SELECT * FROM resolver_log_dev WHERE project_id = $1', [project_id]);
+      return result.rows;
+    },
   },
   Mutation: {
     createUser: async (_: any, { username, password }: CreateUserArgs, { db }: any) => {

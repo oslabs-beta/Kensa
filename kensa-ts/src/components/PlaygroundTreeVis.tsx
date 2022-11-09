@@ -69,6 +69,7 @@ const PlaygroundTreeVis = ({ resData, query }: any) => {
   // and update the object in tree
   useEffect(() => {
     if(resData) {
+      // console.log('resData', resData);
       setObjQuery(queryTransform(query));
     }
   }, [resData]);
