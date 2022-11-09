@@ -75,13 +75,9 @@ table, td {
 	tbody > tr:hover {
 		background-color: rgb(190, 180, 180);
 	}
-}
-
-#history-log-dev {
-	overflow: scroll;
-	overflow-x: hidden;
-	table {
-		width: 700px;
+	#delete-btn {
+		text-align: center;
+		font-size: 1.5rem;
 	}
 }
 

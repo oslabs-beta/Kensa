@@ -138,6 +138,8 @@ export const resolvers = {
       return result.rows;
     },
     deleteOperationResolverLogs: async (_: any, { id }: { id: string }, { db }: any) => {
+      console.log(id);
+      await db.query('DELETE FROM history_log_dev WHERE id = $1', [Number(id)]);
       const result = await db.query('DELETE FROM resolver_log_dev WHERE operation_id = $1 RETURNING *;', [Number(id)]);
       return result.rows;
     },

@@ -21,16 +21,6 @@ const ProjectInfo = ({ projectId, projectName, projectURL, setProjectName, setPr
 
   const [isEditting, setIsEditting] = useState<boolean>(false);
 
-  // this mutation string deletes a project in the Kensa's database based on project id
-  // const DELETE_PROJECT = gql`
-	// 	mutation DeleteProject ($deleteProjectId: ID!) {
-	// 		deleteProject(id: $deleteProjectId) {
-  //       id
-	// 			project_name
-	// 		}
-	// 	}
-	// `;
-
   const DELETE_PROJECT = gql`
     mutation DeleteHistoryLogs($deleteHistoryLogsId: ID!, 
     $deleteHistoryLogsDevId: ID!, 
@@ -51,23 +41,6 @@ const ProjectInfo = ({ projectId, projectName, projectURL, setProjectName, setPr
       }
     }
   `;
-
-  // this mutation will execution when a project is about to be deleted,
-  // it will all the logs related to the database related to the project
-  // const DELETE_ALL_LOGS = gql`
-  //   mutation DeleteHistoryLogs($deleteHistoryLogsId: ID!, 
-  //   $deleteHistoryLogsDevId: ID!, $deleteResolverLogsDevId: ID!) {
-  //     deleteHistoryLogs(id: $deleteHistoryLogsId) {
-  //       id
-  //     }
-  //     deleteHistoryLogsDev(id: $deleteHistoryLogsDevId) {
-  //       id
-  //     }
-  //     deleteResolverLogsDev(id: $deleteResolverLogsDevId) {
-  //       id
-  //     }
-  //   }
-  // `;
 
   const UPDATE_PROJECT = gql`
     mutation UpdateProject($updateProjectId: ID!, $project: ProjectInput!) {
@@ -91,14 +64,6 @@ const ProjectInfo = ({ projectId, projectName, projectURL, setProjectName, setPr
       setIsEditting(!isEditting);
     }
   });
-
-  // const handleDeleteProject = () => {
-  //   deleteProject({
-  //     variables: {
-  //       deleteProjectId: projectId
-  //     }
-  //   });
-  // };
 
   const handleDeleteProject = () => {
     deleteProject({
