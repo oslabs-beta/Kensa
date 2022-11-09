@@ -1,7 +1,6 @@
 export const resolvers = {
   Query: {
     projects: async (_: any, __: any, { db }: any) => {
-      // Use sampleData as database
       const result = await db.query('SELECT * FROM projects;');
       return result.rows;
     },
