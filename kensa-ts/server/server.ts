@@ -31,13 +31,14 @@ async function startApolloServer() {
       // COMMENT: Apollo GraphQL playground will not be able to introspect the schema if we do not comment out everything here
       // Only return { req, res, db } for GraphQL playground to work
     // get the user token from the headers
-      const token = req.headers.authorization.split(' ')[1] || '';
+      // uncomment this if want to test on localhost:3000/graphql
+      // const token = req.headers.authorization.split(' ')[1] || '';
       // // try to retrieve a user with the token
-      const user = await getUser(token);
+      // const user = await getUser(token);
 
-      // add the user to the context
-      return { req, res, db, user };
-      // return { req, res, db };
+      // // add the user to the context
+      // return { req, res, db, user };
+      return { req, res, db };
     },
   }));
 

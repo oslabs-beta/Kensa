@@ -55,7 +55,8 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
     fetch(serverUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Devmode': 'true'
       },
       body: JSON.stringify({
         query: query
@@ -68,6 +69,7 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
       return res.json();
     })
       .then(responseData => {
+        console.log('response data frontend')
         setInvalidQueryMessage('');
         setResData(JSON.stringify(responseData.data, null, 2));
       })

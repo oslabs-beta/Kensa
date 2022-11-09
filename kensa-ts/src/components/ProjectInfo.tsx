@@ -22,14 +22,52 @@ const ProjectInfo = ({ projectId, projectName, projectURL, setProjectName, setPr
   const [isEditting, setIsEditting] = useState<boolean>(false);
 
   // this mutation string deletes a project in the Kensa's database based on project id
+  // const DELETE_PROJECT = gql`
+	// 	mutation DeleteProject ($deleteProjectId: ID!) {
+	// 		deleteProject(id: $deleteProjectId) {
+  //       id
+	// 			project_name
+	// 		}
+	// 	}
+	// `;
+
   const DELETE_PROJECT = gql`
-		mutation DeleteProject ($deleteProjectId: ID!) {
-			deleteProject(id: $deleteProjectId) {
+    mutation DeleteHistoryLogs($deleteHistoryLogsId: ID!, 
+    $deleteHistoryLogsDevId: ID!, 
+    $deleteResolverLogsDevId: ID!, 
+    $deleteProjectId: ID!) {
+      deleteHistoryLogs(id: $deleteHistoryLogsId) {
         id
-				project_name
-			}
-		}
-	`;
+      }
+      deleteHistoryLogsDev(id: $deleteHistoryLogsDevId) {
+        id
+      }
+      deleteResolverLogsDev(id: $deleteResolverLogsDevId) {
+        id
+      }
+      deleteProject(id: $deleteProjectId) {
+        id
+        project_name
+      }
+    }
+  `;
+
+  // this mutation will execution when a project is about to be deleted,
+  // it will all the logs related to the database related to the project
+  // const DELETE_ALL_LOGS = gql`
+  //   mutation DeleteHistoryLogs($deleteHistoryLogsId: ID!, 
+  //   $deleteHistoryLogsDevId: ID!, $deleteResolverLogsDevId: ID!) {
+  //     deleteHistoryLogs(id: $deleteHistoryLogsId) {
+  //       id
+  //     }
+  //     deleteHistoryLogsDev(id: $deleteHistoryLogsDevId) {
+  //       id
+  //     }
+  //     deleteResolverLogsDev(id: $deleteResolverLogsDevId) {
+  //       id
+  //     }
+  //   }
+  // `;
 
   const UPDATE_PROJECT = gql`
     mutation UpdateProject($updateProjectId: ID!, $project: ProjectInput!) {
@@ -54,10 +92,21 @@ const ProjectInfo = ({ projectId, projectName, projectURL, setProjectName, setPr
     }
   });
 
+  // const handleDeleteProject = () => {
+  //   deleteProject({
+  //     variables: {
+  //       deleteProjectId: projectId
+  //     }
+  //   });
+  // };
+
   const handleDeleteProject = () => {
     deleteProject({
       variables: {
-        deleteProjectId: projectId
+        "deleteResolverLogsDevId": projectId,
+        "deleteHistoryLogsDevId": projectId,
+        "deleteHistoryLogsId": projectId,
+        "deleteProjectId": projectId
       }
     });
   };
