@@ -31,6 +31,15 @@ const Signup = () => {
     usernameRef.current.focus();
   }, []);
 
+  // Getting user state in localStorage. If there is a user, log them in and navigate to user's Projects page
+  const user = JSON.parse(localStorage.getItem('user'));
+  useEffect(() => {
+    if (user) {
+      dispatch(login(user));
+      navigate(`/user/${user.username}`);
+    }
+  }, [user]);
+
   // Functions to handle username/password/confirm password input change
   const handleUserChange = (e: React.SyntheticEvent): void  => {
     const target = e.target as HTMLInputElement;

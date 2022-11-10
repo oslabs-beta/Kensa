@@ -19,15 +19,6 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();  
   
-  // Getting user state in localStorage. If there is a user, log them in and navigate to user's Projects page
-  const user = JSON.parse(localStorage.getItem('user'));
-  useEffect(() => {
-    if (user) {
-      dispatch(login(user));
-      navigate(`/user/${user.username}`);
-    }
-  }, [user]);
-
   // Focus Username input upon rendering  
   const usernameRef = useRef(null);
   useEffect(() => {
@@ -97,7 +88,7 @@ const Login = () => {
             <FormErrorMessage>Wrong username or password</FormErrorMessage>
           </FormControl>
           <Button type='submit' w={400} colorScheme='facebook'>Sign In</Button>
-          <Link to='/signup'><Text color='blue.500' className='link'>Don&#39;t have account? Get started</Text></Link>
+          <Link to='/'><Text color='blue.500' className='link'>Don&#39;t have account? Get started</Text></Link>
         </Stack>
       </form>
       {/* Button to toggle light/dark mode */}

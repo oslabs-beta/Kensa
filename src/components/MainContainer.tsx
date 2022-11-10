@@ -19,27 +19,18 @@ const MainContainer = () => {
   return (
     <Center h='100vh'>
       <Routes>
-        <Route path='/'>
-          {/* Routes within Landing page */}
-          <Route path='/' element={<LandingPage />}>
-            <Route path='/' element={<Hero />} />
-            <Route path='/team' element={<TeamPage />} />
-            <Route path='/whykensa' element={<WhyKensaPage />} />
-          </Route>
+        <Route path='/' element={<Signup />} />
+        <Route path='/login' element={<Login />} />
 
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-
-          {/* Routes within main Kensa app */}
-          <Route path='/user/:username' element={<Kensa />}>
-            <Route path='' element={<Projects />} />
-            <Route path='monitor/:projectId' element={<Monitor />} />
-            <Route path='playground' element={<PlaygroundContainer />} />
-            <Route path='security' element={<ChangePasswordForm />} />
-          </Route>
-          {/* 404 for all other routes */}
-          <Route path='/*' element={<NotFound />} />
+        {/* Routes within main Kensa app */}
+        <Route path='/user/:username' element={<Kensa />}>
+          <Route path='' element={<Projects />} />
+          <Route path='monitor/:projectId' element={<Monitor />} />
+          <Route path='playground' element={<PlaygroundContainer />} />
+          <Route path='security' element={<ChangePasswordForm />} />
         </Route>
+        {/* 404 for all other routes */}
+        <Route path='/*' element={<NotFound />} />
       </Routes>
     </Center>
   );
