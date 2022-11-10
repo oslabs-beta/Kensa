@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from "react-router-dom";
-import { Stack, Heading, Text, Box, Center, FormErrorMessage } from '@chakra-ui/react';
+import { Stack, Heading, Text, Box, Center, FormErrorMessage, Image } from '@chakra-ui/react';
 import { FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import { ThemeContext } from './App';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/auth/authSlice';
-
+import logo from '../assets/Kensa-cropped2.png';
 
 const Login = () => {
   // App theme state and function to toggle between themes
@@ -73,10 +73,12 @@ const Login = () => {
   return (
     <Box id='login'>
       <form onSubmit={handleLogin}>
+        <a href='http://localhost:3006/'>
+          <Center marginBottom='15px'>
+            <Image src={logo} alt='Kensa logo' h='80px' w='150px'/>
+          </Center>
+        </a>
         <Stack spacing={10} direction='column' align='center' maxWidth={400}>
-          <Link to='/'>
-            <Text color='blue.500' className='link'>Back to Homepage</Text>
-          </Link>
           <Heading>Sign In</Heading>
           <FormControl isRequired>
             <FormLabel>Username</FormLabel>

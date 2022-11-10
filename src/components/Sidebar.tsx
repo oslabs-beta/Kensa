@@ -2,14 +2,14 @@ import React from 'react';
 import { Box, Flex, Heading, Stack, Icon, Image } from '@chakra-ui/react';
 import { BsFillFolderFill, BsFillPlayBtnFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import logo from '../assets/Kensa cropped2.png';
+import logo from '../assets/Kensa-cropped2.png';
 
 const Sidebar = () => {
 
   return (
     <Box flex='1' id='side-bar'>
       <Flex h='180px' justify='center' align='center' id='logo'>
-        <Link to='/'><Image src={logo} h='100px' w='150px'/></Link>
+        <a href='http://localhost:3006/'><Image src={logo} h='80px' w='150px'/></a>
       </Flex>
       <Stack spacing={3} direction='column' marginTop={10}>
         <Link to=''>

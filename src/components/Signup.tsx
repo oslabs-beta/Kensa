@@ -1,11 +1,12 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation, gql } from "@apollo/client";
-import { Stack, Heading, Center, Box, FormErrorMessage, Spinner } from "@chakra-ui/react";
+import { Stack, Heading, Center, Box, FormErrorMessage, Spinner, Image } from "@chakra-ui/react";
 import { FormControl, FormLabel, Input, Button, Text } from "@chakra-ui/react";
 import { ThemeContext } from "./App";
 import { useDispatch } from "react-redux";
 import { login } from "../features/auth/authSlice";
+import logo from '../assets/Kensa-cropped2.png';
 
 
 const Signup = () => {
@@ -120,10 +121,12 @@ const Signup = () => {
   return (
     <Box id='signup'>
       <form id="add-project-form" onSubmit={handleSignUp}>
+        <a href='http://localhost:3006/'>
+          <Center marginBottom='15px'>
+            <Image src={logo} alt='Kensa logo' h='80px' w='150px'/>
+          </Center>
+        </a>
         <Stack spacing={10} direction='column' align='center' maxWidth={400}>
-          <Link to='/'>
-            <Text color='blue.500' className='link'>Back to Homepage</Text>
-          </Link>
           <Heading>Register</Heading>
           <FormControl isRequired isInvalid={isUserNameError}>
             <FormLabel>Username</FormLabel>
