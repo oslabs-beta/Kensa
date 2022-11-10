@@ -6,7 +6,6 @@ import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { ThemeContext } from './App';
 
-// const CodeEditor = ({ setResData, query, setQuery }: any) => {
 type CodeEditorProps = {
   setResData: React.Dispatch<React.SetStateAction<string>>;
   selectedProjectId: string;
@@ -16,10 +15,10 @@ type CodeEditorProps = {
 
 const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEditorProps) => {
   const { theme } = useContext(ThemeContext);
-  // const [query, setQuery] = useState<string>('');
 
   const [invalidQueryMessage, setInvalidQueryMessage] = useState<string>('');
 
+  // Get projects' URLs
   const GET_PROJECT = gql`
     query GetProject($projectId: ID!) {
       project(id: $projectId) {
@@ -28,16 +27,13 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
     }
   `;
 
-  // const GET_RESOLVERS = gql`
-    
-  // `;
-
   const { loading, error, data } = useQuery(GET_PROJECT, {
     variables: {
       projectId: selectedProjectId
     }
   });
 
+  // Function handle editor change when user type in queries
   const handleEditorChange = (value?: string, event?: editor.IModelContentChangedEvent): void => {
     let i = 6;
 
@@ -49,6 +45,7 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
     setQuery(value);
   };
 
+  // Function to handle submit queries to /graphql endpoint
   const handleQuerySubmit = () => {
     let serverUrl = data.project.server_url;
     // Attach http to URL if it doesn't have it
@@ -66,6 +63,7 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
         query: query
       })
     }).then(res => {
+      // Set invalid query error message if status is not 200
       if (res.status !== 200) {
         setInvalidQueryMessage('Invalid query. Please resubmit');
         throw new Error('Invalid query'); 
@@ -81,6 +79,7 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
       });
   };
 
+  // Get the operation name of the query
   const operationName = query.slice(query.indexOf(' '), query.indexOf('{'));
 
   return (
@@ -96,6 +95,7 @@ const CodeEditor = ({ setResData, selectedProjectId, query, setQuery  }: CodeEdi
         )} 
       </Flex>
       <Box className='playground-items'>
+        {/* Monaco editor component */}
         <Editor 
           onChange={handleEditorChange} 
           height='250px'

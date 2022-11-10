@@ -2,10 +2,9 @@ import React from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Alert, AlertIcon, Box, Center, Flex, Spinner } from "@chakra-ui/react";
 import { QueryTypeDev } from "../types/types";
-import { format } from 'date-fns';
 import { TbRefresh } from "react-icons/tb";
-// import { MdDelete } from 'react-icons/md';
-import { TiDelete, TiDeleteOutline } from 'react-icons/ti';
+import { TiDelete } from 'react-icons/ti';
+import { format } from 'date-fns';
 
 
 type HistoryLogDevProps = {
@@ -17,6 +16,7 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
     return null;
   }
 
+  // Get all history logs (development) of a project
   const GET_PROJECT = gql`
     query GetProject($projectId: ID!) {
       project(id : $projectId) {
@@ -50,6 +50,7 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
     },
   });
 
+  // GraphQL mutation function to delete an operation in the table
   const [deleteOperationDev] = useMutation(DELETE_RESOLVERS_DEV, {
     // Refetch GET_PROJECT after delete an operation in the table
     refetchQueries: [{ query: GET_PROJECT, variables: { projectId: selectedProjectId } }]
@@ -63,7 +64,6 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
     );
   }
 
-  
   if (error) {
     return (
       <Center w='100%' h='100%'>
@@ -75,6 +75,7 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
     );
   }
 
+  // Headers for table
   const headers = [
     { label: 'Query #' },
     { label: 'Operation Name' },
@@ -83,8 +84,8 @@ const HistoryLogDev = ({ selectedProjectId }: HistoryLogDevProps) => {
     { label: 'Error' }
   ];
 
+  // Function to handle delete an operation in table
   const handleDeleteOperationDev = (operationId: string): void => {
-    console.log('delete operation', operationId);
     deleteOperationDev({
       variables: {
         operationDevId: operationId

@@ -1,11 +1,12 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation, gql } from "@apollo/client";
-import { Stack, Heading, Center, Box, FormErrorMessage, Spinner } from "@chakra-ui/react";
+import { Stack, Heading, Center, Box, FormErrorMessage, Spinner, Image } from "@chakra-ui/react";
 import { FormControl, FormLabel, Input, Button, Text } from "@chakra-ui/react";
 import { ThemeContext } from "./App";
 import { useDispatch } from "react-redux";
 import { login } from "../features/auth/authSlice";
+import logo from '../assets/Kensa-cropped2.png';
 
 
 const Signup = () => {
@@ -31,26 +32,36 @@ const Signup = () => {
     usernameRef.current.focus();
   }, []);
 
-  
-  function handleUserChange(e: React.SyntheticEvent) {
+  // Getting user state in localStorage. If there is a user, log them in and navigate to user's Projects page
+  const user = JSON.parse(localStorage.getItem('user'));
+  useEffect(() => {
+    if (user) {
+      dispatch(login(user));
+      navigate(`/user/${user.username}`);
+    }
+  }, [user]);
+
+  // Functions to handle username/password/confirm password input change
+  const handleUserChange = (e: React.SyntheticEvent): void  => {
     const target = e.target as HTMLInputElement;
     setUsername(target.value);
-  }
+  };
 
-  function handlePasswordChange(e: React.SyntheticEvent) {
+  const handlePasswordChange = (e: React.SyntheticEvent): void => {
     const target = e.target as HTMLInputElement;
     setPassword(target.value);
-  }
+  };
 
-  function handleConfirmPasswordChange(e: React.SyntheticEvent) {
+  const handleConfirmPasswordChange = (e: React.SyntheticEvent): void => {
     const target = e.target as HTMLInputElement;
     setConfirmPassword(target.value);
-  }
+  };
 
   const getUserInfo = () => {
     return { user: username, pw: password };
   };
 
+  // GraphQL mutation string to create a user
   const CREATE_USER = gql`
   mutation CreateUser ($username: String!, $password: String!){
     createUser(username: $username, password: $password) {
@@ -68,6 +79,7 @@ const Signup = () => {
         username: data.createUser.username,
         token: data.createUser.token
       };
+
       dispatch(login(user));
 
       // save user info into localStorage
@@ -92,23 +104,29 @@ const Signup = () => {
     isUserNameError = true;
   }
 
+  const handleSignUp = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { user, pw } = getUserInfo();
+    if (password !== confirmPassword) {
+      setIsPasswordError(true);
+      return;
+    }
+
+    setIsPasswordError(false);
+    // GraphQL mutation to create user
+    createUser({variables: { username: user, password: pw }});
+  };
+
   return (
     <Box id='signup'>
-      <form id="add-project-form" onSubmit={(e: React.SyntheticEvent): void => {
-        e.preventDefault();
-        const { user, pw } = getUserInfo();
-        if(password !== confirmPassword) {
-          setIsPasswordError(true);
-          return;
-        }
-        setIsPasswordError(false);
-        // GraphQL mutation to create user
-        createUser({variables: { username: user, password: pw }});
-      }}>
+      <form id="add-project-form" onSubmit={handleSignUp}>
+        <a href='http://localhost:3006/'>
+          <Center marginBottom='15px'>
+            <Image src={logo} alt='Kensa logo' h='80px' w='150px'/>
+          </Center>
+        </a>
         <Stack spacing={10} direction='column' align='center' maxWidth={400}>
-          <Link to='/'>
-            <Text color='blue.500' className='link'>Back to Homepage</Text>
-          </Link>
           <Heading>Register</Heading>
           <FormControl isRequired isInvalid={isUserNameError}>
             <FormLabel>Username</FormLabel>
@@ -128,6 +146,7 @@ const Signup = () => {
           <Link to='/login'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Already have account? Sign in</Text></Link>
         </Stack>
       </form>
+      {/* Button to toggle light/dark mode */}
       <Center>
         <Button size='sm' mt='20px' onClick={toggleTheme} id='toggle-switch'>{theme === 'light' ? 'Dark mode' : 'Light mode'}</Button>
       </Center>

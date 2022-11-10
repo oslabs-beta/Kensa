@@ -3,9 +3,9 @@ import React, { useContext } from 'react';
 import { QueryType } from '../types/types';
 import { ChartContext } from './MetricContainer';
 
+// Display query string of an operation
 const Query = () => {
   const { operation, historyLogs } = useContext(ChartContext);
-
 
   const queryString = historyLogs.find((log: QueryType) => log.operation_name === operation).query_string;
 

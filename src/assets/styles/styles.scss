@@ -54,6 +54,7 @@ body {
 	#log-dev {
 		height: 550px;
 		overflow: scroll;
+		overflow-x: hidden;
 	}
 
 	#treeWrapper {
@@ -86,6 +87,7 @@ table, td {
 	tr {
 		cursor: pointer;
 		font-weight: 600;
+		height: 20px;
 	}
 
 	tbody > tr:hover {
@@ -119,6 +121,10 @@ table, td {
 	#logo {
 		border-bottom: 1px solid $light-theme-borderColor;
 	}
+
+	// .logo-text {
+	// 	color: rgb(211, 132, 21);
+	// }
 
 	#kensa-navbar {
 		border-bottom: 1px solid $light-theme-borderColor;

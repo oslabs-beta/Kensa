@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { GraphQLError } from 'graphql';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -160,7 +161,7 @@ export const resolvers = {
       return result.rows;
     },
     history_log_dev: async ({ id: project_id }: any, __: any, { db }: any) => {
-      const result = await db.query('SELECT * FROM history_log_dev WHERE project_id = $1', [project_id]);
+      const result = await db.query('SELECT * FROM history_log_dev WHERE project_id = $1 ORDER BY created_at;', [project_id]);
       return result.rows;
     }
   },

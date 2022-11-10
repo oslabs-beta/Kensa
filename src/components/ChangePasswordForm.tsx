@@ -12,12 +12,12 @@ const ChangePasswordForm = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const username = user.username;
 
-  // const [username, setUsername] = useState<string>('');
+  const navigate = useNavigate();
+
+  // state for all form fields (old password, new password, confirm new password)
   const [oldPassword, setOldPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
-
-  const navigate = useNavigate();
 
   // used to set up error message if old password is incorrect
   let isOldPasswordError = false;
@@ -30,7 +30,7 @@ const ChangePasswordForm = () => {
     oldPasswordRef.current.focus();
   }, []);
 
-
+  // GraphQL mutation string to change user's password
   const CHANGE_PASSWORD = gql`
     mutation ChangePassword ($userInput: ChangePasswordInput!) {
       changePassword(userInput: $userInput) {
@@ -69,7 +69,7 @@ const ChangePasswordForm = () => {
       return;
     }
     setIsNewPasswordError(false);
-    // GraphQL mutation to change password
+
     changePassword({
       variables: {
         userInput: {

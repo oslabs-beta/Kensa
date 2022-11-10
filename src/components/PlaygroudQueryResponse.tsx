@@ -3,10 +3,15 @@ import Editor from '@monaco-editor/react';
 import { ThemeContext } from './App';
 import { Box, Heading } from '@chakra-ui/react';
 
-const PlaygroudQueryResponse = ({ resData }: any) => {
+type PlaygroudQueryResponseProps = {
+  resData: string;
+};
+
+const PlaygroudQueryResponse = ({ resData }: PlaygroudQueryResponseProps) => {
   const { theme } = useContext(ThemeContext);
-  const editorRef = useRef(null);
+
   // Display new value in editor when resData changes
+  const editorRef = useRef(null);
   useEffect(() => {
     if (editorRef.current) {
       editorRef.current.setValue(resData);

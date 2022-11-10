@@ -27,10 +27,11 @@ async function startApolloServer() {
   app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(apolloServer, {
     context: async ({req, res}: any) => {
     // get the user token from the headers
-      // uncomment this if want to test on localhost:3000/graphql
       const token = req.headers.authorization.split(' ')[1] || '';
+
       // // try to retrieve a user with the token
       const user = await getUser(token);
+
       // // add the user to the context
       return { req, res, db, user };
     },

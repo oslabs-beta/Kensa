@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from "react-router-dom";
-import { Stack, Heading, Text, Box, Center, FormErrorMessage } from '@chakra-ui/react';
+import { Stack, Heading, Text, Box, Center, FormErrorMessage, Image } from '@chakra-ui/react';
 import { FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import { ThemeContext } from './App';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/auth/authSlice';
-
+import logo from '../assets/Kensa-cropped2.png';
 
 const Login = () => {
   // App theme state and function to toggle between themes
@@ -19,15 +19,6 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();  
   
-  // Getting user state in localStorage. If there is a user, log them in and navigate to user's Projects page
-  const user = JSON.parse(localStorage.getItem('user'));
-  useEffect(() => {
-    if (user) {
-      dispatch(login(user));
-      navigate(`/user/${user.username}`);
-    }
-  }, [user]);
-
   // Focus Username input upon rendering  
   const usernameRef = useRef(null);
   useEffect(() => {
@@ -35,18 +26,18 @@ const Login = () => {
   }, []);
 
   // Functions to handle username/password input change
-  function handleUserChange(e: React.SyntheticEvent): void {
+  const handleUserChange = (e: React.SyntheticEvent): void => {
     const target = e.target as HTMLInputElement;
     setUsername(target.value);
-  }
+  };
 
-  function handlePasswordChange(e: React.SyntheticEvent): void {
+  const handlePasswordChange = (e: React.SyntheticEvent): void => {
     const target = e.target as HTMLInputElement;
     setPassword(target.value);
-  }
+  };
 
   // login function that send username and psw to server (/login)
-  function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     fetch('http://localhost:3000/login', {
@@ -77,15 +68,17 @@ const Login = () => {
         navigate(`/user/${username}`);
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   return (
     <Box id='login'>
       <form onSubmit={handleLogin}>
+        <a href='http://localhost:3006/'>
+          <Center marginBottom='15px'>
+            <Image src={logo} alt='Kensa logo' h='80px' w='150px'/>
+          </Center>
+        </a>
         <Stack spacing={10} direction='column' align='center' maxWidth={400}>
-          <Link to='/'>
-            <Text color='blue.500' className='link'>Back to Homepage</Text>
-          </Link>
           <Heading>Sign In</Heading>
           <FormControl isRequired>
             <FormLabel>Username</FormLabel>
@@ -97,9 +90,10 @@ const Login = () => {
             <FormErrorMessage>Wrong username or password</FormErrorMessage>
           </FormControl>
           <Button type='submit' w={400} colorScheme='facebook'>Sign In</Button>
-          <Link to='/signup'><Text color='blue.500' className='link'>Don&#39;t have account? Get started</Text></Link>
+          <Link to='/'><Text color='blue.500' className='link'>Don&#39;t have account? Get started</Text></Link>
         </Stack>
       </form>
+      {/* Button to toggle light/dark mode */}
       <Center>
         <Button size='sm' mt='20px' onClick={toggleTheme} id='toggle-switch'>{theme === 'light' ? 'Dark mode' : 'Light mode'}</Button>
       </Center>
