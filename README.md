@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/oslabs-beta/kensa">
-    <img src="kensa-ts/src/assets/Kensa_cropped.png" alt="Logo" height="120">
+    <img src="./src/assets/Kensa_cropped.png" alt="Logo" height="120">
   </a>
 
   <!-- <h3 align="center">Kensa</h3> -->
