@@ -108,7 +108,7 @@ Then visit kensa.io and sign up for an account to get full access to the Kensa w
 <br />
 <strong>Create projects</strong>: <br />
 Store your own record of projects to easily refer back to for continuous development and keep a log of their response metrics for comparison sake.
-
+<br />
 <a href="https://www.loom.com/share/824b6dc1183f4ee88fa75610fdfc6ce5">
     <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/824b6dc1183f4ee88fa75610fdfc6ce5-1668036068278.gif">
   </a>
