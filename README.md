@@ -20,7 +20,7 @@
   
 
 <div align="center">
-  <a href="https://github.com/open-source-labs/Kensa/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
+  <a href="https://github.com/brianhip/kensats/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
   <a href="https://github.com/oslabs-beta/kensa/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues"/></a>
   <a href="https://github.com/oslabs-beta/kensa/issues"><img src="https://travis-ci.org/boennemann/badges.svg?branch=master" /></a>
 
@@ -123,7 +123,7 @@ Store your own record of projects to easily refer back to for continuous develop
 Avoid the hassle of toggling between different apps and quickly test for different queries/mutations by submitting queries into the input field. View their response data and compare for differences in response data and metrics in the operation log table.
 <br />
 <a href="https://www.loom.com/share/ba290183644b482baa6bdabe7f2a470f">
-   <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/ba290183644b482baa6bdabe7f2a470f-1668102743402.gif">
+    <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/ba290183644b482baa6bdabe7f2a470f-1668102743402.gif">
   </a>
   <br />
 <br />
@@ -153,3 +153,7 @@ Thank you for your interest and support!
 
 <a href="https://kensats.link">Website</a>
 <a href="">LinkedIn</a>
+
+### Acknowledgements
+
+Big shout out and thank you to Jace Crowe (<a href="https://www.linkedin.com/in/jacecrowe/">LinkedIn</a> | <a href="https://github.com/JaceCrowe">GitHub</a>) for helpfully guiding us throughout the creation of this product. 
