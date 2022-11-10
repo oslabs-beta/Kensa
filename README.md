@@ -97,25 +97,33 @@ npm install kensa-api
 
 Then visit kensa.io and sign up for an account to get full access to the Kensa web app.
 
-<!-- insert picture/gif -->
+<a href="https://www.loom.com/share/b56225773efb488d91ba52d632fe8d46">
+    <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/b56225773efb488d91ba52d632fe8d46-1668035682296.gif">
+  </a>
 
 <hr>
 
 ### Getting Started
 
 <br />
-Create projects: Store your own record of projects to easily refer back to for continuous development and keep a log of their response metrics for comparison sake.
+<strong>Create projects</strong>: <br />
+Store your own record of projects to easily refer back to for continuous development and keep a log of their response metrics for comparison sake.
 
-<!-- insert picture/gif -->
+<a href="https://www.loom.com/share/824b6dc1183f4ee88fa75610fdfc6ce5">
+    <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/824b6dc1183f4ee88fa75610fdfc6ce5-1668036068278.gif">
+  </a>
 <br />
-Playground/ Developer mode : Avoid the hassle of toggling between different apps and quickly test for different queries/mutations by submitting queries into the input field. View their response data and compare for differences in response data and metrics in the operation log table.
 
-<!-- insert picture/gif -->
+<strong>Playground/ Developer mode</strong>:<br />
+Avoid the hassle of toggling between different apps and quickly test for different queries/mutations by submitting queries into the input field. View their response data and compare for differences in response data and metrics in the operation log table.
+
 <br />
-Query visualization : View a tree structured visualization of your query broken down into the schema's fields and their connecting relationships.
+<strong>Query visualization</strong> :<br /> 
+View a tree structured visualization of your query broken down into the schema's fields and their connecting relationships.
 
-<!-- insert picture / gif -->
-
+<a href="https://www.loom.com/share/a620dc7da99948899bdcf1729be4bad6">
+    <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/a620dc7da99948899bdcf1729be4bad6-1668036652164-with-play.gif">
+  </a>
 <hr>
 
 ### Contributing
