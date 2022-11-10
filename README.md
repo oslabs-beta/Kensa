@@ -151,5 +151,5 @@ Thank you for your interest and support!
 
 ### Contact
 
-Website:
-LinkedIn:
+<a href="https://kensats.link">Website</a>
+<a href="">LinkedIn</a>
