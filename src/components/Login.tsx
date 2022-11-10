@@ -73,11 +73,11 @@ const Login = () => {
   return (
     <Box id='login'>
       <form onSubmit={handleLogin}>
-        <a href='http://localhost:3006/'>
+        <Link to='/'>
           <Center marginBottom='15px'>
             <Image src={logo} alt='Kensa logo' h='80px' w='150px'/>
           </Center>
-        </a>
+        </Link>
         <Stack spacing={10} direction='column' align='center' maxWidth={400}>
           <Heading>Sign In</Heading>
           <FormControl isRequired>
@@ -90,7 +90,7 @@ const Login = () => {
             <FormErrorMessage>Wrong username or password</FormErrorMessage>
           </FormControl>
           <Button type='submit' w={400} colorScheme='facebook'>Sign In</Button>
-          <Link to='/'><Text color='blue.500' className='link'>Don&#39;t have account? Get started</Text></Link>
+          <Link to='/signup'><Text color='blue.500' className='link'>Don&#39;t have account? Get started</Text></Link>
         </Stack>
       </form>
       {/* Button to toggle light/dark mode */}

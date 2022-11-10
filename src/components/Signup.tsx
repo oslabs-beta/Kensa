@@ -121,11 +121,11 @@ const Signup = () => {
   return (
     <Box id='signup'>
       <form id="add-project-form" onSubmit={handleSignUp}>
-        <a href='http://localhost:3006/'>
+        <Link to='/'>
           <Center marginBottom='15px'>
             <Image src={logo} alt='Kensa logo' h='80px' w='150px'/>
           </Center>
-        </a>
+        </Link>
         <Stack spacing={10} direction='column' align='center' maxWidth={400}>
           <Heading>Register</Heading>
           <FormControl isRequired isInvalid={isUserNameError}>
