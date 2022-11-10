@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getContext = async ({req, res}: any, api: string, db: any) => {
+export const getContext = async ({req, res}: any, api: string, db?: any) => {
   if (req.body.operationName === 'IntrospectionQuery') return;
 
   const projectId = await getProjectId(api);
@@ -13,9 +13,9 @@ export const getContext = async ({req, res}: any, api: string, db: any) => {
   };
 };
 
-export const getProjectId = async (apiKey: any): Promise<any> => {
+export const getProjectId = async (apiKey: string): Promise<any> => {
 
-  const res = await axios.post('http://localhost:3000/getId', { apiKey });
+  const res = await axios.post('https://kensats.link/getId', { apiKey });
 
   return res.data.id;
 };
@@ -24,7 +24,7 @@ export const getProjectId = async (apiKey: any): Promise<any> => {
 export const insertMetrics = async (response: any, projectId: string) : Promise<any> => {
   const { query_string, execution_time, success, operation_name } = response;
 
-  await axios.post('http://localhost:3000/metrics', {
+  await axios.post('https://kensats.link/metrics', {
     projectId,
     query_string,
     operation_name,
@@ -38,7 +38,7 @@ export const insertMetrics = async (response: any, projectId: string) : Promise<
 export const insertMetricsDev = async (response: any, projectId: string) : Promise<any> => {
   const { query_string, execution_time, success, operation_name } = response;
 
-  await axios.post('http://localhost:3000/devmetrics', {
+  await axios.post('https://kensats.link/devmetrics', {
     projectId,
     query_string,
     operation_name,

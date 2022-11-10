@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import testDb from './models/testDb';
-import { kensaPlugin, getContext} from 'kensa-npm';
+import { kensaPlugin, getContext} from 'kensats';
 
 async function startApolloServer() {
   const app = express();
