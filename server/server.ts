@@ -49,6 +49,34 @@ async function startApolloServer() {
     return res.status(200).json(res.locals.user);
   });
 
+  app.post('/getId', async (req: Request, res: Response) => {
+    const { apiKey } = req.body;
+
+    const result = await db.query('SELECT id FROM projects WHERE api_key = $1', [apiKey]);
+
+    return res.status(200).json(result.rows[0]);
+  });
+
+  app.post('/metrics', async (req: Request, res: Response) => {
+    // Request body received from npm package
+    const { projectId, query_string, operation_name, execution_time, success } = req.body;
+
+    // // Insert operation metrics (production) to table
+    const result = await db.query('INSERT INTO history_log(query_string, project_id, execution_time, success, operation_name) VALUES($1, $2, $3, $4, $5) RETURNING *;', [query_string, projectId, execution_time, success, operation_name]);
+
+    return res.status(200).json(result.rows[0]);
+  });
+
+  app.post('/devmetrics', async (req: Request, res: Response) => {
+    // // Request body received from npm package
+    const { projectId, query_string, operation_name, execution_time, success } = req.body;
+
+    // // Insert operation metrics (development) to table
+    const result = await db.query('INSERT INTO history_log_dev(query_string, project_id, execution_time, success, operation_name) VALUES($1, $2, $3, $4, $5) RETURNING *;', [query_string, projectId, execution_time, success, operation_name]);
+
+    return res.status(200).json(result.rows[0]);
+  });
+
   app.get('/', (req: Request, res: Response) => {
     return res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
   });
