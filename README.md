@@ -70,14 +70,14 @@ Brian Pham [GitHub](https://github.com/brpham13) |[LinkedIn](https://www.linkedi
 ### About Kensa
 
 <br />
-Kensa equips developers with the metrics and tools necessary to monitor and test their GraphQL requests, always ensuring the health and performance of their server. After simply installing the NPM package and visiting the Kensa.io web app, developers can analyze metrics on high latency queries, track response data/errors, and view historical logs of recently made or saved queries. With built in GraphQL playground functionality, queries/mutations can be quickly tested against and compared through visual aids such as metric tables and query trees.
+Kensa equips developers with the metrics and tools necessary to monitor and test their GraphQL requests, always ensuring the health and performance of their server. After simply installing the NPM package and visiting the Kensats.link web app, developers can analyze metrics on high latency queries, track response data/errors, and view historical logs of recently made or saved queries. With built in GraphQL playground functionality, queries/mutations can be quickly tested against and compared through visual aids such as metric tables and query trees.
 
 <hr>
 
 ### Built With
 
 <ul>
-<li>React + React Router</li>
+<li>React + React Hooks + React Router</li>
 <li>Redux Toolkit</li>
 <li>Typescript</li>
 <li>GraphQL</li>
