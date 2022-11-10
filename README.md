@@ -9,13 +9,15 @@
   <!-- <h3 align="center">Kensa</h3> -->
 
 <p align="center">
-    A GraphQL monitoring tool.
+    A GraphQL monitoring tool. <br />
+  <a href="https://medium.com/@raygkim/kensa-8cdecfae73af">Medium Article</a>
     <br />
     <!-- <a href="https://github.com/oslabs-beta/kensa"><strong>Explore the docs »</strong></a> -->
     <br />
     <a href="https://github.com/oslabs-beta/kensa/issues">Report Bug</a>
     ·
     <a href="https://github.com/oslabs-beta/kensa/issues">Request Feature</a>
+  
 
 <div align="center">
   <a href="https://github.com/open-source-labs/Kensa/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
