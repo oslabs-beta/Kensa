@@ -7,10 +7,12 @@ module.exports = {
   devtool: 'inline-source-map',
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: "/",
   },
   devServer: {
     static: './dist',
+    historyApiFallback: true
   },
   module: {
     rules: [
@@ -31,6 +33,10 @@ module.exports = {
           'css-loader',
           'sass-loader'
         ]
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
       },
     ]
   },

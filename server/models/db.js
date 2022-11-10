@@ -1,7 +1,6 @@
 require('dotenv').config();
 const { Pool } = require('pg');
 
-// OSP Project Management Test App
 const PG_URI = process.env.PG_URI;
 
 const pool = new Pool({
@@ -9,5 +8,7 @@ const pool = new Pool({
 });
 
 module.exports = {
-  query: (text, params, callback) =>  pool.query(text, params, callback)
+  query: (text, params, callback) => {
+    return pool.query(text, params, callback);
+  }
 };

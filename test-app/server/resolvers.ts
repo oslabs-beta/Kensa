@@ -1,39 +1,24 @@
-// import { projects, clients } from './sampleData';
-
 export const resolvers = {
   Query: {
     projects: async (_: any, __: any, { db }: any) => {
-      // Use sampleData as database
-      // return projects;
-      const result = await db.query('SELECT * FROM projects;')
+      const result = await db.query('SELECT * FROM projects;');
       return result.rows;
     },
     project: async (_: any, { id }: any, { db }: any) => {
-      // return projects.find(project => project.id === id)
-      const result = await db.query('SELECT * FROM projects WHERE id = $1', [id])
+      const result = await db.query('SELECT * FROM projects WHERE id = $1', [id]);
       return result.rows[0];
     },
     clients: async (_: any, __: any, { db }: any) => {
-      // return clients;
       const result = await db.query('SELECT * FROM clients;');
       return result.rows;
     },
     client: async (_: any, { id }: any, { db }: any) => {
-      // return clients.find(client => client.id === id)
       const result = await db.query('SELECT * FROM clients WHERE id = $1', [id]);
       return result.rows[0];
     }
   },
   Mutation: {
     addClient: async (_: any, { name, email, phone }: any, { db }: any) => {
-      // const client = {
-      //   id: '6',
-      //   name,
-      //   email,
-      //   phone
-      // }
-      // clients.push(client);
-      // return client;
       const result = await db.query('INSERT INTO clients(name, email, phone) VALUES($1, $2, $3) RETURNING *', [name, email, phone]);
       return result.rows[0];
     },
@@ -56,9 +41,8 @@ export const resolvers = {
   },
   Project: {
     client: async ({ client_id }: any, __: any, { db }: any) => {
-      // return clients.find(client => client.id === clientId)
       const result = await db.query('SELECT * FROM clients WHERE id = $1;', [client_id]);
       return result.rows[0];
     }
   }
-}
+};
