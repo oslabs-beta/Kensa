@@ -33,10 +33,12 @@ Accelerated by [OS Labs](https://github.com/open-source-labs)
 <br />
 
 Developed by:<br />
-[Brian Peinado](https://github.com/brianhip) <br />
-[Raymond Kim](https://github.com/raymonnd)<br />
-[Tommy Li](https://github.com/tommyli97)<br />
-[Brian Pham](https://github.com/brpham13)<br />
+Brian Peinado [GitHub](https://github.com/brianhip) | [LinkedIn](https://www.linkedin.com/in/brian-peinado/) <br />
+
+<br/>
+Raymond Kim [GitHub](https://github.com/raymonnd) | [LinkedIn](https://www.linkedin.com/in/raymond-kim-0) <br />
+Tommy Li [GitHub](https://github.com/tommyli97) | [LinkedIn](https://www.linkedin.com/in/tommyli10)<br />
+Brian Pham [GitHub] (https://github.com/brpham13) |[LinkedIn](https://www.linkedin.com/in/brpham13/) <br />
 
 </div>
 
