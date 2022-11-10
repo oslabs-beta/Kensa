@@ -123,7 +123,7 @@ Store your own record of projects to easily refer back to for continuous develop
 Avoid the hassle of toggling between different apps and quickly test for different queries/mutations by submitting queries into the input field. View their response data and compare for differences in response data and metrics in the operation log table.
 <br />
 <a href="https://www.loom.com/share/ba290183644b482baa6bdabe7f2a470f">
-    <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/ba290183644b482baa6bdabe7f2a470f-1668054865164.gif">
+   <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/ba290183644b482baa6bdabe7f2a470f-1668102743402.gif">
   </a>
   <br />
 <br />
@@ -131,8 +131,8 @@ Avoid the hassle of toggling between different apps and quickly test for differe
 <strong>Query visualization</strong> :<br />
 View a tree structured visualization of your query broken down into the schema's fields and their connecting relationships.<br />
 <br />
-<a href="https://www.loom.com/share/a620dc7da99948899bdcf1729be4bad6">
-<img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/a620dc7da99948899bdcf1729be4bad6-1668036652164.gif">
+<a href="https://www.loom.com/share/488aac54c9a040feb09ef6cbdc9c4b5b">
+<img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/488aac54c9a040feb09ef6cbdc9c4b5b-1668101759241.gif">
 </a>
 
 <hr>
