@@ -152,7 +152,7 @@ Thank you for your interest and support!
 ### Contact
 
 <a href="https://kensats.link">Website</a>
-<a href="">LinkedIn</a>
+<a href="https://www.linkedin.com/company/kensa-ts/">LinkedIn</a>
 
 ### Acknowledgements
 
