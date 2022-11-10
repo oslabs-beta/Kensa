@@ -9,7 +9,7 @@
   <!-- <h3 align="center">Kensa</h3> -->
 
 <p align="center">
-    A GraphQL monitoring and testing tool.
+    A GraphQL monitoring tool.
     <br />
     <!-- <a href="https://github.com/oslabs-beta/kensa"><strong>Explore the docs »</strong></a> -->
     <br />
@@ -78,7 +78,7 @@ Kensa equips developers with the metrics and tools necessary to monitor and test
 <li>GraphQL</li>
 <li>Apollo</li>
 <li>Redux + Redux Toolkit</li>
-<li>D3</li>
+<li>D3/ChartJS</li>
 <li>Node/Express</li>
 <li>PostGresSQL</li>
 </ul>
