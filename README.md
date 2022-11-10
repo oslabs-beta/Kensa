@@ -77,15 +77,16 @@ Kensa equips developers with the metrics and tools necessary to monitor and test
 ### Built With
 
 <ul>
-<li>React + React Hooks + React Router</li>
+<li>React + React Router</li>
+<li>Redux Toolkit</li>
 <li>Typescript</li>
-<li>ChakraUI</li>
 <li>GraphQL</li>
 <li>Apollo</li>
-<li>Redux + Redux Toolkit</li>
-<li>D3/ChartJS</li>
 <li>Node/Express</li>
-<li>PostGresSQL</li>
+<li>PostgreSQL</li>
+<li>ChakraUI</li>
+<li>D3/ChartJS</li>
+
 </ul>
 
 <hr>
@@ -94,13 +95,13 @@ Kensa equips developers with the metrics and tools necessary to monitor and test
 
 <br />
 
-Install the Kensa NPM Package into your project
+Install the Kensa NPM Package into your project. Refer <a href="https://www.npmjs.com/package/kensats">here</a> for instruction on how to incorporate the package to your server.
 
 ```sh
-npm install kensaTS
+npm install kensats
 ```
 
-Then visit kensats.link and sign up for an account to get full access to the Kensa web app.
+Then visit <a href="https://kensats.link/">here</a> and sign up for an account to get full access to the Kensa web app.
 
 <a href="https://www.loom.com/share/b56225773efb488d91ba52d632fe8d46">
     <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/b56225773efb488d91ba52d632fe8d46-1668035682296.gif">
@@ -153,6 +154,7 @@ Thank you for your interest and support!
 
 <a href="https://kensats.link">Website</a>
 <a href="https://www.linkedin.com/company/kensa-ts/">LinkedIn</a>
+
 
 ### Acknowledgements
 
