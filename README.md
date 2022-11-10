@@ -100,7 +100,7 @@ Install the Kensa NPM Package into your project
 npm install kensaTS
 ```
 
-Then visit kensa.io and sign up for an account to get full access to the Kensa web app.
+Then visit kensats.link and sign up for an account to get full access to the Kensa web app.
 
 <a href="https://www.loom.com/share/b56225773efb488d91ba52d632fe8d46">
     <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/b56225773efb488d91ba52d632fe8d46-1668035682296.gif">
