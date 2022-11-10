@@ -1,15 +1,11 @@
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import { Center } from '@chakra-ui/react';
-import LandingPage from './LandingPage';
 import Signup from "./Signup";
 import Login from "./Login";
 import Monitor from "./Monitor";
-import TeamPage from "./TeamPage";
-import WhyKensaPage from "./WhyKensaPage";
 import Kensa from './Kensa';
 import Projects from './Projects';
-import Hero from './Hero';
 import PlaygroundContainer from './PlaygroundContainer';
 import ChangePasswordForm from './ChangePasswordForm';
 import NotFound from './NotFound';
