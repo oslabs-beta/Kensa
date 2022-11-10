@@ -34,12 +34,11 @@ Accelerated by [OS Labs](https://github.com/open-source-labs)
 
 Developed by:<br />
 Brian Peinado [GitHub](https://github.com/brianhip) | [LinkedIn](https://www.linkedin.com/in/brian-peinado/) <br />
-<br/>
-Raymond Kim [GitHub](https://github.com/raymonnd) | [LinkedIn](https://www.linkedin.com/in/raymond-kim-0) 
+Raymond Kim [GitHub](https://github.com/raymonnd) | [LinkedIn](https://www.linkedin.com/in/raymond-kim0) 
   <br />
 Tommy Li [GitHub](https://github.com/tommyli97) | [LinkedIn](https://www.linkedin.com/in/tommyli10)
   <br />
-Brian Pham [GitHub] (https://github.com/brpham13) |[LinkedIn](https://www.linkedin.com/in/brpham13/) 
+Brian Pham [GitHub](https://github.com/brpham13) |[LinkedIn](https://www.linkedin.com/in/brpham13) 
   <br />
 
 </div>
@@ -98,7 +97,7 @@ Kensa equips developers with the metrics and tools necessary to monitor and test
 Install the Kensa NPM Package into your project
 
 ```sh
-npm install kensa-api
+npm install kensaTS
 ```
 
 Then visit kensa.io and sign up for an account to get full access to the Kensa web app.
@@ -122,7 +121,7 @@ Store your own record of projects to easily refer back to for continuous develop
 <br />
 <strong>Playground/ Developer mode</strong>:<br />
 Avoid the hassle of toggling between different apps and quickly test for different queries/mutations by submitting queries into the input field. View their response data and compare for differences in response data and metrics in the operation log table.
-
+<br />
 <a href="https://www.loom.com/share/ba290183644b482baa6bdabe7f2a470f">
     <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/ba290183644b482baa6bdabe7f2a470f-1668054865164-with-play.gif">
   </a>
