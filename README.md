@@ -20,7 +20,7 @@
   
 
 <div align="center">
-  <a href="https://github.com/open-source-labs/Kensa/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
+  <a href="https://github.com/open-source-labs/Kensa/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
   <a href="https://github.com/oslabs-beta/kensa/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues"/></a>
   <a href="https://github.com/oslabs-beta/kensa/issues"><img src="https://travis-ci.org/boennemann/badges.svg?branch=master" /></a>
 
