@@ -74,23 +74,6 @@ Kensa equips developers with the metrics and tools necessary to monitor and test
 
 <hr>
 
-### Built With
-
-<ul>
-<li>React + React Hooks + React Router</li>
-<li>Redux Toolkit</li>
-<li>Typescript</li>
-<li>GraphQL</li>
-<li>Apollo</li>
-<li>Node/Express</li>
-<li>PostgreSQL</li>
-<li>ChakraUI</li>
-<li>D3/ChartJS</li>
-
-</ul>
-
-<hr>
-
 ### Installation
 
 <br />
@@ -135,6 +118,24 @@ View a tree structured visualization of your query broken down into the schema's
 <a href="https://www.loom.com/share/488aac54c9a040feb09ef6cbdc9c4b5b">
 <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/488aac54c9a040feb09ef6cbdc9c4b5b-1668101759241.gif">
 </a>
+
+<hr>
+
+### Built With
+
+<ul>
+<li>React + React Hooks + React Router</li>
+<li>Redux Toolkit</li>
+<li>Typescript</li>
+<li>GraphQL</li>
+<li>Apollo</li>
+<li>Node/Express</li>
+<li>PostgreSQL</li>
+<li>ChakraUI</li>
+<li>D3/ChartJS</li>
+<li>JWT</li>
+  
+</ul>
 
 <hr>
 
