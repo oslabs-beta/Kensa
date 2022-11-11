@@ -98,6 +98,7 @@ Then visit <a href="https://kensats.link/">here</a> and sign up for an account t
 <strong>Create projects</strong>: <br />
 Store your own record of projects to easily refer back to for continuous development and keep a log of their response metrics for comparison sake.
 <br />
+<br />
 <a href="https://www.loom.com/share/824b6dc1183f4ee88fa75610fdfc6ce5">
     <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/824b6dc1183f4ee88fa75610fdfc6ce5-1668036068278.gif">
   </a>
@@ -105,6 +106,7 @@ Store your own record of projects to easily refer back to for continuous develop
 <br />
 <strong>Playground/ Developer mode</strong>:<br />
 Avoid the hassle of toggling between different apps and quickly test for different queries/mutations by submitting queries into the input field. View their response data and compare for differences in response data and metrics in the operation log table.
+<br />
 <br />
 <a href="https://www.loom.com/share/ba290183644b482baa6bdabe7f2a470f">
     <img style="max-width:400px;" src="https://cdn.loom.com/sessions/thumbnails/ba290183644b482baa6bdabe7f2a470f-1668102743402.gif">
@@ -142,7 +144,6 @@ View a tree structured visualization of your query broken down into the schema's
 ### Contributing
 
 <br />
-
 Feel free to show us your support by starring the project.
 Raise issues or report on features you'd like to see through GitHub issues.
 As part of the Open Source community, all contributions are greatly appreciated, so you're welcome to fork, clone, and make your own pull request on this repo.
