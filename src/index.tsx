@@ -12,7 +12,7 @@ import './assets/styles/styles.scss';
 
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3000/graphql'
+  uri: 'https://kensats.link/graphql'
 });
 
 const authLink = setContext((_, { headers }) => {

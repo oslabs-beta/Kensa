@@ -40,11 +40,11 @@ const Login = () => {
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    fetch('http://localhost:3000/login', {
+    fetch('https://kensats.link/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:3000/*',
+        'Access-Control-Allow-Origin': 'https://kensats.link/*',
       },
       body: JSON.stringify({
         username: username,
