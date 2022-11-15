@@ -10,7 +10,7 @@ const WhyKensaPage = () => {
         </Box>
         <Flex direction='column' gap='50px' padding='30px'>
           <Box>
-            <Text fontSize='1.3rem'>
+            <Text fontSize={['.8rem','1.2rem']}>
               Managing a healthy and performant server while working with GraphQL can sometimes be a tricky process.
               With all requests made to a single endpoint, the ability to make pinpoint calls on which of a developers requests could
               potentially be causing health and cost issues almost becomes a necessity to have while developing GraphQL schema and resolvers.
@@ -19,8 +19,8 @@ const WhyKensaPage = () => {
             </Text>
           </Box>
           <Box>
-            <Text fontSize='1.3rem' fontWeight='bold'>Kensa provides developers with :</Text>
-            <UnorderedList fontSize='1.3rem'>
+            <Text fontSize={['.8rem','1.2rem']} fontWeight='bold'>Kensa provides developers with :</Text>
+            <UnorderedList fontSize={['.8rem','1.2rem']}>
               <ListItem>Query latency time</ListItem>
               <ListItem>Response data and errors</ListItem>
               <ListItem>Query and mutation logs</ListItem>

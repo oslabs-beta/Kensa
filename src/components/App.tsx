@@ -2,9 +2,12 @@ import React, { createContext, useState } from 'react';
 import MainContainer from './MainContainer';
 import { Box } from '@chakra-ui/react';
 
+
 export const ThemeContext = createContext(null);
 
 function App() {
+
+
   // Get previous chosen theme in localStorage and store in state
   const prevTheme = localStorage.getItem('theme');
   const [theme, setTheme] = useState<string>(prevTheme ? prevTheme : 'light');
@@ -18,7 +21,7 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <Box bgColor='rgb(249, 250, 251)' id={theme}>
+      <Box bgColor='rgb(249, 250, 251)' id={theme} >
         {/* Main Routes Container */}
         <MainContainer />
       </Box>
