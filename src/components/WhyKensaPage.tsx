@@ -1,15 +1,17 @@
 import React from "react";
-import { Box, Text, SimpleGrid, Flex, UnorderedList, ListItem } from "@chakra-ui/react";
+import { Box, Text, SimpleGrid, Flex, UnorderedList, ListItem, Hide } from "@chakra-ui/react";
 
 
 const WhyKensaPage = () => {
   return (
     <>
-      <SimpleGrid h='90vh' columns={2} bgColor='white'> 
-        <Box bgImage={require('../assets/bg3.png')} objectFit='fill' filter="blur(1px)" opacity={.8}>
-        </Box>
+      <SimpleGrid h='100vh' pt='10vh' columns={{'md':2, 'sm':1}} spacing={10} bgColor='white'>
+        <Hide below={'md'}>
+          <Box bgImage={require('../assets/bg3.png')} objectFit='fill' filter="blur(1px)" opacity={.8}>
+          </Box>
+        </Hide> 
         <Flex direction='column' gap='50px' padding='30px'>
-          <Box>
+          <Box className='whykensa'>
             <Text fontSize={['.8rem','1.2rem']}>
               Managing a healthy and performant server while working with GraphQL can sometimes be a tricky process.
               With all requests made to a single endpoint, the ability to make pinpoint calls on which of a developers requests could
@@ -18,7 +20,7 @@ const WhyKensaPage = () => {
               deeply nested queries and multiple resolvers that add more layers of complexity when attempting to monitor a server.
             </Text>
           </Box>
-          <Box>
+          <Box className='whykensa'>
             <Text fontSize={['.8rem','1.2rem']} fontWeight='bold'>Kensa provides developers with :</Text>
             <UnorderedList fontSize={['.8rem','1.2rem']}>
               <ListItem>Query latency time</ListItem>

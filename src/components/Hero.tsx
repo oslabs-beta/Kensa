@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Flex, Box, Text, Image } from '@chakra-ui/react';
+import { Flex, Box, Text, Image, Hide } from '@chakra-ui/react';
 import { Link as RouterLink} from "react-router-dom";
 import bg3 from '../assets/bg3.png';
 import logo from '../assets/Kensa-cropped2.png';
@@ -17,12 +17,12 @@ const Hero = () => {
   }, []);
 
   return (
-    <Flex bgImage={bg3} filter="blur(0px)" opacity={.8} h='100vh' w='100vw'>
-      <Box w='100vw'>
+    <Flex bgImage={bg3} filter="blur(0px)" opacity={.8} w='100vw' h='100vh' pt='10vh'>
+      <Box>
         <Text color= "#FDEEDC" fontSize={['35px', '60px', '80px']} fontFamily ="Arial Black" lineHeight="20px" letterSpacing={['20px','40px',"70px"]} fontWeight="900" zIndex="100" pt={['100px',"200px"]} pl={['25px','50px',"75px"]}>
            KENSA
         </Text>
-        <Text color= "#FDEEDC" fontSize={['20px','30px','45px']} fontFamily ="Arial" lineHeight={['15px','25px',"40px"]} fontWeight="100" letterSpacing={".1px"} zIndex="100" pt={['10px','20px',"30px"]} pl={['25px','50px',"75px"]}>
+        <Text color= "#FDEEDC" fontSize={['20px','30px','45px']} fontFamily ="Arial" lineHeight={['20px','25px',"40px"]} fontWeight="100" letterSpacing={".1px"} zIndex="100" pt={['10px','20px',"30px"]} pl={['25px','50px',"75px"]}>
             monitoring and observability <br />
             for all your GraphQL APIs
         </Text>
@@ -34,9 +34,13 @@ const Hero = () => {
           </Text>
         </RouterLink>
       </Box>
-      <Box>
-        <Image src={logo} w={['200px', '400px', '600px']} pt={['50px','100px','150px']} pr={["25px","50px",'75px']} id={`${render}`}/> 
-      </Box>
+      <Hide below={'lg'}>
+        <Flex justifyContent='center'>
+          <Box>
+            <Image src={logo} w='35vw' id={`${render}`} pt={['80px',"150px"]}/> 
+          </Box>
+        </Flex>
+      </Hide>
     </Flex>
   );
 };
