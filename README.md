@@ -36,9 +36,9 @@ Developed by:<br />
 Brian Peinado [GitHub](https://github.com/brianhip) | [LinkedIn](https://www.linkedin.com/in/brian-peinado/) <br />
 Raymond Kim [GitHub](https://github.com/raymonnd) | [LinkedIn](https://www.linkedin.com/in/raymond-kim0) 
   <br />
-Tommy Li [GitHub](https://github.com/tommyli97) | [LinkedIn](https://www.linkedin.com/in/tommyli10)
+Tommy Li [GitHub](https://github.com/tommyli10) | [LinkedIn](https://www.linkedin.com/in/tommyli10)
   <br />
-Brian Pham [GitHub](https://github.com/brpham13) |[LinkedIn](https://www.linkedin.com/in/brpham13) 
+Brian Pham [GitHub](https://github.com/briannpham) |[LinkedIn](https://www.linkedin.com/in/brpham13) 
   <br />
 
 </div>

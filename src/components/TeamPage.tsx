@@ -18,7 +18,7 @@ const TeamPage = () => {
           <Flex paddingLeft='30px' paddingRight='30px' justifyContent='space-around'>
             <Box width={'50%'} className='teampage'>
               <Text fontFamily="Garamond" fontWeight="600" fontSize={["20px","30px"]} letterSpacing={"2px"} fontStyle="italic" color="#E38B29">Brian Pham</Text>
-              <Link href='https://github.com/brpham13' isExternal fontFamily ="Arial" fontWeight="100" letterSpacing={".1px"} fontSize={['12px',"16px"]}>GitHub</Link>
+              <Link href='https://github.com/briannpham' isExternal fontFamily ="Arial" fontWeight="100" letterSpacing={".1px"} fontSize={['12px',"16px"]}>GitHub</Link>
               <br />
               <Link href='https://www.linkedin.com/in/brpham13/' isExternal fontFamily ="Arial" fontWeight="100" letterSpacing={".1px"} fontSize={['12px',"16px"]}>LinkedIn</Link>
             </Box>
@@ -42,7 +42,7 @@ const TeamPage = () => {
           <Flex paddingLeft='30px' paddingRight='30px' justifyContent='space-around'>
             <Box width={'50%'} className='teampage'>
               <Text fontFamily="Garamond" fontWeight="600" fontSize={["20px","30px"]} letterSpacing={"2px"} fontStyle="italic" pt={["20px","35px","50px"]} color="#E38B29">Tommy Li</Text>
-              <Link href='https://github.com/tommyli97' isExternal fontFamily ="Arial" fontWeight="100" letterSpacing={".1px"} fontSize={['12px',"16px"]}>GitHub</Link>
+              <Link href='https://github.com/tommyli10' isExternal fontFamily ="Arial" fontWeight="100" letterSpacing={".1px"} fontSize={['12px',"16px"]}>GitHub</Link>
               <br />
               <Link href='https://www.linkedin.com/in/tommyli10/' isExternal fontFamily ="Arial" fontWeight="100" letterSpacing={".1px"} fontSize={['12px',"16px"]}>LinkedIn</Link>
             </Box>
