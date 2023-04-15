@@ -19,9 +19,9 @@ export interface CreateUserArgs {
 export interface ProjectArgs {
   project: {
     project_name: string;
-    api_key?: string;
+    api_key: string;
     server_url: string;
-    userId?: string;
+    userId: string;
   };
 }
 
@@ -35,7 +35,7 @@ export type UserFields = Omit<UserType, 'id'>;
 
 export type NonSensitiveUser = Omit<UserType, 'password'>;
 
-export type UserWithOnlyUsername = UserUsernameArg;
+export type UserWithOnlyUsername = Pick<UserType, 'username'>;
 
 export interface ProjectType {
   id: number;
@@ -44,6 +44,8 @@ export interface ProjectType {
   server_url: string;
   user_id: number;
 }
+
+export type ProjectIdArg = Pick<ProjectType, 'id'>;
 
 export interface HistoryLogType {
   id: number;
@@ -56,7 +58,23 @@ export interface HistoryLogType {
   success: boolean;
 }
 
-interface Locals extends Record<string, any> {
+export type HistoryLogIdArg = Pick<HistoryLogType, 'id'>;
+
+export interface UserParentType {
+  id: number;
+  username: string;
+  password: string;
+  projects: Array<ProjectParentType>;
+}
+
+export interface ProjectParentType {
+  id: number;
+  api_key: string;
+  server_url: string;
+  user_id: number;
+}
+
+export interface Locals extends Record<string, any> {
   user: { username: string; token: string };
 }
 
