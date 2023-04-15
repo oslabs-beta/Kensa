@@ -3,9 +3,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from '../models/db';
 import { UserType, MyResponse } from '../types';
-// import { parseUser } from '../util/util';
 
-export const userController = {
+export default {
   loginAuth: async (req: Request, res: MyResponse, next: NextFunction) => {
     const { username, password }: { username: string; password: string } =
       req.body;
