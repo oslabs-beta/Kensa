@@ -1,0 +1,49 @@
+{
+  "env": {
+    "node": true,
+    "browser": true,
+    "commonjs": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "overrides": [
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+    "jsx": true
+    },
+    "ecmaVersion": "latest"
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  
+  "rules": {
+    "@typescript-eslint/rule-name": "off",
+    "@typescript-eslint/semi": ["error"],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/restrict-plus-operands": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
+    ],
+    "no-case-declarations": "off",
+    "indent": ["warn", 2],
+    // "no-unused-vars": ["off", { "vars": "local" }],
+    "prefer-const": "warn",
+    // "quotes": ["warn", "single"],
+    "react/prop-types": "off",
+    "space-infix-ops": "warn"
+  }
+}
