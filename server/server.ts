@@ -11,6 +11,7 @@ import userController from './controllers/userController';
 import cookieParser from 'cookie-parser';
 import { getUser } from './util/util';
 import { MyResponse } from './types';
+import logger from './util/logger';
 
 async function startApolloServer() {
   const app = express();
@@ -40,8 +41,10 @@ async function startApolloServer() {
         }
 
         // // try to retrieve a user with the token
-        const user = await getUser(token);
-
+        let user;
+        if (token) {
+          user = await getUser(token);
+        }
         // // add the user to the context
         return { req, res, db, user };
       },
