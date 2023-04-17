@@ -1,13 +1,20 @@
-import React, { useState, useContext, useRef, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useMutation, gql } from "@apollo/client";
-import { Stack, Heading, Center, Box, FormErrorMessage, Spinner, Image } from "@chakra-ui/react";
-import { FormControl, FormLabel, Input, Button, Text } from "@chakra-ui/react";
-import { ThemeContext } from "./App";
-import { useDispatch } from "react-redux";
-import { login } from "../features/auth/authSlice";
+import React, { useState, useContext, useRef, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useMutation, gql } from '@apollo/client';
+import {
+  Stack,
+  Heading,
+  Center,
+  Box,
+  FormErrorMessage,
+  Spinner,
+  Image,
+} from '@chakra-ui/react';
+import { FormControl, FormLabel, Input, Button, Text } from '@chakra-ui/react';
+import { ThemeContext } from '../App';
+import { useDispatch } from 'react-redux';
+import { login } from '../features/auth/authSlice';
 import logo from '../assets/Kensa-cropped2.png';
-
 
 const Signup = () => {
   // App theme state and function to switch between themes
@@ -20,13 +27,13 @@ const Signup = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Redux action dispatcher
-  
+
   // used to set up error message if username is taken
   let isUserNameError = false;
   // used to set up error message if passwords do not match
   const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
 
-  // Focus Username input upon rendering  
+  // Focus Username input upon rendering
   const usernameRef = useRef(null);
   useEffect(() => {
     usernameRef.current.focus();
@@ -42,7 +49,7 @@ const Signup = () => {
   }, [user]);
 
   // Functions to handle username/password/confirm password input change
-  const handleUserChange = (e: React.SyntheticEvent): void  => {
+  const handleUserChange = (e: React.SyntheticEvent): void => {
     const target = e.target as HTMLInputElement;
     setUsername(target.value);
   };
@@ -63,21 +70,21 @@ const Signup = () => {
 
   // GraphQL mutation string to create a user
   const CREATE_USER = gql`
-  mutation CreateUser ($username: String!, $password: String!){
-    createUser(username: $username, password: $password) {
+    mutation CreateUser($username: String!, $password: String!) {
+      createUser(username: $username, password: $password) {
         username
         token
+      }
     }
-  }
-`;
+  `;
 
   // GraphQL mutation to create user. Upon completion, dispatch action to Redux store
   // to login user
-  const [createUser, {data, loading, error}]  = useMutation(CREATE_USER, {
+  const [createUser, { data, loading, error }] = useMutation(CREATE_USER, {
     onCompleted: () => {
       const user = {
         username: data.createUser.username,
-        token: data.createUser.token
+        token: data.createUser.token,
       };
 
       dispatch(login(user));
@@ -86,14 +93,14 @@ const Signup = () => {
       // and navigate user to their main Projects page
       localStorage.setItem('user', JSON.stringify(user));
       navigate(`/user/${username}`);
-    }
+    },
   });
 
   // Render spinner when loading GraphQL mutation
   if (loading) {
     return (
-      <Center w='100%' h='100%'>
-        <Spinner size='xl' className='spinner'/>
+      <Center w="100%" h="100%">
+        <Spinner size="xl" className="spinner" />
       </Center>
     );
   }
@@ -115,43 +122,53 @@ const Signup = () => {
 
     setIsPasswordError(false);
     // GraphQL mutation to create user
-    createUser({variables: { username: user, password: pw }});
+    createUser({ variables: { username: user, password: pw } });
   };
 
   return (
-    <Box id='signup'>
+    <Box id="signup">
       <form id="add-project-form" onSubmit={handleSignUp}>
-        <Link to='/'>
-          <Center marginBottom='15px'>
-            <Image src={logo} alt='Kensa logo' h='80px' w='150px'/>
+        <Link to="/">
+          <Center marginBottom="15px">
+            <Image src={logo} alt="Kensa logo" h="80px" w="150px" />
           </Center>
         </Link>
-        <Stack spacing={10} direction='column' align='center' maxWidth={400}>
+        <Stack spacing={10} direction="column" align="center" maxWidth={400}>
           <Heading>Register</Heading>
           <FormControl isRequired isInvalid={isUserNameError}>
             <FormLabel>Username</FormLabel>
-            <Input type='text' onChange={handleUserChange} ref={usernameRef}/>
-            <FormErrorMessage>That username is taken. Try another</FormErrorMessage>
+            <Input type="text" onChange={handleUserChange} ref={usernameRef} />
+            <FormErrorMessage>
+              That username is taken. Try another
+            </FormErrorMessage>
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Password</FormLabel>
-            <Input type='password' onChange={handlePasswordChange}/>
+            <Input type="password" onChange={handlePasswordChange} />
           </FormControl>
           <FormControl isRequired isInvalid={isPasswordError}>
             <FormLabel>Confirm Password</FormLabel>
-            <Input type='password' onChange={handleConfirmPasswordChange}/>
+            <Input type="password" onChange={handleConfirmPasswordChange} />
             <FormErrorMessage>Passwords do not match</FormErrorMessage>
           </FormControl>
-          <Button type='submit' w={400} colorScheme='facebook'>JOIN</Button>
-          <Link to='/login'><Text align='right' color='blue.500' _hover={{ color: 'blue' }}>Already have account? Sign in</Text></Link>
+          <Button type="submit" w={400} colorScheme="facebook">
+            JOIN
+          </Button>
+          <Link to="/login">
+            <Text align="right" color="blue.500" _hover={{ color: 'blue' }}>
+              Already have account? Sign in
+            </Text>
+          </Link>
         </Stack>
       </form>
       {/* Button to toggle light/dark mode */}
       <Center>
-        <Button size='sm' mt='20px' onClick={toggleTheme} id='toggle-switch'>{theme === 'light' ? 'Dark mode' : 'Light mode'}</Button>
+        <Button size="sm" mt="20px" onClick={toggleTheme} id="toggle-switch">
+          {theme === 'light' ? 'Dark mode' : 'Light mode'}
+        </Button>
       </Center>
     </Box>
   );
 };
-    
+
 export default Signup;

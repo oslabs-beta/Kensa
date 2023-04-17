@@ -1,18 +1,31 @@
-import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useMutation, gql } from "@apollo/client";
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation, gql } from '@apollo/client';
 import { v4 as uuidv4 } from 'uuid';
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
-import { ThemeContext } from "./App";
+import {
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalCloseButton,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+} from '@chakra-ui/react';
+import { ThemeContext } from '../App';
 import { darkTheme } from '../theme/darkTheme';
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 import { updateCurrentProjectId } from '../features/auth/authSlice';
 
 type AddProjectType = {
-    isOpen: boolean;
-    onClose: () => void;
-    userId: string;
-}
+  isOpen: boolean;
+  onClose: () => void;
+  userId: string;
+};
 
 const AddProject = ({ isOpen, onClose, userId }: AddProjectType) => {
   const { theme } = useContext(ThemeContext);
@@ -37,7 +50,7 @@ const AddProject = ({ isOpen, onClose, userId }: AddProjectType) => {
       }
     }
   `;
-        
+
   // custom hook for creating new project using the ADD_PROJECT mustation string above
   const [addProject, { data: mutationData }] = useMutation(ADD_PROJECT, {
     onCompleted: () => {
@@ -45,12 +58,12 @@ const AddProject = ({ isOpen, onClose, userId }: AddProjectType) => {
       // Dispatch action to Redux store to update currentprojectId state
       dispatch(updateCurrentProjectId(projectId));
       toMonitorPage(Number(projectId));
-    }
+    },
   });
 
   const handleCreateProjectForm = (e: React.SyntheticEvent): void => {
     e.preventDefault();
-  
+
     const apiKey: string = uuidv4(); // create new api key (32 characters of alpha and numerics)
     addProject({
       variables: {
@@ -58,47 +71,56 @@ const AddProject = ({ isOpen, onClose, userId }: AddProjectType) => {
           project_name: projectName,
           api_key: apiKey,
           server_url: projectUrl,
-          userId: userId
-        }
-      }
+          userId: userId,
+        },
+      },
     });
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent id='add-project-modal' style={theme === 'dark' && darkTheme}>
+      <ModalContent
+        id="add-project-modal"
+        style={theme === 'dark' && darkTheme}
+      >
         <ModalHeader>Add New Project</ModalHeader>
         <ModalCloseButton />
-        <ModalBody  >
-          <form onSubmit={handleCreateProjectForm}  >
-            <Stack spacing={10} direction='column' >
+        <ModalBody>
+          <form onSubmit={handleCreateProjectForm}>
+            <Stack spacing={10} direction="column">
               <FormControl isRequired>
                 <FormLabel>Project Name</FormLabel>
-                <Input type='text' onChange={(e: React.SyntheticEvent): void => {
-                  const target = e.target as HTMLInputElement;
-                  setProjectName(target.value);
-                }}/>
+                <Input
+                  type="text"
+                  onChange={(e: React.SyntheticEvent): void => {
+                    const target = e.target as HTMLInputElement;
+                    setProjectName(target.value);
+                  }}
+                />
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Default URL</FormLabel>
-                <Input type='text' onChange={(e: React.SyntheticEvent): void => {
-                  const target = e.target as HTMLInputElement;
-                  setProjectUrl(target.value);
-                }}/>
+                <Input
+                  type="text"
+                  onChange={(e: React.SyntheticEvent): void => {
+                    const target = e.target as HTMLInputElement;
+                    setProjectUrl(target.value);
+                  }}
+                />
               </FormControl>
-              <Stack direction='row' justify='end'>
-                <Button 
-                  color={theme === 'dark' ? 'black' : 'white'} 
-                  colorScheme={theme === 'light' ? 'facebook' : 'gray'} 
-                  mr={3} 
+              <Stack direction="row" justify="end">
+                <Button
+                  color={theme === 'dark' ? 'black' : 'white'}
+                  colorScheme={theme === 'light' ? 'facebook' : 'gray'}
+                  mr={3}
                   onClick={onClose}
                 >
                   Close
                 </Button>
-                <Button 
-                  type='submit' 
-                  color={theme === 'dark' ? 'black' : 'white'} 
+                <Button
+                  type="submit"
+                  color={theme === 'dark' ? 'black' : 'white'}
                   colorScheme={theme === 'light' ? 'facebook' : 'gray'}
                 >
                   Create
@@ -107,8 +129,7 @@ const AddProject = ({ isOpen, onClose, userId }: AddProjectType) => {
             </Stack>
           </form>
         </ModalBody>
-        <ModalFooter>
-        </ModalFooter>
+        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );

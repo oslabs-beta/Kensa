@@ -1,12 +1,30 @@
 import React, { useContext, useState } from 'react';
-import { Link, useParams } from "react-router-dom";
-import { useQuery, gql, NetworkStatus } from "@apollo/client";
-import MetricContainer from "./MetricContainer";
+import { Link, useParams } from 'react-router-dom';
+import { useQuery, gql, NetworkStatus } from '@apollo/client';
+import MetricContainer from './MetricContainer';
 import ProjectInfo from './ProjectInfo';
-import { Box, Center, Spinner, Alert, AlertIcon, Stack, Heading, Icon, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Flex } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Spinner,
+  Alert,
+  AlertIcon,
+  Stack,
+  Heading,
+  Icon,
+  Button,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  Flex,
+} from '@chakra-ui/react';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import { TbRefresh } from 'react-icons/tb';
-import { ThemeContext } from './App';
+import { ThemeContext } from '../App';
 import { darkTheme } from '../theme/darkTheme';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
@@ -18,10 +36,10 @@ const Monitor = () => {
   // Project name nad URL state for editing in ProjectInfo
   const [projectName, setProjectName] = useState<string>('');
   const [projectURL, setProjectURL] = useState<string>('');
-  
+
   // User in global state
   const user = useSelector((state: RootState) => state.auth.user);
-  
+
   let projectId: string;
   if (user.currentProjectId !== '0') {
     projectId = user.currentProjectId;
@@ -29,7 +47,7 @@ const Monitor = () => {
   } else {
     projectId = localStorage.getItem('projectId');
   }
-  
+
   // GraphQL query to get all info associated with a project
   const GET_PROJECT_DATA = gql`
     query GetProjectData($projectId: ID!) {
@@ -49,33 +67,42 @@ const Monitor = () => {
     }
   `;
 
-  const { loading, error, data, refetch, networkStatus } = useQuery(GET_PROJECT_DATA, {
-    variables: {
-      projectId: projectId
-    },
-    onCompleted: () => {
-      setProjectName(data.project['project_name']);
-      setProjectURL(data.project['server_url']);
-    },
-    fetchPolicy: 'network-only', // Doesn't check cache before making a network request
-    notifyOnNetworkStatusChange: true,
-    // pollInterval: 10000,  // polling every 10 seconds
-  });
+  const { loading, error, data, refetch, networkStatus } = useQuery(
+    GET_PROJECT_DATA,
+    {
+      variables: {
+        projectId: projectId,
+      },
+      onCompleted: () => {
+        setProjectName(data.project['project_name']);
+        setProjectURL(data.project['server_url']);
+      },
+      fetchPolicy: 'network-only', // Doesn't check cache before making a network request
+      notifyOnNetworkStatusChange: true,
+      // pollInterval: 10000,  // polling every 10 seconds
+    }
+  );
 
   // This is needed to ensure GraphQL loading state updates accordingly
   // It also render Spinner to indicate that we're refetching data
   if (networkStatus === NetworkStatus.refetch || loading) {
     return (
-      <Center w='100%' h='100%'>
-        <Spinner size='xl' className='spinner'/>
+      <Center w="100%" h="100%">
+        <Spinner size="xl" className="spinner" />
       </Center>
     );
   }
-  
+
   if (error) {
     return (
-      <Center w='100%' h='100%'>
-        <Alert status='error' h='100px' w='50%' borderRadius='10px' className='alert'>
+      <Center w="100%" h="100%">
+        <Alert
+          status="error"
+          h="100px"
+          w="50%"
+          borderRadius="10px"
+          className="alert"
+        >
           <AlertIcon />
           There was an error processing your request
         </Alert>
@@ -84,37 +111,44 @@ const Monitor = () => {
   }
 
   return (
-    <Stack direction='column' p={'20px'} id='monitor'>
-      <Flex direction='row' justifyContent='space-between' alignItems='center' marginBottom='25px'>
-        <Flex gap={4} alignItems='center'>
-          <Flex alignItems='center' w='30px'>
+    <Stack direction="column" p={'20px'} id="monitor">
+      <Flex
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        marginBottom="25px"
+      >
+        <Flex gap={4} alignItems="center">
+          <Flex alignItems="center" w="30px">
             {/* Button to navigate back Projects page */}
             <Link to={`/user/${username}`}>
-              <Icon as={BsFillArrowLeftCircleFill} fontSize='1.3rem'/>
+              <Icon as={BsFillArrowLeftCircleFill} fontSize="1.3rem" />
             </Link>
           </Flex>
-          <Heading size='md'>Project Name: {projectName}</Heading>
+          <Heading size="md">Project Name: {projectName}</Heading>
         </Flex>
-        <Flex gap={4} alignItems='center'>
+        <Flex gap={4} alignItems="center">
           {/* Info button where user can access apiKey and change project's info */}
           <Popover>
             <PopoverTrigger>
-              <Button 
-                w='50px'
-                h='30px'
-                color={theme === 'dark' ? 'black' : 'white'} 
+              <Button
+                w="50px"
+                h="30px"
+                color={theme === 'dark' ? 'black' : 'white'}
                 colorScheme={theme === 'light' ? 'facebook' : 'gray'}
               >
-              Info
+                Info
               </Button>
             </PopoverTrigger>
             <PopoverContent style={theme === 'dark' && darkTheme}>
               <PopoverArrow />
               <PopoverCloseButton />
-              <PopoverHeader><Heading size='xs'>Project Info</Heading></PopoverHeader>
+              <PopoverHeader>
+                <Heading size="xs">Project Info</Heading>
+              </PopoverHeader>
               <PopoverBody>
-                <ProjectInfo 
-                  projectId={projectId} 
+                <ProjectInfo
+                  projectId={projectId}
                   projectName={projectName}
                   setProjectName={setProjectName}
                   projectURL={projectURL}
@@ -125,12 +159,16 @@ const Monitor = () => {
             </PopoverContent>
           </Popover>
           {/* Refresh to fetch current project newest data  */}
-          <Box onClick={() => refetch({ projectId: projectId })} _hover={{ cursor: 'pointer' }} fontSize='1.5rem'>
+          <Box
+            onClick={() => refetch({ projectId: projectId })}
+            _hover={{ cursor: 'pointer' }}
+            fontSize="1.5rem"
+          >
             <TbRefresh />
           </Box>
         </Flex>
       </Flex>
-      <MetricContainer historyLogs={data.project['history_log']}/>
+      <MetricContainer historyLogs={data.project['history_log']} />
     </Stack>
   );
 };

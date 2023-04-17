@@ -1,6 +1,6 @@
 import React, { useRef, useContext, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
-import { ThemeContext } from './App';
+import { ThemeContext } from '../App';
 import { Box, Heading } from '@chakra-ui/react';
 
 type PlaygroudQueryResponseProps = {
@@ -23,20 +23,20 @@ const PlaygroudQueryResponse = ({ resData }: PlaygroudQueryResponseProps) => {
     editorRef.current = editor;
   };
 
-  return ( 
+  return (
     <Box>
-      <Heading size='sm'>Response</Heading>
-      <Box className='playground-items'>
+      <Heading size="sm">Response</Heading>
+      <Box className="playground-items">
         <Editor
-          height='250px'
-          width='500px' 
+          height="250px"
+          width="500px"
           theme={theme === 'dark' ? 'vs-dark' : ''}
-          defaultLanguage='graphql'
-          defaultValue='// response'
+          defaultLanguage="graphql"
+          defaultValue="// response"
           onMount={handleEditorDidMount}
           options={{
             readOnly: true,
-            bracketPairColorization: { enabled: true }
+            bracketPairColorization: { enabled: true },
           }}
         />
       </Box>

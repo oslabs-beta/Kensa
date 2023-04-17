@@ -5,11 +5,10 @@ import KensaNavbar from './KensaNavbar';
 import Sidebar from './Sidebar';
 
 const Kensa = () => {
-
   return (
-    <Flex h='100vh' w='100vw' id='kensa'>
+    <Flex h="100vh" w="100vw" id="kensa">
       <Sidebar />
-      <Flex flex='5' direction='column'>
+      <Flex flex="5" direction="column">
         <KensaNavbar />
         <Outlet />
       </Flex>

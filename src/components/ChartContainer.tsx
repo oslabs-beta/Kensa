@@ -6,14 +6,13 @@ import QueryTree from './QueryTree';
 
 // Render all info related to operation
 const ChartContainer = () => {
-
   return (
-    <Box w='100%' id='chart-container'>
+    <Box w="100%" id="chart-container">
       <Tabs>
         <TabList>
-          <Tab fontWeight='bold'>Chart</Tab>
-          <Tab fontWeight='bold'>Query</Tab>
-          <Tab fontWeight='bold'>Query Visualizer</Tab>
+          <Tab fontWeight="bold">Chart</Tab>
+          <Tab fontWeight="bold">Query</Tab>
+          <Tab fontWeight="bold">Query Visualizer</Tab>
         </TabList>
 
         <TabPanels>

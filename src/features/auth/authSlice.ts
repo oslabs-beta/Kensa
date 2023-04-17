@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserType {
   username: string;
@@ -7,17 +7,17 @@ interface UserType {
 }
 
 interface AuthState {
-  user: UserType
+  user: UserType;
 }
 
 const initialStateValue: UserType = {
   username: '',
   token: '',
-  currentProjectId: '0'
+  currentProjectId: '0',
 };
 
 const initialState: AuthState = {
-  user: initialStateValue
+  user: initialStateValue,
 };
 
 // Global state across entire application. Every request to backend
@@ -35,8 +35,8 @@ export const authSlice = createSlice({
     },
     updateCurrentProjectId: (state, action) => {
       state.user.currentProjectId = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const { login, logout, updateCurrentProjectId } = authSlice.actions;

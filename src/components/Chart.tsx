@@ -3,8 +3,8 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, registerables } from 'chart.js';
 import { ChartContext } from './MetricContainer';
 import { Heading } from '@chakra-ui/react';
-ChartJS.register(...registerables);   // Need this in order for chartjs2 to work with React
-import { enUS  } from "date-fns/locale";
+ChartJS.register(...registerables); // Need this in order for chartjs2 to work with React
+import { enUS } from 'date-fns/locale';
 import 'chartjs-adapter-date-fns';
 
 const Chart = () => {
@@ -14,27 +14,29 @@ const Chart = () => {
     scales: {
       x: {
         adapters: {
-          date: { locale: enUS }
+          date: { locale: enUS },
         },
         // type: 'time',
         time: {
-          unit: 'month'
+          unit: 'month',
         },
         title: {
           display: true,
-          text: 'Date'
+          text: 'Date',
         },
       },
       y: {
-        title: { display: true, text: 'Response Time'}
-      }
-    }
+        title: { display: true, text: 'Response Time' },
+      },
+    },
   };
-  
+
   return (
     <>
-      <Heading size='md' marginBottom='20px'>{operation}</Heading>
-      <Bar data={metricsData} options={chartConfig}/>
+      <Heading size="md" marginBottom="20px">
+        {operation}
+      </Heading>
+      <Bar data={metricsData} options={chartConfig} />
     </>
   );
 };

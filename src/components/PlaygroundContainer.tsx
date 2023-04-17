@@ -1,13 +1,22 @@
-import React, { useState } from "react";
-import { gql, useQuery } from "@apollo/client";
-import { Stack, Heading, Select, Flex, TabList, Tabs, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
-import { Center, Spinner, Alert, AlertIcon } from "@chakra-ui/react";
-import HistoryLogDev from "./HistoryLogDev";
-import CodeEditor from "./CodeEditor";
-import PlaygroudQueryResponse from "./PlaygroudQueryResponse";
+import React, { useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
+import {
+  Stack,
+  Heading,
+  Select,
+  Flex,
+  TabList,
+  Tabs,
+  Tab,
+  TabPanels,
+  TabPanel,
+} from '@chakra-ui/react';
+import { Center, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
+import HistoryLogDev from './HistoryLogDev';
+import CodeEditor from './CodeEditor';
+import PlaygroudQueryResponse from './PlaygroudQueryResponse';
 import PlaygroundTreeVis from './PlaygroundTreeVis';
-import { ProjectType } from "../types/types";
-
+import { ProjectType } from '../types/types';
 
 const PlaygroundContainer = () => {
   // State for response data received after query is submitted
@@ -36,22 +45,28 @@ const PlaygroundContainer = () => {
 
   const { error, data, loading } = useQuery(GET_USER_PROJECT, {
     variables: {
-      userName: user.username
-    }
+      userName: user.username,
+    },
   });
 
   if (loading) {
     return (
-      <Center w='100%' h='100%'>
-        <Spinner size='xl' className='spinner'/>
+      <Center w="100%" h="100%">
+        <Spinner size="xl" className="spinner" />
       </Center>
     );
   }
-  
+
   if (error) {
     return (
-      <Center w='100%' h='100%'>
-        <Alert status='error' h='100px' w='50%' borderRadius='10px' className='alert'>
+      <Center w="100%" h="100%">
+        <Alert
+          status="error"
+          h="100px"
+          w="50%"
+          borderRadius="10px"
+          className="alert"
+        >
           <AlertIcon />
           There was an error processing your request
         </Alert>
@@ -60,55 +75,58 @@ const PlaygroundContainer = () => {
   }
 
   const projects: ProjectType[] = data.username.projects;
-  
+
   return (
-    <Stack direction='column' p='20px' id='playground-container'>
+    <Stack direction="column" p="20px" id="playground-container">
       {/* Display all user's projects in drop down */}
-      <Flex direction='row' justifyContent='space-between'>
-        <Heading size='md' marginBottom={1}>Development Playground</Heading>
+      <Flex direction="row" justifyContent="space-between">
+        <Heading size="md" marginBottom={1}>
+          Development Playground
+        </Heading>
         <Select
-          w='400px' 
-          placeholder='Select Project' 
+          w="400px"
+          placeholder="Select Project"
           onChange={(e) => setSelectedProjectId(e.target.value)}
         >
           {projects.map((project: ProjectType) => {
             return (
-              <option key={project.id} value={project.id}>{project.project_name}</option>
+              <option key={project.id} value={project.id}>
+                {project.project_name}
+              </option>
             );
           })}
         </Select>
       </Flex>
       {/* Main playground where CodeEditor and PlaygroudQueryResponse are on the left
       Log and Query Visualizer tabs are on the right */}
-      <Flex direction='row' id='playground'>
-        <Flex direction='column' gap='40px' id='playground-left'>
-          <CodeEditor 
-            setResData={setResData} 
-            selectedProjectId={selectedProjectId} 
-            query={query} 
+      <Flex direction="row" id="playground">
+        <Flex direction="column" gap="40px" id="playground-left">
+          <CodeEditor
+            setResData={setResData}
+            selectedProjectId={selectedProjectId}
+            query={query}
             setQuery={setQuery}
           />
           <PlaygroudQueryResponse resData={resData} />
         </Flex>
 
-        <Flex id='plaground-right' w='100%'>
-          <Tabs w='100%'>
+        <Flex id="plaground-right" w="100%">
+          <Tabs w="100%">
             <TabList>
-              <Tab fontWeight='bold'>Logs</Tab>
-              <Tab fontWeight='bold'>Query Visualizer</Tab>
+              <Tab fontWeight="bold">Logs</Tab>
+              <Tab fontWeight="bold">Query Visualizer</Tab>
             </TabList>
 
-            <TabPanels w='100%' h='100%'>
-              <TabPanel h='100%'>
-                <HistoryLogDev selectedProjectId={selectedProjectId}/>
+            <TabPanels w="100%" h="100%">
+              <TabPanel h="100%">
+                <HistoryLogDev selectedProjectId={selectedProjectId} />
               </TabPanel>
               <TabPanel>
-                <PlaygroundTreeVis resData={resData} query={query}/>
+                <PlaygroundTreeVis resData={resData} query={query} />
               </TabPanel>
             </TabPanels>
           </Tabs>
         </Flex>
-        
       </Flex>
     </Stack>
   );

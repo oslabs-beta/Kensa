@@ -1,14 +1,12 @@
-import React from "react";
-import { Box } from "@chakra-ui/react";
-import Header from "./Header";
-import { Outlet } from "react-router-dom";
+import React from 'react';
+import { Box } from '@chakra-ui/react';
+import Header from './Header';
+import { Outlet } from 'react-router-dom';
 
-
-const LandingPage = ()=> {
-  
+const LandingPage = () => {
   return (
     <>
-      <Box h='100vh' w='100%' id='landing-page'>
+      <Box h="100vh" w="100%" id="landing-page">
         <Header />
         <Outlet />
       </Box>
