@@ -1,4 +1,11 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  SyntheticEvent,
+  FormEvent,
+} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Stack,
@@ -14,15 +21,16 @@ import { ThemeContext } from '../App';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/auth/authSlice';
 import logo from '../assets/Kensa-cropped2.png';
+import { UserType } from '../types/types';
 
 const Login = () => {
   // App theme state and function to toggle between themes
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   // state for all form fields (username, password, password error message)
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isPasswordError, setIsPasswordError] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,18 +42,18 @@ const Login = () => {
   }, []);
 
   // Functions to handle username/password input change
-  const handleUserChange = (e: React.SyntheticEvent): void => {
+  const handleUserChange = (e: SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
     setUsername(target.value);
   };
 
-  const handlePasswordChange = (e: React.SyntheticEvent): void => {
+  const handlePasswordChange = (e: SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
     setPassword(target.value);
   };
 
   // login function that send username and psw to server (/login)
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // fetch('https://kensats.link/login', {
@@ -78,7 +86,7 @@ const Login = () => {
         }
         return res.json();
       })
-      .then((user) => {
+      .then((user: UserType) => {
         // dispatch login action to Redux store to log user in
         dispatch(login(user));
         // save global state user in localStorage to persist user on refresh
@@ -86,7 +94,11 @@ const Login = () => {
         // Navigate to Projects after successfully login
         navigate(`/user/${username}`);
       })
-      .catch((err) => console.log(err));
+      .catch((error: unknown) => {
+        if (error instanceof Error) {
+          console.error(error);
+        }
+      });
   };
 
   return (

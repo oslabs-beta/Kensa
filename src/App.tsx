@@ -2,12 +2,19 @@ import React, { createContext, useState } from 'react';
 import MainContainer from './components/MainContainer';
 import { Box } from '@chakra-ui/react';
 
-export const ThemeContext = createContext(null);
+type Theme = 'light' | 'dark';
+
+type ThemeContextType = {
+  theme: Theme;
+  toggleTheme: () => void;
+};
+
+export const ThemeContext = createContext<ThemeContextType | null>(null);
 
 function App() {
   // Get previous chosen theme in localStorage and store in state
-  const prevTheme = localStorage.getItem('theme');
-  const [theme, setTheme] = useState<string>(prevTheme ? prevTheme : 'light');
+  const prevTheme = localStorage.getItem('theme') as Theme;
+  const [theme, setTheme] = useState(prevTheme ? prevTheme : 'light');
 
   const toggleTheme = () => {
     setTheme((prevState) => (prevState === 'light' ? 'dark' : 'light'));

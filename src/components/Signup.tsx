@@ -1,4 +1,11 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, {
+  useState,
+  useContext,
+  useRef,
+  useEffect,
+  SyntheticEvent,
+  FormEvent,
+} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
 import {
@@ -15,15 +22,16 @@ import { ThemeContext } from '../App';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/auth/authSlice';
 import logo from '../assets/Kensa-cropped2.png';
+import { UserType } from '../types/types';
 
 const Signup = () => {
   // App theme state and function to switch between themes
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   // state for all form fields (username, password, confirm password)
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Redux action dispatcher
@@ -31,7 +39,7 @@ const Signup = () => {
   // used to set up error message if username is taken
   let isUserNameError = false;
   // used to set up error message if passwords do not match
-  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
+  const [isPasswordError, setIsPasswordError] = useState(false);
 
   // Focus Username input upon rendering
   const usernameRef = useRef(null);
@@ -40,7 +48,7 @@ const Signup = () => {
   }, []);
 
   // Getting user state in localStorage. If there is a user, log them in and navigate to user's Projects page
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user: UserType = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     if (user) {
       dispatch(login(user));
@@ -49,17 +57,17 @@ const Signup = () => {
   }, [user]);
 
   // Functions to handle username/password/confirm password input change
-  const handleUserChange = (e: React.SyntheticEvent): void => {
+  const handleUserChange = (e: SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
     setUsername(target.value);
   };
 
-  const handlePasswordChange = (e: React.SyntheticEvent): void => {
+  const handlePasswordChange = (e: SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
     setPassword(target.value);
   };
 
-  const handleConfirmPasswordChange = (e: React.SyntheticEvent): void => {
+  const handleConfirmPasswordChange = (e: SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
     setConfirmPassword(target.value);
   };
@@ -111,7 +119,7 @@ const Signup = () => {
     isUserNameError = true;
   }
 
-  const handleSignUp = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignUp = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { user, pw } = getUserInfo();

@@ -1,3 +1,11 @@
+export interface UserAuthState {
+  username: string;
+  token: string;
+  currentProjectId: string;
+}
+
+export type UserType = Omit<UserAuthState, 'currentProjectId'>;
+
 // Type for each query operation in History Log (production)
 export type QueryType = {
   id: string;
